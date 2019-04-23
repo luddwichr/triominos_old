@@ -25,7 +25,7 @@ public class Game {
     private void initializePlayers(int playerCount) {
         players = IntStream
                 .range(0, playerCount)
-                .mapToObj(i -> new Player(this))
+                .mapToObj(i -> new Player())
                 .collect(toList());
     }
 

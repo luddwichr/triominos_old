@@ -6,9 +6,6 @@ import java.util.List;
 public class Player {
     private final List<Stone> stonesOnHand = new ArrayList<>();
 
-    public Player(Game game) {
-    }
-
     public void play() {
 
     }

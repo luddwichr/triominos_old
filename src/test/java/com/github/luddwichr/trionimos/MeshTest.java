@@ -9,22 +9,31 @@ class MeshTest {
     private final Mesh mesh = new Mesh();
 
     @Test
-    void addFirstStoneShouldAddTriangleWithThisStone() {
+    void addFirstStoneToEmptyMeshShouldAddStoneAsTriangle() {
         Stone stone = new Stone(0, 0, 0);
-        mesh.addStone(stone);
+        mesh.addFirstStone(stone);
         assertThat(mesh.getTriangles())
                 .usingFieldByFieldElementComparator()
                 .containsOnly(new Triangle(stone));
     }
 
     @Test
-    void canAddStoneShouldYieldTrueIfMeshIsEmpty() {
-        assertThat(mesh.canAddStone(new Stone(0, 0, 0))).isTrue();
+    void addFirstStoneToNonEmptyMeshShouldThrow() {
+        mesh.addFirstStone(new Stone(0, 0, 0));
+        assertThatThrownBy(() -> mesh.addFirstStone(new Stone(1, 1, 1)))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("First stone was already added");
     }
 
     @Test
-    void canAddStoneShouldYieldFalseIfNotAttachableToFirstTriangle() {
-        mesh.addStone(new Stone(0, 0, 0));
-        assertThat(mesh.canAddStone(new Stone(1, 1, 1))).isFalse();
+    void firstStonePlayedShouldYieldFalseForEmptyMesh() {
+        assertThat(mesh.firstStonePlayed()).isFalse();
     }
+
+    @Test
+    void firstStonePlayedShouldYieldTrueForNonEmptyMesh() {
+        mesh.addFirstStone(new Stone(0, 0, 0));
+        assertThat(mesh.firstStonePlayed()).isTrue();
+    }
+
 }

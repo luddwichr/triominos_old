@@ -7,7 +7,10 @@ public class Mesh {
 
     private final List<Triangle> triangles = new ArrayList<>();
 
-    public void addStone(Stone stone) {
+    public void addFirstStone(Stone stone) {
+        if (firstStonePlayed()) {
+            throw new IllegalStateException("First stone was already added");
+        }
         triangles.add(new Triangle(stone));
     }
 
@@ -15,16 +18,8 @@ public class Mesh {
         return triangles;
     }
 
-    public boolean canAddStone(Stone stone) {
-        for (Triangle triangle : triangles) {
-            if (matchingEdges(triangle.getStone(), stone)) {
-                return true;
-            }
-        }
-        return triangles.isEmpty();
+    public boolean firstStonePlayed() {
+        return !triangles.isEmpty();
     }
 
-    private boolean matchingEdges(Stone stoneA, Stone stoneB) {
-        return false;
-    }
 }

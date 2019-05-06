@@ -61,7 +61,7 @@ public class Mesh {
 
 	private void validateMatchingEdges(int x1, int y1, int x2, int y2) {
 		if (x1 != x2 || y1 != y2) {
-			throw new IllegalStateException();
+			throw new IllegalStateException(x1 + "/" + y1 + " + does not match " + x2 + "/" + y2);
 		}
 	}
 

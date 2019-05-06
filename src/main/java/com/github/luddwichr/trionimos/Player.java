@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private final List<Stone> stonesOnHand = new ArrayList<>();
+	private final List<Stone> stonesOnHand = new ArrayList<>();
 
-    public void play() {
+	public void play() {
 
-    }
+	}
 
-    public int pointsOnHand() {
-        return stonesOnHand.stream().map(Stone::points).reduce(0, Integer::sum);
-    }
+	public int pointsOnHand() {
+		return stonesOnHand.stream().map(Stone::points).reduce(0, Integer::sum);
+	}
 
-    public boolean hasStones() {
-        return !stonesOnHand.isEmpty();
-    }
+	public boolean hasStones() {
+		return !stonesOnHand.isEmpty();
+	}
 }

@@ -13,30 +13,15 @@ class TriangleTest {
 	}
 
 	@Test
-	void attach_AB_TO_BC_Matching() {
+	void neighborAccessors() {
 		Triangle triangle = new Triangle(new Stone(0, 0, 0));
-		Triangle triangleToAttach = new Triangle(new Stone(0, 0,  1));
-		triangle.attach(triangleToAttach, MatchingEdges.AB_TO_BC);
-		assertThat(triangle.neighborBC()).isSameAs(triangleToAttach);
-		assertThat(triangleToAttach.neighborAB()).isSameAs(triangle);
+		Triangle neigbor = new Triangle(new Stone(1, 1, 1));
+		Edge edge = Edge.A;
+		assertThat(triangle.getNeighbor(edge)).isNull();
+
+		triangle.setNeighbor(neigbor, edge);
+
+		assertThat(triangle.getNeighbor(edge)).isSameAs(neigbor);
 	}
 
-	@Test
-	void attach_AB_TO_BC_NotMatching() {
-		Triangle triangle = new Triangle(new Stone(0, 0, 0));
-		Triangle triangleToAttach = new Triangle(new Stone(1, 0, 0));
-		assertThatThrownBy(() -> triangle.attach(triangleToAttach, MatchingEdges.AB_TO_BC))
-				.isInstanceOf(IllegalStateException.class);
-	}
-
-	@Test
-	void attach_AB_TO_BC_AlreadyAssigned_BC() {
-		Triangle triangle = new Triangle(new Stone(0, 0, 0));
-		Triangle alreadyAttachedTriangle = new Triangle(new Stone(0, 0,  1));
-		Triangle triangleToAttach = new Triangle(new Stone(0, 0,  2));
-		triangle.attach(alreadyAttachedTriangle, MatchingEdges.AB_TO_BC);
-		assertThatThrownBy(() -> triangle.attach(triangleToAttach, MatchingEdges.AB_TO_BC))
-				.isInstanceOf(IllegalStateException.class);
-
-	}
 }

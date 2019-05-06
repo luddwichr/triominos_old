@@ -1,5 +1,13 @@
 package com.github.luddwichr.trionimos;
 
+/*
+ *      c
+ *     / \
+ *    /   \
+ *   /     \
+ *  a-------b
+ *
+ */
 public class Stone {
 
     public final int a;

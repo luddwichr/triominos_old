@@ -1,17 +1,23 @@
 package com.github.luddwichr.trionimos;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /*
- *    C
- *   / \
- *  /   \
- * A-----B
- *
+ *      c
+ *     / \
+ * B  /   \ A
+ *   /     \
+ *  a-------b
+ *      C
  */
 public class Triangle {
 
     private final Stone stone;
-    private Triangle neighborAB;
-    private Triangle neighborBC;
+    private Triangle neighborA;
+    private Triangle neighborB;
+    private Triangle neighborC;
+    private Map<Edge, Triangle> neighbors = new HashMap<>();
 
     public Triangle(Stone stone) {
         this.stone = stone;
@@ -21,24 +27,12 @@ public class Triangle {
         return stone;
     }
 
-    public void attach(Triangle otherTriangle, MatchingEdges matchingEdges) {
-        if (matchingEdges.equals(MatchingEdges.AB_TO_BC)) {
-            if (neighborBC != null) {
-                throw new IllegalStateException();
-            }
-            if (stone.c != otherTriangle.stone.a || stone.b != otherTriangle.stone.b) {
-                throw new IllegalStateException();
-            }
-            neighborBC = otherTriangle;
-            otherTriangle.neighborAB = this;
-        }
+    public Triangle getNeighbor(Edge edge) {
+        return neighbors.get(edge);
     }
 
-    public Triangle neighborAB() {
-        return neighborAB;
+    public void setNeighbor(Triangle neighbor, Edge edge) {
+        this.neighbors.put(edge, neighbor);
     }
 
-    public Triangle neighborBC() {
-        return neighborBC;
-    }
 }

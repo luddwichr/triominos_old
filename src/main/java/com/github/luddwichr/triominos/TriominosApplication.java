@@ -1,6 +1,6 @@
 package com.github.luddwichr.triominos;
 
-public class TrionimosApplication {
+public class TriominosApplication {
 
 	public static void main(String[] args) {
 		Game game = new Game(4);

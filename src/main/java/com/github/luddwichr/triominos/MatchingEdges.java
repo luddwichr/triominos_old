@@ -1,4 +1,4 @@
-package com.github.luddwichr.trionimos;
+package com.github.luddwichr.triominos;
 
 public enum MatchingEdges {
 	A_TO_A(Edge.A, Edge.A),

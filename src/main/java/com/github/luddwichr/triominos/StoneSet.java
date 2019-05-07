@@ -1,4 +1,4 @@
-package com.github.luddwichr.trionimos;
+package com.github.luddwichr.triominos;
 
 import java.util.Collections;
 import java.util.HashSet;

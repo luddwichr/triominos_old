@@ -1,4 +1,4 @@
-package com.github.luddwichr.trionimos;
+package com.github.luddwichr.triominos;
 
 import java.util.ArrayList;
 import java.util.Collections;

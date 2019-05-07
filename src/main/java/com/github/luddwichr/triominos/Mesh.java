@@ -37,20 +37,7 @@ public class Mesh {
 
 	private void validateStoneCanBePlaced(Stone stone, Triangle triangle, MatchingEdges matchingEdges) {
 		validateTriangleHasNoNeighbor(triangle, matchingEdges.getFirstEdge());
-		Stone otherStone = triangle.getStone();
-		if (matchingEdges == MatchingEdges.A_TO_A) {
-			validateMatchingEdges(otherStone.a, otherStone.b, stone.b, stone.a);
-		} else if (matchingEdges == MatchingEdges.A_TO_B) {
-			validateMatchingEdges(otherStone.a, otherStone.b, stone.c, stone.b);
-		} else if (matchingEdges == MatchingEdges.A_TO_C) {
-			validateMatchingEdges(otherStone.a, otherStone.b, stone.a, stone.c);
-		} else if (matchingEdges == MatchingEdges.B_TO_B) {
-			validateMatchingEdges(otherStone.b, otherStone.c, stone.c, stone.b);
-		} else if (matchingEdges == MatchingEdges.B_TO_C) {
-			validateMatchingEdges(otherStone.b, otherStone.c, stone.a, stone.c);
-		} else if (matchingEdges == MatchingEdges.C_TO_C) {
-			validateMatchingEdges(otherStone.a, otherStone.c, stone.c, stone.a);
-		}
+		validateMatchingEdges(matchingEdges, triangle.getStone(), stone);
 	}
 
 	private void validateTriangleHasNoNeighbor(Triangle triangle, Edge edge) {
@@ -59,9 +46,9 @@ public class Mesh {
 		}
 	}
 
-	private void validateMatchingEdges(int x1, int y1, int x2, int y2) {
-		if (x1 != x2 || y1 != y2) {
-			throw new IllegalStateException(x1 + "/" + y1 + " + does not match " + x2 + "/" + y2);
+	private void validateMatchingEdges(MatchingEdges matchingEdges, Stone firstStone, Stone secondStone) {
+		if (!matchingEdges.isMatching(firstStone, secondStone)) {
+			throw new IllegalStateException();
 		}
 	}
 

@@ -276,11 +276,11 @@ class MeshTest {
 	@Test
 	void addStoneClosingRing() {
 		Stone firstStone = new Stone(0, 0, 0);
-		Stone secondStone = new Stone(0, 0, 1);
-		Stone thirdStone = new Stone(0, 1, 2);
-		Stone fourthStone = new Stone(0, 2, 3);
-		Stone fifthStone = new Stone(0, 3, 4);
-		Stone sixthStone = new Stone (0, 0, 4);
+		Stone secondStone = new Stone(0, 1, 0);
+		Stone thirdStone = new Stone(1, 1, 0);
+		Stone fourthStone = new Stone(1, 2, 0);
+		Stone fifthStone = new Stone(2, 2, 0);
+		Stone sixthStone = new Stone (2, 0, 0);
 		mesh.addFirstStone(firstStone);
 		mesh.addStone(secondStone, mesh.getTriangles().get(0), MatchingEdges.B_TO_C);
 		mesh.addStone(thirdStone, mesh.getTriangles().get(1), MatchingEdges.B_TO_C);

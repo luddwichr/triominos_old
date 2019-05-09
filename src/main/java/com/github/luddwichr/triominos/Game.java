@@ -40,7 +40,7 @@ public class Game {
         while (!ended) {
             for (Player player : players) {
                 player.play();
-                if (player.numberOfTilesInTray() == 0) {
+                if (player.getScore() > 400 || player.getNumberOfTilesInTray() == 0) {
                     ended = true;
                 }
                 if (ended) {

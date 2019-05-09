@@ -19,7 +19,7 @@ class GameTest {
         Pile pile = game.getPile();
 
         assertThat(players).hasSize(numberOfPlayers);
-        players.forEach(player -> assertThat(player.numberOfTilesInTray()).isEqualTo(expectedTraySize));
+        players.forEach(player -> assertThat(player.getNumberOfTilesInTray()).isEqualTo(expectedTraySize));
         assertThat(pile.remainingTiles()).isEqualTo(TileSet.CLASSIC.size() - numberOfPlayers * expectedTraySize);
     }
 

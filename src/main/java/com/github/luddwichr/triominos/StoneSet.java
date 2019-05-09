@@ -10,10 +10,10 @@ public class StoneSet {
 
 	private static Set<Stone> createClassicSet() {
 		Set<Stone> set = new HashSet<>(56);
-		for (int first = 0; first <= 5; first++) {
-			for (int second = first; second <= 5; second++) {
-				for (int third = second; third <= 5; third++) {
-					set.add(new Stone(first, second, third));
+		for (int a = 0; a <= 5; a++) {
+			for (int b = a; b <= 5; b++) {
+				for (int c = b; c <= 5; c++) {
+					set.add(new Stone(a, b, c));
 				}
 			}
 		}

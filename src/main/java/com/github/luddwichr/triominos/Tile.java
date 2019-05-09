@@ -8,13 +8,13 @@ package com.github.luddwichr.triominos;
  *  a-------b
  *
  */
-public class Stone {
+public class Tile {
 
 	public final int a;
 	public final int b;
 	public final int c;
 
-	public Stone(int a, int b, int c) {
+	public Tile(int a, int b, int c) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
@@ -26,6 +26,6 @@ public class Stone {
 
 	@Override
 	public String toString() {
-		return "Stone{a=" + a + ", b=" + b + ", c=" + c + '}';
+		return "Tile{a=" + a + ", b=" + b + ", c=" + c + '}';
 	}
 }

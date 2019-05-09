@@ -13,14 +13,14 @@ class GameTest {
 
     @ParameterizedTest
     @CsvSource({"2,9", "3,7", "4,7"})
-    void gameIsCorrectlyInitialized(int numberOfPlayers, int numberOfStonesInTray) {
+    void gameIsCorrectlyInitialized(int numberOfPlayers, int expectedTraySize) {
         Game game = new Game(numberOfPlayers);
         List<Player> players = game.getPlayers();
         Pile pile = game.getPile();
 
         assertThat(players).hasSize(numberOfPlayers);
-        players.forEach(player -> assertThat(player.numberOfStonesInTray()).isEqualTo(numberOfStonesInTray));
-        assertThat(pile.remainingStones()).isEqualTo(StoneSet.CLASSIC.size() - numberOfPlayers * numberOfStonesInTray);
+        players.forEach(player -> assertThat(player.numberOfTilesInTray()).isEqualTo(expectedTraySize));
+        assertThat(pile.remainingTiles()).isEqualTo(TileSet.CLASSIC.size() - numberOfPlayers * expectedTraySize);
     }
 
     @ParameterizedTest

@@ -13,15 +13,15 @@ import java.util.Map;
  */
 public class Triangle {
 
-	private final Stone stone;
+	private final Tile tile;
 	private Map<Edge, Triangle> neighbors = new EnumMap<>(Edge.class);
 
-	public Triangle(Stone stone) {
-		this.stone = stone;
+	public Triangle(Tile tile) {
+		this.tile = tile;
 	}
 
-	public Stone getStone() {
-		return stone;
+	public Tile getTile() {
+		return tile;
 	}
 
 	public Triangle getNeighbor(Edge edge) {

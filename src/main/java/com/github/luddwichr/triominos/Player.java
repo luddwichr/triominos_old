@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 public class Player {
-	private final List<Stone> tray;
+	private final List<Tile> tray;
 
-	public Player(Collection<Stone> initialTray) {
+	public Player(Collection<Tile> initialTray) {
 		tray = new ArrayList<>(initialTray);
 	}
 
@@ -15,12 +15,12 @@ public class Player {
 
 	}
 
-	public int numberOfStonesInTray() {
+	public int numberOfTilesInTray() {
 		return tray.size();
 	}
 
-	public int pointsOfStonesInTray() {
-		return tray.stream().map(Stone::points).reduce(0, Integer::sum);
+	public int pointsOfTilesInTray() {
+		return tray.stream().map(Tile::points).reduce(0, Integer::sum);
 	}
 
 }

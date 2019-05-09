@@ -9,10 +9,10 @@ public class Pile {
 	public static class EmptyPileException extends RuntimeException {
 	}
 
-	private final List<Stone> pile;
+	private final List<Tile> pile;
 
 	public Pile() {
-		pile = new ArrayList<>(StoneSet.CLASSIC);
+		pile = new ArrayList<>(TileSet.CLASSIC);
 		Collections.shuffle(pile);
 	}
 
@@ -20,11 +20,11 @@ public class Pile {
 		return pile.isEmpty();
 	}
 
-	public int remainingStones() {
+	public int remainingTiles() {
 		return pile.size();
 	}
 
-	public Stone drawStone() {
+	public Tile drawRandomTile() {
 		if (isEmpty()) {
 			throw new EmptyPileException();
 		}

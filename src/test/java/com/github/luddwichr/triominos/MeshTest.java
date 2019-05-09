@@ -10,283 +10,283 @@ class MeshTest {
 	private final Mesh mesh = new Mesh();
 
 	@Test
-	void addFirstStoneToEmptyMeshShouldAddStoneAsTriangle() {
-		Stone stone = new Stone(0, 0, 0);
-		mesh.addFirstStone(stone);
+	void addFirstTileToEmptyMeshShouldAddTileAsTriangle() {
+		Tile tile = new Tile(0, 0, 0);
+		mesh.addFirstTile(tile);
 		assertThat(mesh.getTriangles())
 				.usingFieldByFieldElementComparator()
-				.containsOnly(new Triangle(stone));
+				.containsOnly(new Triangle(tile));
 	}
 
 	@Test
-	void addFirstStoneToNonEmptyMeshShouldThrow() {
-		mesh.addFirstStone(new Stone(0, 0, 0));
-		assertThatThrownBy(() -> mesh.addFirstStone(new Stone(1, 1, 1)))
+	void addFirstTileToNonEmptyMeshShouldThrow() {
+		mesh.addFirstTile(new Tile(0, 0, 0));
+		assertThatThrownBy(() -> mesh.addFirstTile(new Tile(1, 1, 1)))
 				.isInstanceOf(IllegalStateException.class)
-				.hasMessage("First stone was already added");
+				.hasMessage("First tile was already added");
 	}
 
 	@Test
-	void firstStonePlayedShouldYieldFalseForEmptyMesh() {
-		assertThat(mesh.firstStonePlayed()).isFalse();
+	void firstTilePlayedShouldYieldFalseForEmptyMesh() {
+		assertThat(mesh.firstTilePlayed()).isFalse();
 	}
 
 	@Test
-	void firstStonePlayedShouldYieldTrueForNonEmptyMesh() {
-		mesh.addFirstStone(new Stone(0, 0, 0));
-		assertThat(mesh.firstStonePlayed()).isTrue();
+	void firstTilePlayedShouldYieldTrueForNonEmptyMesh() {
+		mesh.addFirstTile(new Tile(0, 0, 0));
+		assertThat(mesh.firstTilePlayed()).isTrue();
 	}
 
 	@Test
-	void addStoneToNonexistentTriangle() {
-		assertThatThrownBy(() -> mesh.addStone(new Stone(0, 0, 0), new Triangle(new Stone(1, 1, 1)), MatchingEdges.A_TO_A))
+	void addTileToNonexistentTriangle() {
+		assertThatThrownBy(() -> mesh.addTile(new Tile(0, 0, 0), new Triangle(new Tile(1, 1, 1)), MatchingEdges.A_TO_A))
 				.isInstanceOf(IllegalArgumentException.class);
 	}
 
 	@Test
-	void addStone_A_TO_A_Matching() {
-		Stone firstStone = new Stone(1, 2, 5);
-		Stone secondStone = new Stone(2, 1, 5);
-		mesh.addFirstStone(firstStone);
+	void addTile_A_TO_A_Matching() {
+		Tile firstTile = new Tile(1, 2, 5);
+		Tile secondTile = new Tile(2, 1, 5);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.A_TO_A);
+		addSecondTile(secondTile, MatchingEdges.A_TO_A);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle secondTriangle = mesh.getTriangles().get(1);
 		assertThat(firstTriangle.getNeighbor(Edge.A)).isSameAs(secondTriangle);
 		assertThat(secondTriangle.getNeighbor(Edge.A)).isSameAs(firstTriangle);
-		assertThat(firstTriangle.getStone()).isSameAs(firstStone);
-		assertThat(secondTriangle.getStone()).isSameAs(secondStone);
+		assertThat(firstTriangle.getTile()).isSameAs(firstTile);
+		assertThat(secondTriangle.getTile()).isSameAs(secondTile);
 	}
 
 	@Test
-	void addStone_A_TO_A_Not_Matching() {
-		Stone firstStone = new Stone(1, 2, 5);
-		mesh.addFirstStone(firstStone);
+	void addTile_A_TO_A_Not_Matching() {
+		Tile firstTile = new Tile(1, 2, 5);
+		mesh.addFirstTile(firstTile);
 
-		assertThatThrownBy(() -> addSecondStone(new Stone(2, 0, 5), MatchingEdges.A_TO_A)).isInstanceOf(IllegalStateException.class);
-		assertThatThrownBy(() -> addSecondStone(new Stone(0, 1, 5), MatchingEdges.A_TO_A)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(2, 0, 5), MatchingEdges.A_TO_A)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(0, 1, 5), MatchingEdges.A_TO_A)).isInstanceOf(IllegalStateException.class);
 
 		assertThat(mesh.getTriangles()).hasSize(1);
 	}
 
 	@Test
-	void addStone_A_TO_A_AlreadyAssigned() {
-		Stone firstStone = new Stone(1, 2, 5);
-		Stone secondStone = new Stone(2, 1, 5);
-		mesh.addFirstStone(firstStone);
+	void addTile_A_TO_A_AlreadyAssigned() {
+		Tile firstTile = new Tile(1, 2, 5);
+		Tile secondTile = new Tile(2, 1, 5);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.A_TO_A);
+		addSecondTile(secondTile, MatchingEdges.A_TO_A);
 
-		assertThatThrownBy(() -> addSecondStone(secondStone, MatchingEdges.A_TO_A)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(secondTile, MatchingEdges.A_TO_A)).isInstanceOf(IllegalStateException.class);
 		assertThat(mesh.getTriangles()).hasSize(2);
 	}
 
 	@Test
-	void addStone_A_TO_B_Matching() {
-		Stone firstStone = new Stone(1, 2, 5);
-		Stone secondStone = new Stone(5, 2, 1);
-		mesh.addFirstStone(firstStone);
+	void addTile_A_TO_B_Matching() {
+		Tile firstTile = new Tile(1, 2, 5);
+		Tile secondTile = new Tile(5, 2, 1);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.A_TO_B);
+		addSecondTile(secondTile, MatchingEdges.A_TO_B);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle secondTriangle = mesh.getTriangles().get(1);
 		assertThat(firstTriangle.getNeighbor(Edge.A)).isSameAs(secondTriangle);
 		assertThat(secondTriangle.getNeighbor(Edge.B)).isSameAs(firstTriangle);
-		assertThat(firstTriangle.getStone()).isSameAs(firstStone);
-		assertThat(secondTriangle.getStone()).isSameAs(secondStone);
+		assertThat(firstTriangle.getTile()).isSameAs(firstTile);
+		assertThat(secondTriangle.getTile()).isSameAs(secondTile);
 	}
 
 	@Test
-	void addStone_A_TO_B_Not_Matching() {
-		Stone firstStone = new Stone(1, 2, 5);
-		mesh.addFirstStone(firstStone);
-		assertThatThrownBy(() -> addSecondStone(new Stone(5, 2, 0), MatchingEdges.A_TO_B)).isInstanceOf(IllegalStateException.class);
-		assertThatThrownBy(() -> addSecondStone(new Stone(5, 0, 1), MatchingEdges.A_TO_B)).isInstanceOf(IllegalStateException.class);
+	void addTile_A_TO_B_Not_Matching() {
+		Tile firstTile = new Tile(1, 2, 5);
+		mesh.addFirstTile(firstTile);
+		assertThatThrownBy(() -> addSecondTile(new Tile(5, 2, 0), MatchingEdges.A_TO_B)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(5, 0, 1), MatchingEdges.A_TO_B)).isInstanceOf(IllegalStateException.class);
 
 		assertThat(mesh.getTriangles()).hasSize(1);
 	}
 
 	@Test
-	void addStone_A_TO_B_AlreadyAssigned() {
-		Stone firstStone = new Stone(1, 2, 5);
-		Stone secondStone = new Stone(5, 2, 1);
-		mesh.addFirstStone(firstStone);
-		addSecondStone(secondStone, MatchingEdges.A_TO_B);
+	void addTile_A_TO_B_AlreadyAssigned() {
+		Tile firstTile = new Tile(1, 2, 5);
+		Tile secondTile = new Tile(5, 2, 1);
+		mesh.addFirstTile(firstTile);
+		addSecondTile(secondTile, MatchingEdges.A_TO_B);
 
-		assertThatThrownBy(() -> addSecondStone(secondStone, MatchingEdges.A_TO_B)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(secondTile, MatchingEdges.A_TO_B)).isInstanceOf(IllegalStateException.class);
 		assertThat(mesh.getTriangles()).hasSize(2);
 	}
 
 	@Test
-	void addStone_A_TO_C_Matching() {
-		Stone firstStone = new Stone(1, 2, 5);
-		Stone secondStone = new Stone(1, 5, 2);
-		mesh.addFirstStone(firstStone);
+	void addTile_A_TO_C_Matching() {
+		Tile firstTile = new Tile(1, 2, 5);
+		Tile secondTile = new Tile(1, 5, 2);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.A_TO_C);
+		addSecondTile(secondTile, MatchingEdges.A_TO_C);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle secondTriangle = mesh.getTriangles().get(1);
 		assertThat(firstTriangle.getNeighbor(Edge.A)).isSameAs(secondTriangle);
 		assertThat(secondTriangle.getNeighbor(Edge.C)).isSameAs(firstTriangle);
-		assertThat(firstTriangle.getStone()).isSameAs(firstStone);
-		assertThat(secondTriangle.getStone()).isSameAs(secondStone);
+		assertThat(firstTriangle.getTile()).isSameAs(firstTile);
+		assertThat(secondTriangle.getTile()).isSameAs(secondTile);
 	}
 
 	@Test
-	void addStone_A_TO_C_Not_Matching() {
-		Stone firstStone = new Stone(1, 2, 5);
-		mesh.addFirstStone(firstStone);
-		assertThatThrownBy(() -> addSecondStone(new Stone(0, 5, 2), MatchingEdges.A_TO_C)).isInstanceOf(IllegalStateException.class);
-		assertThatThrownBy(() -> addSecondStone(new Stone(1, 5, 0), MatchingEdges.A_TO_C)).isInstanceOf(IllegalStateException.class);
+	void addTile_A_TO_C_Not_Matching() {
+		Tile firstTile = new Tile(1, 2, 5);
+		mesh.addFirstTile(firstTile);
+		assertThatThrownBy(() -> addSecondTile(new Tile(0, 5, 2), MatchingEdges.A_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(1, 5, 0), MatchingEdges.A_TO_C)).isInstanceOf(IllegalStateException.class);
 
 		assertThat(mesh.getTriangles()).hasSize(1);
 	}
 
 	@Test
-	void addStone_A_TO_C_AlreadyAssigned() {
-		Stone firstStone = new Stone(1, 2, 5);
-		Stone secondStone = new Stone(1, 5, 2);
-		mesh.addFirstStone(firstStone);
-		addSecondStone(secondStone, MatchingEdges.A_TO_C);
+	void addTile_A_TO_C_AlreadyAssigned() {
+		Tile firstTile = new Tile(1, 2, 5);
+		Tile secondTile = new Tile(1, 5, 2);
+		mesh.addFirstTile(firstTile);
+		addSecondTile(secondTile, MatchingEdges.A_TO_C);
 
-		assertThatThrownBy(() -> addSecondStone(secondStone, MatchingEdges.A_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(secondTile, MatchingEdges.A_TO_C)).isInstanceOf(IllegalStateException.class);
 		assertThat(mesh.getTriangles()).hasSize(2);
 	}
 
 	@Test
-	void addStone_B_TO_B_Matching() {
-		Stone firstStone = new Stone(5, 1, 2);
-		Stone secondStone = new Stone(5, 2, 1);
-		mesh.addFirstStone(firstStone);
+	void addTile_B_TO_B_Matching() {
+		Tile firstTile = new Tile(5, 1, 2);
+		Tile secondTile = new Tile(5, 2, 1);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.B_TO_B);
+		addSecondTile(secondTile, MatchingEdges.B_TO_B);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle secondTriangle = mesh.getTriangles().get(1);
 		assertThat(firstTriangle.getNeighbor(Edge.B)).isSameAs(secondTriangle);
 		assertThat(secondTriangle.getNeighbor(Edge.B)).isSameAs(firstTriangle);
-		assertThat(firstTriangle.getStone()).isSameAs(firstStone);
-		assertThat(secondTriangle.getStone()).isSameAs(secondStone);
+		assertThat(firstTriangle.getTile()).isSameAs(firstTile);
+		assertThat(secondTriangle.getTile()).isSameAs(secondTile);
 	}
 
 	@Test
-	void addStone_B_TO_B_Not_Matching() {
-		Stone firstStone = new Stone(5, 1, 2);
-		mesh.addFirstStone(firstStone);
+	void addTile_B_TO_B_Not_Matching() {
+		Tile firstTile = new Tile(5, 1, 2);
+		mesh.addFirstTile(firstTile);
 
-		assertThatThrownBy(() -> addSecondStone(new Stone(5, 2, 0), MatchingEdges.B_TO_B)).isInstanceOf(IllegalStateException.class);
-		assertThatThrownBy(() -> addSecondStone(new Stone(5, 0, 1), MatchingEdges.B_TO_B)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(5, 2, 0), MatchingEdges.B_TO_B)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(5, 0, 1), MatchingEdges.B_TO_B)).isInstanceOf(IllegalStateException.class);
 
 		assertThat(mesh.getTriangles()).hasSize(1);
 	}
 
 	@Test
-	void addStone_B_TO_B_AlreadyAssigned() {
-		Stone firstStone = new Stone(5, 1, 2);
-		Stone secondStone = new Stone(5, 2, 1);
-		mesh.addFirstStone(firstStone);
+	void addTile_B_TO_B_AlreadyAssigned() {
+		Tile firstTile = new Tile(5, 1, 2);
+		Tile secondTile = new Tile(5, 2, 1);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.B_TO_B);
+		addSecondTile(secondTile, MatchingEdges.B_TO_B);
 
-		assertThatThrownBy(() -> addSecondStone(secondStone, MatchingEdges.B_TO_B)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(secondTile, MatchingEdges.B_TO_B)).isInstanceOf(IllegalStateException.class);
 		assertThat(mesh.getTriangles()).hasSize(2);
 	}
 
 	@Test
-	void addStone_B_TO_C_Matching() {
-		Stone firstStone = new Stone(5, 1, 2);
-		Stone secondStone = new Stone(1, 5, 2);
-		mesh.addFirstStone(firstStone);
+	void addTile_B_TO_C_Matching() {
+		Tile firstTile = new Tile(5, 1, 2);
+		Tile secondTile = new Tile(1, 5, 2);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.B_TO_C);
+		addSecondTile(secondTile, MatchingEdges.B_TO_C);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle secondTriangle = mesh.getTriangles().get(1);
 		assertThat(firstTriangle.getNeighbor(Edge.B)).isSameAs(secondTriangle);
 		assertThat(secondTriangle.getNeighbor(Edge.C)).isSameAs(firstTriangle);
-		assertThat(firstTriangle.getStone()).isSameAs(firstStone);
-		assertThat(secondTriangle.getStone()).isSameAs(secondStone);
+		assertThat(firstTriangle.getTile()).isSameAs(firstTile);
+		assertThat(secondTriangle.getTile()).isSameAs(secondTile);
 	}
 
 	@Test
-	void addStone_B_TO_C_Not_Matching() {
-		Stone firstStone = new Stone(5, 1, 2);
-		mesh.addFirstStone(firstStone);
+	void addTile_B_TO_C_Not_Matching() {
+		Tile firstTile = new Tile(5, 1, 2);
+		mesh.addFirstTile(firstTile);
 
-		assertThatThrownBy(() -> addSecondStone(new Stone(1, 5, 0), MatchingEdges.B_TO_C)).isInstanceOf(IllegalStateException.class);
-		assertThatThrownBy(() -> addSecondStone(new Stone(0, 5, 2), MatchingEdges.B_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(1, 5, 0), MatchingEdges.B_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(0, 5, 2), MatchingEdges.B_TO_C)).isInstanceOf(IllegalStateException.class);
 
 		assertThat(mesh.getTriangles()).hasSize(1);
 	}
 
 	@Test
-	void addStone_B_TO_C_AlreadyAssigned() {
-		Stone firstStone = new Stone(5, 1, 2);
-		Stone secondStone = new Stone(1, 5, 2);
-		mesh.addFirstStone(firstStone);
+	void addTile_B_TO_C_AlreadyAssigned() {
+		Tile firstTile = new Tile(5, 1, 2);
+		Tile secondTile = new Tile(1, 5, 2);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.B_TO_C);
+		addSecondTile(secondTile, MatchingEdges.B_TO_C);
 
-		assertThatThrownBy(() -> addSecondStone(secondStone, MatchingEdges.B_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(secondTile, MatchingEdges.B_TO_C)).isInstanceOf(IllegalStateException.class);
 		assertThat(mesh.getTriangles()).hasSize(2);
 	}
 
 	@Test
-	void addStone_C_TO_C_Matching() {
-		Stone firstStone = new Stone(1, 5, 2);
-		Stone secondStone = new Stone(2, 5, 1);
-		mesh.addFirstStone(firstStone);
+	void addTile_C_TO_C_Matching() {
+		Tile firstTile = new Tile(1, 5, 2);
+		Tile secondTile = new Tile(2, 5, 1);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.C_TO_C);
+		addSecondTile(secondTile, MatchingEdges.C_TO_C);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle secondTriangle = mesh.getTriangles().get(1);
 		assertThat(firstTriangle.getNeighbor(Edge.C)).isSameAs(secondTriangle);
 		assertThat(secondTriangle.getNeighbor(Edge.C)).isSameAs(firstTriangle);
-		assertThat(firstTriangle.getStone()).isSameAs(firstStone);
-		assertThat(secondTriangle.getStone()).isSameAs(secondStone);
+		assertThat(firstTriangle.getTile()).isSameAs(firstTile);
+		assertThat(secondTriangle.getTile()).isSameAs(secondTile);
 	}
 
 	@Test
-	void addStone_C_TO_C_Not_Matching() {
-		Stone firstStone = new Stone(1, 5, 2);
-		mesh.addFirstStone(firstStone);
+	void addTile_C_TO_C_Not_Matching() {
+		Tile firstTile = new Tile(1, 5, 2);
+		mesh.addFirstTile(firstTile);
 
-		assertThatThrownBy(() -> addSecondStone(new Stone(0, 5, 1), MatchingEdges.C_TO_C)).isInstanceOf(IllegalStateException.class);
-		assertThatThrownBy(() -> addSecondStone(new Stone(2, 5, 0), MatchingEdges.C_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(0, 5, 1), MatchingEdges.C_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(new Tile(2, 5, 0), MatchingEdges.C_TO_C)).isInstanceOf(IllegalStateException.class);
 
 		assertThat(mesh.getTriangles()).hasSize(1);
 	}
 
 	@Test
-	void addStone_C_TO_C_AlreadyAssigned() {
-		Stone firstStone = new Stone(1, 5, 2);
-		Stone secondStone = new Stone(2, 5, 1);
-		mesh.addFirstStone(firstStone);
+	void addTile_C_TO_C_AlreadyAssigned() {
+		Tile firstTile = new Tile(1, 5, 2);
+		Tile secondTile = new Tile(2, 5, 1);
+		mesh.addFirstTile(firstTile);
 
-		addSecondStone(secondStone, MatchingEdges.C_TO_C);
+		addSecondTile(secondTile, MatchingEdges.C_TO_C);
 
-		assertThatThrownBy(() -> addSecondStone(secondStone, MatchingEdges.C_TO_C)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> addSecondTile(secondTile, MatchingEdges.C_TO_C)).isInstanceOf(IllegalStateException.class);
 		assertThat(mesh.getTriangles()).hasSize(2);
 	}
 
 	@Test
-	void addStoneClosingRing() {
-		Stone firstStone = new Stone(0, 0, 0);
-		Stone secondStone = new Stone(0, 1, 0);
-		Stone thirdStone = new Stone(1, 1, 0);
-		Stone fourthStone = new Stone(1, 2, 0);
-		Stone fifthStone = new Stone(2, 2, 0);
-		Stone sixthStone = new Stone (2, 0, 0);
-		mesh.addFirstStone(firstStone);
-		mesh.addStone(secondStone, mesh.getTriangles().get(0), MatchingEdges.B_TO_C);
-		mesh.addStone(thirdStone, mesh.getTriangles().get(1), MatchingEdges.B_TO_C);
-		mesh.addStone(fourthStone, mesh.getTriangles().get(2), MatchingEdges.B_TO_C);
-		mesh.addStone(fifthStone, mesh.getTriangles().get(3), MatchingEdges.B_TO_C);
-		mesh.addStone(sixthStone, mesh.getTriangles().get(4), MatchingEdges.B_TO_C);
+	void addTileClosingRing() {
+		Tile firstTile = new Tile(0, 0, 0);
+		Tile secondTile = new Tile(0, 1, 0);
+		Tile thirdTile = new Tile(1, 1, 0);
+		Tile fourthTile = new Tile(1, 2, 0);
+		Tile fifthTile = new Tile(2, 2, 0);
+		Tile sixthTile = new Tile(2, 0, 0);
+		mesh.addFirstTile(firstTile);
+		mesh.addTile(secondTile, mesh.getTriangles().get(0), MatchingEdges.B_TO_C);
+		mesh.addTile(thirdTile, mesh.getTriangles().get(1), MatchingEdges.B_TO_C);
+		mesh.addTile(fourthTile, mesh.getTriangles().get(2), MatchingEdges.B_TO_C);
+		mesh.addTile(fifthTile, mesh.getTriangles().get(3), MatchingEdges.B_TO_C);
+		mesh.addTile(sixthTile, mesh.getTriangles().get(4), MatchingEdges.B_TO_C);
 
 		Triangle firstTriangle = mesh.getTriangles().get(0);
 		Triangle sixthTriangle = mesh.getTriangles().get(5);
@@ -294,8 +294,8 @@ class MeshTest {
 		assertThat(firstTriangle.getNeighbor(Edge.C)).isSameAs(sixthTriangle);
 	}
 
-	private void addSecondStone(Stone stone, MatchingEdges matchingEdges) {
-		mesh.addStone(stone, mesh.getTriangles().get(0), matchingEdges);
+	private void addSecondTile(Tile tile, MatchingEdges matchingEdges) {
+		mesh.addTile(tile, mesh.getTriangles().get(0), matchingEdges);
 	}
 
 }

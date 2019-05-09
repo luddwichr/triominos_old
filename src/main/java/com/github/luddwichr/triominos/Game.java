@@ -26,21 +26,21 @@ public class Game {
     }
 
     private void initializePlayers(int numberOfPlayers) {
-        int stonesToDraw = numberOfPlayers == 2 ? 9 : 7;
-        players = Stream.generate(() -> new Player(drawInitialStonesForPlayer(stonesToDraw)))
+        int numberOfTilesToDraw = numberOfPlayers == 2 ? 9 : 7;
+        players = Stream.generate(() -> new Player(drawInitialTrayForPlayer(numberOfTilesToDraw)))
                 .limit(numberOfPlayers)
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
-    private List<Stone> drawInitialStonesForPlayer(int numberOfStonesToDraw) {
-        return Stream.generate(pile::drawStone).limit(numberOfStonesToDraw).collect(toList());
+    private List<Tile> drawInitialTrayForPlayer(int tilesInTray) {
+        return Stream.generate(pile::drawRandomTile).limit(tilesInTray).collect(toList());
     }
 
     public void run() {
         while (!ended) {
             for (Player player : players) {
                 player.play();
-                if (player.numberOfStonesInTray() == 0) {
+                if (player.numberOfTilesInTray() == 0) {
                     ended = true;
                 }
                 if (ended) {

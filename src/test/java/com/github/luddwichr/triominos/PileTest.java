@@ -14,8 +14,8 @@ class PileTest {
 	private final Pile pile = new Pile();
 
 	@Test
-	void pileHasAsManyRemainingStonesAsClassicStoneSetContains() {
-		assertThat(pile.remainingStones()).isEqualTo(StoneSet.CLASSIC.size());
+	void pileHasAsManyRemainingTilesAsClassicTileSetContains() {
+		assertThat(pile.remainingTiles()).isEqualTo(TileSet.CLASSIC.size());
 	}
 
 	@Test
@@ -24,22 +24,22 @@ class PileTest {
 	}
 
 	@Test
-	void isEmptyAfterAllStonesHaveBeenDrawn() {
-		while (pile.remainingStones() > 0) {
-			pile.drawStone();
+	void isEmptyAfterAllTilesHaveBeenDrawn() {
+		while (pile.remainingTiles() > 0) {
+			pile.drawRandomTile();
 		}
 		assertThat(pile.isEmpty()).isTrue();
 	}
 
 	@Test
-	void drawStoneEventuallyReturnsAllStonesFromStoneSet() {
-		Set<Stone> stonesFromPile = Stream.generate(pile::drawStone).limit(StoneSet.CLASSIC.size()).collect(toSet());
-		assertThat(stonesFromPile).containsExactlyInAnyOrderElementsOf(StoneSet.CLASSIC);
+	void drawRandomTileEventuallyReturnsAllTilesFromTileSet() {
+		Set<Tile> stonesFromPile = Stream.generate(pile::drawRandomTile).limit(TileSet.CLASSIC.size()).collect(toSet());
+		assertThat(stonesFromPile).containsExactlyInAnyOrderElementsOf(TileSet.CLASSIC);
 	}
 
 	@Test
-	void drawStoneFromEmptyPileThrows() {
-		StoneSet.CLASSIC.forEach(stone -> pile.drawStone());
-		assertThatThrownBy(pile::drawStone).isInstanceOf(Pile.EmptyPileException.class);
+	void drawRandomTileFromEmptyPileThrows() {
+		TileSet.CLASSIC.forEach(stone -> pile.drawRandomTile());
+		assertThatThrownBy(pile::drawRandomTile).isInstanceOf(Pile.EmptyPileException.class);
 	}
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class StoneSetTest {
+class TileSetTest {
 
     @ParameterizedTest
     @CsvSource({
@@ -66,13 +66,13 @@ class StoneSetTest {
             "4,4,5",
             "4,5,5",
             "5,5,5"})
-    void classicStoneSetContainsStonesAsDefinedByRules(int a, int b, int c) {
-        assertThat(StoneSet.CLASSIC).usingFieldByFieldElementComparator().contains(new Stone(a, b, c));
+    void classicTileSetContainsTilesAsDefinedByGameRule(int a, int b, int c) {
+        assertThat(TileSet.CLASSIC).usingFieldByFieldElementComparator().contains(new Tile(a, b, c));
     }
 
     @Test
-    void classicStoneSetContains65Stones() {
-        assertThat(StoneSet.CLASSIC).hasSize(56);
+    void classicTileSetContainsExactly56Tiles() {
+        assertThat(TileSet.CLASSIC).hasSize(56);
     }
 
 }

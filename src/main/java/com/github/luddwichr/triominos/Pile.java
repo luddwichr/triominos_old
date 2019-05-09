@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Pile {
 
-	public static class PileIsEmptyException extends RuntimeException {
+	public static class EmptyPileException extends RuntimeException {
 	}
 
 	private final List<Stone> pile;
@@ -26,7 +26,7 @@ public class Pile {
 
 	public Stone drawStone() {
 		if (isEmpty()) {
-			throw new PileIsEmptyException();
+			throw new EmptyPileException();
 		}
 		return pile.remove(pile.size() - 1);
 	}

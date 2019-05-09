@@ -15,13 +15,13 @@ class TriangleTest {
 	@Test
 	void neighborAccessors() {
 		Triangle triangle = new Triangle(new Stone(0, 0, 0));
-		Triangle neigbor = new Triangle(new Stone(1, 1, 1));
+		Triangle neighbor = new Triangle(new Stone(1, 1, 1));
 		Edge edge = Edge.A;
 		assertThat(triangle.getNeighbor(edge)).isNull();
 
-		triangle.setNeighbor(neigbor, edge);
+		triangle.setNeighbor(neighbor, edge);
 
-		assertThat(triangle.getNeighbor(edge)).isSameAs(neigbor);
+		assertThat(triangle.getNeighbor(edge)).isSameAs(neighbor);
 	}
 
 }

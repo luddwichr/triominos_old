@@ -3,6 +3,7 @@ package com.github.luddwichr.triominos;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +33,7 @@ class PileTest {
 
 	@Test
 	void drawStoneEventuallyReturnsAllStonesFromStoneSet() {
-		Set<Stone> stonesFromPile = StoneSet.CLASSIC.stream().map(stone -> pile.drawStone()).collect(toSet());
+		Set<Stone> stonesFromPile = Stream.generate(pile::drawStone).limit(StoneSet.CLASSIC.size()).collect(toSet());
 		assertThat(stonesFromPile).containsExactlyInAnyOrderElementsOf(StoneSet.CLASSIC);
 	}
 

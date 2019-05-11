@@ -4,7 +4,7 @@ plugins {
 
 group = 'com.github.luddwichr'
 version = '0.0.1'
-sourceCompatibility = '11'
+sourceCompatibility = '12'
 
 repositories {
 	mavenCentral()

@@ -1,5 +1,7 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.tile.Tile;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -11,7 +13,6 @@ public class Game {
 
     private List<Player> players;
     private Pile pile = new Pile();
-    private Mesh mesh = new Mesh();
     private boolean ended = false;
 
     public Game(int numberOfPlayers) {

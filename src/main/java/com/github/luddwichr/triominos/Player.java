@@ -1,5 +1,7 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.tile.Tile;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

@@ -1,5 +1,8 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.tile.Tile;
+import com.github.luddwichr.triominos.tile.TileSet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +15,7 @@ public class Pile {
 	private final List<Tile> pile;
 
 	public Pile() {
-		pile = new ArrayList<>(TileSet.CLASSIC);
+		pile = new ArrayList<>(TileSet.getClassicSet());
 		Collections.shuffle(pile);
 	}
 

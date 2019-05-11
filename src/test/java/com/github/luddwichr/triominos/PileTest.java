@@ -1,5 +1,7 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.tile.Tile;
+import com.github.luddwichr.triominos.tile.TileSet;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -12,10 +14,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PileTest {
 
 	private final Pile pile = new Pile();
+	private static final Set<Tile> tileSet = TileSet.getClassicSet();
 
 	@Test
 	void pileHasAsManyRemainingTilesAsClassicTileSetContains() {
-		assertThat(pile.remainingTiles()).isEqualTo(TileSet.CLASSIC.size());
+		assertThat(pile.remainingTiles()).isEqualTo(tileSet.size());
 	}
 
 	@Test
@@ -33,13 +36,13 @@ class PileTest {
 
 	@Test
 	void drawRandomTileEventuallyReturnsAllTilesFromTileSet() {
-		Set<Tile> stonesFromPile = Stream.generate(pile::drawRandomTile).limit(TileSet.CLASSIC.size()).collect(toSet());
-		assertThat(stonesFromPile).containsExactlyInAnyOrderElementsOf(TileSet.CLASSIC);
+		Set<Tile> tilesFromPile = Stream.generate(pile::drawRandomTile).limit(tileSet.size()).collect(toSet());
+		assertThat(tilesFromPile).containsExactlyInAnyOrderElementsOf(tileSet);
 	}
 
 	@Test
 	void drawRandomTileFromEmptyPileThrows() {
-		TileSet.CLASSIC.forEach(stone -> pile.drawRandomTile());
+		tileSet.forEach(tile -> pile.drawRandomTile());
 		assertThatThrownBy(pile::drawRandomTile).isInstanceOf(Pile.EmptyPileException.class);
 	}
 }

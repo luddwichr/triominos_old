@@ -1,5 +1,6 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.tile.TileSet;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -20,7 +21,7 @@ class GameTest {
 
         assertThat(players).hasSize(numberOfPlayers);
         players.forEach(player -> assertThat(player.getNumberOfTilesInTray()).isEqualTo(expectedTraySize));
-        assertThat(pile.remainingTiles()).isEqualTo(TileSet.CLASSIC.size() - numberOfPlayers * expectedTraySize);
+        assertThat(pile.remainingTiles()).isEqualTo(TileSet.getClassicSet().size() - numberOfPlayers * expectedTraySize);
     }
 
     @ParameterizedTest

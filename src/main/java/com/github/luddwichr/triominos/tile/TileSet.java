@@ -1,4 +1,4 @@
-package com.github.luddwichr.triominos;
+package com.github.luddwichr.triominos.tile;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,7 +6,11 @@ import java.util.Set;
 
 public class TileSet {
 
-	public static final Set<Tile> CLASSIC = createClassicSet();
+	private static final Set<Tile> CLASSIC = createClassicSet();
+
+	public static Set<Tile> getClassicSet() {
+		return CLASSIC;
+	}
 
 	private static Set<Tile> createClassicSet() {
 		Set<Tile> set = new HashSet<>(56);
@@ -18,5 +22,9 @@ public class TileSet {
 			}
 		}
 		return Collections.unmodifiableSet(set);
+	}
+
+	private TileSet() {
+		// only static methods, hence no constructor should be exposed
 	}
 }

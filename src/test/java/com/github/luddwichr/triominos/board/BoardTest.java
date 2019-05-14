@@ -55,6 +55,24 @@ class BoardTest {
 		assertThat(board.getTilePlacements()).isEmpty();
 	}
 
+	@Test
+	void placeTileNextToFirstTile() {
+		Placement firstPlacement = placementFacingUp(new Location(0, 0));
+		Placement secondPlacement = placementFacingDown(new Location(0, 1));
+		board.placeTile(firstPlacement);
+		board.placeTile(secondPlacement);
+		assertThat(board.getTilePlacements()).containsExactly(firstPlacement, secondPlacement);
+	}
+
+	@Test
+	void placeTileWithoutAdjacentPlacement() {
+		board.placeTile(placementFacingUp(new Location(0, 0)));
+
+		assertThatThrownBy(() -> board.placeTile(placementFacingUp(new Location(1, 1))))
+				.isInstanceOf(IllegalPlacementException.class)
+				.hasMessage("Placement is not adjacent to any existing placement!");
+	}
+
 	private static Placement placementFacingUp(Location location) {
 		return new Placement(new Tile(1, 2, 3), Orientation.ABC, location);
 	}

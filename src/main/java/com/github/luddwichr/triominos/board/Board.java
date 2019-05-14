@@ -19,7 +19,8 @@ public class Board {
 			verifyFirstTileLocationIsCentered(placement);
 			placements.add(placement);
 		} else {
-			throw new UnsupportedOperationException();
+			verifyAdjacentPlacementExists(placement);
+			placements.add(placement);
 		}
 	}
 
@@ -38,6 +39,12 @@ public class Board {
 			if (!placement.getLocation().equals(DOWN_CENTER_TILE_LOCATION)) {
 				throw new IllegalPlacementException("First placement must be located at 0/1 when facing down!");
 			}
+		}
+	}
+
+	private void verifyAdjacentPlacementExists(Placement placement) {
+		if (placements.stream().noneMatch(existingPlacement -> existingPlacement.getLocation().isEdgeShared(placement.getLocation()))) {
+			throw new IllegalPlacementException("Placement is not adjacent to any existing placement!");
 		}
 	}
 

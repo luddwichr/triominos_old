@@ -8,6 +8,7 @@ public enum Orientation {
 	CBA(Corner.C, Corner.B, Corner.A, false),
 	BCA(Corner.B, Corner.C, Corner.A, true),
 	BAC(Corner.B, Corner.A, Corner.C, false);
+
 	private final Corner left;
 	private final Corner middle;
 	private final Corner right;
@@ -22,5 +23,17 @@ public enum Orientation {
 
 	public boolean isFacingUp() {
 		return singleCornerOnTop;
+	}
+
+	public Corner getLeft() {
+		return left;
+	}
+
+	public Corner getMiddle() {
+		return middle;
+	}
+
+	public Corner getRight() {
+		return right;
 	}
 }

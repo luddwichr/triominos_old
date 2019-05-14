@@ -30,4 +30,29 @@ public class Placement {
 	public Location getLocation() {
 		return location;
 	}
+
+	public Face getLeftFace() {
+		return orientation.isFacingUp() ? new Face(getLeftCorner(), getMiddleCorner()) : new Face(getMiddleCorner(), getLeftCorner());
+	}
+
+	public Face getRightFace() {
+		return orientation.isFacingUp() ? new Face(getMiddleCorner(), getRightCorner()) : new Face(getRightCorner(), getMiddleCorner());
+	}
+
+	public Face getMiddleFace() {
+		return new Face(getLeftCorner(), getRightCorner());
+	}
+
+	private int getLeftCorner() {
+		return tile.getValue(orientation.getLeft());
+	}
+
+	private int getMiddleCorner() {
+		return tile.getValue(orientation.getMiddle());
+	}
+
+	private int getRightCorner() {
+		return tile.getValue(orientation.getRight());
+	}
+
 }

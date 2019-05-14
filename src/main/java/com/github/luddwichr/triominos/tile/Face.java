@@ -23,4 +23,8 @@ public class Face {
 	public final int hashCode() {
 		return Objects.hash(left, right);
 	}
+
+	public boolean matches(Face otherFace) {
+		return left == otherFace.right && right == otherFace.left;
+	}
 }

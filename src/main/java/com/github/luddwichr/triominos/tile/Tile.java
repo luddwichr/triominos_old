@@ -20,6 +20,10 @@ public class Tile {
 		values.put(Corner.C, c);
 	}
 
+	public int getValue(Corner corner) {
+		return values.get(corner);
+	}
+
 	public int points() {
 		return values.get(Corner.A) + values.get(Corner.B) + values.get(Corner.C);
 	}

@@ -24,8 +24,7 @@ public class Location {
 		if (this == o) return true;
 		if (!(o instanceof Location)) return false;
 		Location location = (Location) o;
-		return row == location.row &&
-				column == location.column;
+		return row == location.row && column == location.column;
 	}
 
 	@Override

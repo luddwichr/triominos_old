@@ -19,23 +19,23 @@ class LocationTest {
 		assertThat(location.getColumn()).isEqualTo(2);
 	}
 
-	@ParameterizedTest(name = "Location({0}/{1}) facing up should be {2}")
+	@ParameterizedTest(name = "{0} facing up should be {1}")
 	@MethodSource("provideLocationsForIsFacingUp")
-	void isFacingUp(int row, int column, boolean shouldFaceUp) {
-		assertThat(new Location(row, column).isFacingUp()).isEqualTo(shouldFaceUp);
+	void isFacingUp(Location location, boolean shouldFaceUp) {
+		assertThat(location.isFacingUp()).isEqualTo(shouldFaceUp);
 	}
 
 	private static Stream<Arguments> provideLocationsForIsFacingUp() {
 		return Stream.of(
-				Arguments.of(0, 0, true),
-				Arguments.of(0, 1, false),
-				Arguments.of(0, 2, true),
-				Arguments.of(0, -1, false),
-				Arguments.of(0, -2, true),
-				Arguments.of(1, 0, false),
-				Arguments.of(1, 1, true),
-				Arguments.of(-1, 0, false),
-				Arguments.of(-1, -1, true)
+				Arguments.of(new Location(0, 0), true),
+				Arguments.of(new Location(0, 1), false),
+				Arguments.of(new Location(0, 2), true),
+				Arguments.of(new Location(0, -1), false),
+				Arguments.of(new Location(0, -2), true),
+				Arguments.of(new Location(1, 0), false),
+				Arguments.of(new Location(1, 1), true),
+				Arguments.of(new Location(-1, 0), false),
+				Arguments.of(new Location(-1, -1), true)
 		);
 	}
 

@@ -20,10 +20,6 @@ public enum Orientation {
 		this.singleCornerOnTop = singleCornerOnTop;
 	}
 
-	public boolean opositeDirectionTo(Orientation otherOrientation) {
-		return singleCornerOnTop != otherOrientation.singleCornerOnTop;
-	}
-
 	public boolean isFacingUp() {
 		return singleCornerOnTop;
 	}

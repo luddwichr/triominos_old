@@ -18,6 +18,7 @@ public class Board {
 			verifyFirstTileLocationIsCentered(placement);
 			placements.add(placement);
 		} else {
+			verifyPlacementNotOccupied(placement);
 			verifyAdjacentPlacementExists(placement);
 			placements.add(placement);
 		}
@@ -32,6 +33,13 @@ public class Board {
 			if (!placement.getLocation().equals(DOWN_CENTER_TILE_LOCATION)) {
 				throw new IllegalPlacementException("First placement must be located at 0/1 when facing down!");
 			}
+		}
+	}
+
+
+	private void verifyPlacementNotOccupied(Placement placement) {
+		if (placements.stream().anyMatch(existingPlacement -> existingPlacement.getLocation().equals(placement.getLocation()))) {
+			throw new IllegalPlacementException("Placement is already occupied!");
 		}
 	}
 

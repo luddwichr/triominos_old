@@ -46,6 +46,15 @@ class BoardTest {
 	}
 
 	@Test
+	void placeTileOnAlreadyExistingPlacement(){
+		Placement firstPlacement = placementFacingUp(new Location(0, 0));
+		board.placeTile(firstPlacement);
+		assertThatThrownBy(() -> board.placeTile(firstPlacement))
+				.isInstanceOf(IllegalPlacementException.class)
+				.hasMessage("Placement is already occupied!");
+	}
+
+	@Test
 	void placeTileNextToFirstTile() {
 		Placement firstPlacement = placementFacingUp(new Location(0, 0));
 		Placement secondPlacement = placementFacingDown(new Location(0, 1));

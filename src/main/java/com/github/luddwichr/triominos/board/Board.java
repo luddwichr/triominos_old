@@ -36,7 +36,7 @@ public class Board {
 	}
 
 	private void verifyAdjacentPlacementExists(Placement placement) {
-		if (placements.stream().noneMatch(existingPlacement -> existingPlacement.getLocation().isEdgeShared(placement.getLocation()))) {
+		if (placements.stream().noneMatch(existingPlacement -> existingPlacement.getLocation().isSharingEdgeWith(placement.getLocation()))) {
 			throw new IllegalPlacementException("Placement is not adjacent to any existing placement!");
 		}
 	}

@@ -36,7 +36,7 @@ public class Location {
 		return (row + column) % 2 == 0;
 	}
 
-	public boolean isEdgeShared(Location otherLocation) {
+	public boolean isSharingEdgeWith(Location otherLocation) {
 		if (isLeftTo(otherLocation) || isRightTo(otherLocation)) {
 			return true;
 		}

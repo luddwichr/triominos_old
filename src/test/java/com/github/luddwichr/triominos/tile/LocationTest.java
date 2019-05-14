@@ -53,8 +53,8 @@ class LocationTest {
 		Location location = new Location(0, 0);
 		Set<Location> locationsWithSharedEdge = Set.of(new Location(0, -1), new Location(0, 1), new Location(-1, 0));
 		Set<Location> locationsWithNoSharedEdge = grid().stream().filter(Predicate.not(locationsWithSharedEdge::contains)).collect(Collectors.toSet());
-		locationsWithSharedEdge.forEach(otherLocation -> assertThat(location.isEdgeShared(otherLocation)).isTrue());
-		locationsWithNoSharedEdge.forEach(otherLocation -> assertThat(location.isEdgeShared(otherLocation)).isFalse());
+		locationsWithSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isTrue());
+		locationsWithNoSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isFalse());
 	}
 
 	@Test
@@ -62,8 +62,8 @@ class LocationTest {
 		Location location = new Location(0, 1);
 		Set<Location> locationsWithSharedEdge = Set.of(new Location(0, 0), new Location(0, 2), new Location(1, 1));
 		Set<Location> locationsWithNoSharedEdge = grid().stream().filter(Predicate.not(locationsWithSharedEdge::contains)).collect(Collectors.toSet());
-		locationsWithSharedEdge.forEach(otherLocation -> assertThat(location.isEdgeShared(otherLocation)).isTrue());
-		locationsWithNoSharedEdge.forEach(otherLocation -> assertThat(location.isEdgeShared(otherLocation)).isFalse());
+		locationsWithSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isTrue());
+		locationsWithNoSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isFalse());
 	}
 
 	private static Set<Location> grid() {

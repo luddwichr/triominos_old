@@ -7,9 +7,16 @@ public class Placement {
 	private final Location location;
 
 	public Placement(Tile tile, Orientation orientation, Location location) {
+		verifyMatchingOrientationAndLocation(orientation, location);
 		this.tile = tile;
 		this.orientation = orientation;
 		this.location = location;
+	}
+
+	private void verifyMatchingOrientationAndLocation(Orientation orientation, Location location) {
+		if (orientation.isFacingUp() != location.isFacingUp()) {
+			throw new IllegalArgumentException("Orientation and location of placement do not face in the same direction!");
+		}
 	}
 
 	public Tile getTile() {

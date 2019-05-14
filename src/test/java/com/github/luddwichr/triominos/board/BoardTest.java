@@ -14,16 +14,6 @@ class BoardTest {
 	private final Board board = new Board();
 
 	@Test
-	void placeTileWithOrientationAndLocationFacingInDifferentDirection() {
-		assertThatThrownBy(() -> board.placeTile(placementFacingUp(new Location(0, 1))))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Orientation and location of placement do not face in the same direction!");
-		assertThatThrownBy(() -> board.placeTile(placementFacingDown(new Location(0, 0))))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Orientation and location of placement do not face in the same direction!");
-	}
-
-	@Test
 	void placeTileFacingUpOnEmptyBoardAtCenterLocation() {
 		Placement placement = placementFacingUp(new Location(0, 0));
 		board.placeTile(placement);

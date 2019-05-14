@@ -14,19 +14,12 @@ public class Board {
 	private final List<Placement> placements = new ArrayList<>();
 
 	public void placeTile(Placement placement) {
-		verifyMatchingOrientationAndLocation(placement);
 		if (placements.isEmpty()) {
 			verifyFirstTileLocationIsCentered(placement);
 			placements.add(placement);
 		} else {
 			verifyAdjacentPlacementExists(placement);
 			placements.add(placement);
-		}
-	}
-
-	private void verifyMatchingOrientationAndLocation(Placement placement) {
-		if (placement.getOrientation().isFacingUp() != placement.getLocation().isFacingUp()) {
-			throw new IllegalPlacementException("Orientation and location of placement do not face in the same direction!");
 		}
 	}
 

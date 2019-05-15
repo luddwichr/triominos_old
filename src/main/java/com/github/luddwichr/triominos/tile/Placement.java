@@ -40,7 +40,7 @@ public class Placement {
 	}
 
 	public Face getMiddleFace() {
-		return new Face(getLeftCorner(), getRightCorner());
+		return orientation.isFacingUp() ? new Face(getRightCorner(), getLeftCorner()) : new Face(getLeftCorner(), getRightCorner());
 	}
 
 	private int getLeftCorner() {

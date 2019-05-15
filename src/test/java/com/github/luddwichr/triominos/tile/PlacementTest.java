@@ -83,11 +83,11 @@ class PlacementTest {
 	private static Stream<Arguments> providePlacementsForGetMiddleFace() {
 		Tile tile = new Tile(1, 2, 3);
 		return Stream.of(
-				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(1, 3)),
+				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(3, 1)),
 				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), new Face(1, 2)),
-				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), new Face(3, 2)),
+				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), new Face(2, 3)),
 				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), new Face(3, 1)),
-				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), new Face(2, 1)),
+				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), new Face(1, 2)),
 				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), new Face(2, 3))
 		);
 	}

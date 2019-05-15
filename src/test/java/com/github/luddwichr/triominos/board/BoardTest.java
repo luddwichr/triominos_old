@@ -8,50 +8,58 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
 class BoardTest {
 
 	private final Board board = new Board();
 
 	@Test
-	void placeTileFacingUpOnEmptyBoardAtCenterLocation() {
+	void placeTileWithInvalidPlacement() {
+		Board boardMock = mock(Board.class);
+		Placement placement = mock(Placement.class);
+		when(boardMock.isValidPlacement(placement)).thenReturn(false);
+		doCallRealMethod().when(boardMock).placeTile(placement);
+		assertThatThrownBy(() -> boardMock.placeTile(placement))
+				.isInstanceOf(IllegalPlacementException.class);
+	}
+
+	@Test
+	void placeTileOnEmptyBoard() {
 		Placement placement = placementFacingUp(new Location(0, 0));
 		board.placeTile(placement);
 		assertThat(board.getTilePlacements()).containsExactly(placement);
 	}
 
 	@Test
-	void placeTileFacingUpOnEmptyBoardAtNonCenterLocation() {
+	void isValidPlacementWithTileFacingUpOnEmptyBoardAtCenterLocation() {
+		Placement placement = placementFacingUp(new Location(0, 0));
+		assertThat(board.isValidPlacement(placement)).isTrue();
+	}
+
+	@Test
+	void isValidPlacementWithTileFacingUpOnEmptyBoardAtNonCenterLocation() {
 		Placement placement = placementFacingUp(new Location(1, 1));
-		assertThatThrownBy(() -> board.placeTile(placement))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("First placement must be located at 0/0 when facing up or 0/1 when facing down!");
-		assertThat(board.getTilePlacements()).isEmpty();
+		assertThat(board.isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
-	void placeTileFacingDownOnEmptyBoardAtCenterLocation() {
+	void isValidPlacementWithTileFacingDownOnEmptyBoardAtCenterLocation() {
 		Placement placement = placementFacingDown(new Location(0, 1));
-		board.placeTile(placement);
-		assertThat(board.getTilePlacements()).containsExactly(placement);
+		assertThat(board.isValidPlacement(placement)).isTrue();
 	}
 
 	@Test
-	void placeTileFacingDownOnEmptyBoardAtNonCenterLocation() {
+	void isValidPlacementWithTileFacingDownOnEmptyBoardAtNonCenterLocation() {
 		Placement placement = placementFacingDown(new Location(0, 3));
-		assertThatThrownBy(() -> board.placeTile(placement))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("First placement must be located at 0/0 when facing up or 0/1 when facing down!");
-		assertThat(board.getTilePlacements()).isEmpty();
+		assertThat(board.isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
-	void placeTileOnAlreadyExistingPlacement(){
-		Placement firstPlacement = placementFacingUp(new Location(0, 0));
-		board.placeTile(firstPlacement);
-		assertThatThrownBy(() -> board.placeTile(firstPlacement))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Placement is already occupied!");
+	void isValidPlacementWithTileOnAlreadyExistingPlacement(){
+		Placement placement = placementFacingUp(new Location(0, 0));
+		board.placeTile(placement);
+		assertThat(board.isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
@@ -64,43 +72,36 @@ class BoardTest {
 	}
 
 	@Test
-	void placeTileWithoutAdjacentPlacement() {
-		board.placeTile(placementFacingUp(new Location(0, 0)));
-
-		assertThatThrownBy(() -> board.placeTile(placementFacingUp(new Location(1, 1))))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Placement is not adjacent to any existing placement!");
+	void isValidPlacementWithNoAdjacentPlacement() {
+		Placement firstPlacement = placementFacingUp(new Location(0, 0));
+		Placement secondPlacement = placementFacingUp(new Location(1, 1));
+		board.placeTile(firstPlacement);
+		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
 	}
 
 	@Test
-	void placeTileWithNonMatchingLeftEdge() {
+	void isValidPlacementWithNonMatchingLeftEdge() {
 		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
 		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(0, 1));
 		board.placeTile(firstPlacement);
-		assertThatThrownBy(() -> board.placeTile(secondPlacement))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Placement does not match edges of adjacent placement!");
+		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
+
 	}
 
 	@Test
-	void placeTileWithNonMatchingRightEdge() {
+	void isValidPlacementWithNonMatchingRightEdge() {
 		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
 		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(0, -1));
 		board.placeTile(firstPlacement);
-		assertThatThrownBy(() -> board.placeTile(secondPlacement))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Placement does not match edges of adjacent placement!");
+		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
 	}
 
-
 	@Test
-	void placeTileWithNonMatchingMiddleEdge() {
+	void isValidPlacementWithNonMatchingMiddleEdge() {
 		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
 		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(-1, 0));
 		board.placeTile(firstPlacement);
-		assertThatThrownBy(() -> board.placeTile(secondPlacement))
-				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("Placement does not match edges of adjacent placement!");
+		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
 	}
 
 	private static Placement placementFacingUp(Location location) {

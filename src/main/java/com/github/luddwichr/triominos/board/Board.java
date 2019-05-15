@@ -6,6 +6,7 @@ import com.github.luddwichr.triominos.tile.Placement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class Board {
 
@@ -19,9 +20,48 @@ public class Board {
 			placements.add(placement);
 		} else {
 			verifyPlacementNotOccupied(placement);
-			verifyAdjacentPlacementExists(placement);
+			verifyValidNeighbor(placement);
 			placements.add(placement);
 		}
+	}
+
+	private void verifyValidNeighbor(Placement placement) {
+		Optional<Placement> leftNeighbor = findLeftNeighbor(placement);
+		Optional<Placement> rightNeighbor = findRightNeighbor(placement);
+		Optional<Placement> middleNeighbor = findMiddleNeighbor(placement);
+		leftNeighbor.ifPresent(left -> {
+			if (!left.getRightFace().matches(placement.getLeftFace())) {
+				throw new IllegalPlacementException("Placement does not match edges of adjacent placement!");
+			}
+		});
+		rightNeighbor.ifPresent(right -> {
+			if (!right.getLeftFace().matches(placement.getRightFace())) {
+				throw new IllegalPlacementException("Placement does not match edges of adjacent placement!");
+			}
+		});
+		middleNeighbor.ifPresent(middle -> {
+			if (!middle.getMiddleFace().matches(placement.getMiddleFace())) {
+				throw new IllegalPlacementException("Placement does not match edges of adjacent placement!");
+			}
+		});
+		if (leftNeighbor.isEmpty() && rightNeighbor.isEmpty() && middleNeighbor.isEmpty()){
+			throw new IllegalPlacementException("Placement is not adjacent to any existing placement!");
+		}
+	}
+
+	private Optional<Placement> findLeftNeighbor(Placement placement) {
+		Location left = new Location(placement.getLocation().getRow(), placement.getLocation().getColumn() - 1);
+		return placements.stream().filter(existingPlacement -> existingPlacement.getLocation().equals(left)).findFirst();
+	}
+
+	private Optional<Placement> findRightNeighbor(Placement placement) {
+		Location right = new Location(placement.getLocation().getRow(), placement.getLocation().getColumn() + 1);
+		return placements.stream().filter(existingPlacement -> existingPlacement.getLocation().equals(right)).findFirst();
+	}
+
+	private Optional<Placement> findMiddleNeighbor(Placement placement) {
+		Location middle = new Location(placement.getLocation().getRow() + (placement.getLocation().isFacingUp() ? -1 : 1), placement.getLocation().getColumn());
+		return placements.stream().filter(existingPlacement -> existingPlacement.getLocation().equals(middle)).findFirst();
 	}
 
 	private void verifyFirstTileLocationIsCentered(Placement placement) {
@@ -36,16 +76,9 @@ public class Board {
 		}
 	}
 
-
 	private void verifyPlacementNotOccupied(Placement placement) {
 		if (placements.stream().anyMatch(existingPlacement -> existingPlacement.getLocation().equals(placement.getLocation()))) {
 			throw new IllegalPlacementException("Placement is already occupied!");
-		}
-	}
-
-	private void verifyAdjacentPlacementExists(Placement placement) {
-		if (placements.stream().noneMatch(existingPlacement -> existingPlacement.getLocation().isSharingEdgeWith(placement.getLocation()))) {
-			throw new IllegalPlacementException("Placement is not adjacent to any existing placement!");
 		}
 	}
 

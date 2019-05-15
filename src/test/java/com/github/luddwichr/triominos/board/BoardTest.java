@@ -56,8 +56,8 @@ class BoardTest {
 
 	@Test
 	void placeTileNextToFirstTile() {
-		Placement firstPlacement = placementFacingUp(new Location(0, 0));
-		Placement secondPlacement = placementFacingDown(new Location(0, 1));
+		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
+		Placement secondPlacement = new Placement(new Tile(2, 3, 3), Orientation.ACB, new Location(0, 1));
 		board.placeTile(firstPlacement);
 		board.placeTile(secondPlacement);
 		assertThat(board.getTilePlacements()).containsExactly(firstPlacement, secondPlacement);
@@ -70,6 +70,37 @@ class BoardTest {
 		assertThatThrownBy(() -> board.placeTile(placementFacingUp(new Location(1, 1))))
 				.isInstanceOf(IllegalPlacementException.class)
 				.hasMessage("Placement is not adjacent to any existing placement!");
+	}
+
+	@Test
+	void placeTileWithNonMatchingLeftEdge() {
+		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
+		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(0, 1));
+		board.placeTile(firstPlacement);
+		assertThatThrownBy(() -> board.placeTile(secondPlacement))
+				.isInstanceOf(IllegalPlacementException.class)
+				.hasMessage("Placement does not match edges of adjacent placement!");
+	}
+
+	@Test
+	void placeTileWithNonMatchingRightEdge() {
+		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
+		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(0, -1));
+		board.placeTile(firstPlacement);
+		assertThatThrownBy(() -> board.placeTile(secondPlacement))
+				.isInstanceOf(IllegalPlacementException.class)
+				.hasMessage("Placement does not match edges of adjacent placement!");
+	}
+
+
+	@Test
+	void placeTileWithNonMatchingMiddleEdge() {
+		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
+		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(-1, 0));
+		board.placeTile(firstPlacement);
+		assertThatThrownBy(() -> board.placeTile(secondPlacement))
+				.isInstanceOf(IllegalPlacementException.class)
+				.hasMessage("Placement does not match edges of adjacent placement!");
 	}
 
 	private static Placement placementFacingUp(Location location) {

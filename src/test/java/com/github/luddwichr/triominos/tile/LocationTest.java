@@ -6,10 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,31 +45,27 @@ class LocationTest {
 	}
 
 	@Test
-	void isEdgeSharedForUpFacingLocation() {
+	void getLeftNeighbor() {
 		Location location = new Location(0, 0);
-		Set<Location> locationsWithSharedEdge = Set.of(new Location(0, -1), new Location(0, 1), new Location(-1, 0));
-		Set<Location> locationsWithNoSharedEdge = grid().stream().filter(Predicate.not(locationsWithSharedEdge::contains)).collect(Collectors.toSet());
-		locationsWithSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isTrue());
-		locationsWithNoSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isFalse());
+		assertThat(location.getLeftNeighbor()).isEqualTo(new Location(0, -1));
 	}
 
 	@Test
-	void isEdgeSharedForDownFacingLocation() {
-		Location location = new Location(0, 1);
-		Set<Location> locationsWithSharedEdge = Set.of(new Location(0, 0), new Location(0, 2), new Location(1, 1));
-		Set<Location> locationsWithNoSharedEdge = grid().stream().filter(Predicate.not(locationsWithSharedEdge::contains)).collect(Collectors.toSet());
-		locationsWithSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isTrue());
-		locationsWithNoSharedEdge.forEach(otherLocation -> assertThat(location.isSharingEdgeWith(otherLocation)).isFalse());
+	void getRightNeighbor() {
+		Location location = new Location(0, 0);
+		assertThat(location.getRightNeighbor()).isEqualTo(new Location(0, 1));
 	}
 
-	private static Set<Location> grid() {
-		Set<Location> locations = new HashSet<>();
-		for (int row = -3; row <= 3; row++) {
-			for (int column = -3; column <= 3; column++) {
-				locations.add(new Location(row, column));
-			}
-		}
-		return locations;
+	@Test
+	void getMiddleNeighborForUpFacingLocation() {
+		Location location = new Location(0, 0);
+		assertThat(location.getMiddleNeighbor()).isEqualTo(new Location(-1, 0));
+	}
+
+	@Test
+	void getMiddleNeighborForDownFacingLocation() {
+		Location location = new Location(-1, 0);
+		assertThat(location.getMiddleNeighbor()).isEqualTo(new Location(0, 0));
 	}
 
 }

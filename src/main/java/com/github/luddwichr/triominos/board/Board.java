@@ -29,24 +29,21 @@ public class Board {
 	}
 
 	private boolean hasMatchingLeftNeighbor(Placement placement) {
-		Location leftNeighbor = new Location(placement.getLocation().getRow(), placement.getLocation().getColumn() - 1);
-		return Optional.ofNullable(placements.get(leftNeighbor))
-				.map(left -> left.getRightFace().matches(placement.getLeftFace()))
+		return Optional.ofNullable(placements.get(placement.getLocation().getLeftNeighbor()))
+				.map(leftNeighbor -> leftNeighbor.getRightFace().matches(placement.getLeftFace()))
 				.orElse(false);
 	}
 
 	private boolean hasMatchingRightNeighbor(Placement placement) {
-		Location rightNeighbor = new Location(placement.getLocation().getRow(), placement.getLocation().getColumn() + 1);
-		return Optional.ofNullable(placements.get(rightNeighbor))
-				.map(right -> right.getLeftFace().matches(placement.getRightFace()))
+		return Optional.ofNullable(placements.get(placement.getLocation().getRightNeighbor()))
+				.map(rightNeighbor -> rightNeighbor.getLeftFace().matches(placement.getRightFace()))
 				.orElse(false);
 
 	}
 
 	private boolean hasMatchingMiddleNeighbor(Placement placement) {
-		Location middleNeighbor = new Location(placement.getLocation().getRow() + (placement.getLocation().isFacingUp() ? -1 : 1), placement.getLocation().getColumn());
-		return Optional.ofNullable(placements.get(middleNeighbor))
-				.map(middle -> middle.getMiddleFace().matches(placement.getMiddleFace()))
+		return Optional.ofNullable(placements.get(placement.getLocation().getMiddleNeighbor()))
+				.map(middleNeighbor -> middleNeighbor.getMiddleFace().matches(placement.getMiddleFace()))
 				.orElse(false);
 	}
 

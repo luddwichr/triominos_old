@@ -36,30 +36,15 @@ public class Location {
 		return (row + column) % 2 == 0;
 	}
 
-	public boolean isSharingEdgeWith(Location otherLocation) {
-		if (isLeftTo(otherLocation) || isRightTo(otherLocation)) {
-			return true;
-		}
-		if (isFacingUp() && isAbove(otherLocation)) {
-			return true;
-		}
-
-		return !isFacingUp() && isBelow(otherLocation);
+	public Location getRightNeighbor() {
+		return new Location(row, column + 1);
 	}
 
-	private boolean isLeftTo(Location otherLocation) {
-		return row == otherLocation.row && column + 1 == otherLocation.column;
-	}
-	private boolean isRightTo(Location otherLocation) {
-		return row == otherLocation.row && column - 1 == otherLocation.column;
+	public Location getLeftNeighbor() {
+		return new Location(row, column - 1);
 	}
 
-	private boolean isAbove(Location otherLocation) {
-		return column == otherLocation.column && row - 1 == otherLocation.row;
+	public Location getMiddleNeighbor() {
+		return new Location(row + (isFacingUp() ? - 1 : 1), column);
 	}
-
-	private boolean isBelow(Location otherLocation) {
-		return column == otherLocation.column && row + 1 == otherLocation.row;
-	}
-
 }

@@ -22,10 +22,14 @@ public class Board {
 		if (placements.isEmpty()) {
 			return isFirstTileLocationCentered(placement);
 		}
-		if (placements.get(placement.getLocation()) != null) {
+		if (isAlreadyTaken(placement)) {
 			return false;
 		}
 		return hasMatchingLeftNeighbor(placement) || hasMatchingRightNeighbor(placement) || hasMatchingMiddleNeighbor(placement);
+	}
+
+	private boolean isAlreadyTaken(Placement placement) {
+		return placements.get(placement.getLocation()) != null;
 	}
 
 	private boolean hasMatchingLeftNeighbor(Placement placement) {

@@ -17,12 +17,11 @@ public class Board {
 	public void placeTile(Placement placement) {
 		if (placements.isEmpty()) {
 			verifyFirstTileLocationIsCentered(placement);
-			placements.add(placement);
 		} else {
 			verifyPlacementNotOccupied(placement);
 			verifyValidNeighbor(placement);
-			placements.add(placement);
 		}
+		placements.add(placement);
 	}
 
 	private void verifyValidNeighbor(Placement placement) {
@@ -44,7 +43,7 @@ public class Board {
 				throw new IllegalPlacementException("Placement does not match edges of adjacent placement!");
 			}
 		});
-		if (leftNeighbor.isEmpty() && rightNeighbor.isEmpty() && middleNeighbor.isEmpty()){
+		if (leftNeighbor.isEmpty() && rightNeighbor.isEmpty() && middleNeighbor.isEmpty()) {
 			throw new IllegalPlacementException("Placement is not adjacent to any existing placement!");
 		}
 	}
@@ -65,15 +64,11 @@ public class Board {
 	}
 
 	private void verifyFirstTileLocationIsCentered(Placement placement) {
-		if (placement.getOrientation().isFacingUp()) {
-			if (!placement.getLocation().equals(UP_CENTER_TILE_LOCATION)) {
-				throw new IllegalPlacementException("First placement must be located at 0/0 when facing up!");
-			}
-		} else {
-			if (!placement.getLocation().equals(DOWN_CENTER_TILE_LOCATION)) {
-				throw new IllegalPlacementException("First placement must be located at 0/1 when facing down!");
-			}
+		if (!placement.getLocation().equals(UP_CENTER_TILE_LOCATION) &&
+				!placement.getLocation().equals(DOWN_CENTER_TILE_LOCATION)) {
+			throw new IllegalPlacementException("First placement must be located at 0/0 when facing up or 0/1 when facing down!");
 		}
+
 	}
 
 	private void verifyPlacementNotOccupied(Placement placement) {

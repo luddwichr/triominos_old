@@ -25,7 +25,7 @@ class BoardTest {
 		Placement placement = placementFacingUp(new Location(1, 1));
 		assertThatThrownBy(() -> board.placeTile(placement))
 				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("First placement must be located at 0/0 when facing up!");
+				.hasMessage("First placement must be located at 0/0 when facing up or 0/1 when facing down!");
 		assertThat(board.getTilePlacements()).isEmpty();
 	}
 
@@ -41,7 +41,7 @@ class BoardTest {
 		Placement placement = placementFacingDown(new Location(0, 3));
 		assertThatThrownBy(() -> board.placeTile(placement))
 				.isInstanceOf(IllegalPlacementException.class)
-				.hasMessage("First placement must be located at 0/1 when facing down!");
+				.hasMessage("First placement must be located at 0/0 when facing up or 0/1 when facing down!");
 		assertThat(board.getTilePlacements()).isEmpty();
 	}
 

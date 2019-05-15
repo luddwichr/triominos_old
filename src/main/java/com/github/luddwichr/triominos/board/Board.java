@@ -25,30 +25,39 @@ public class Board {
 		if (isAlreadyTaken(placement)) {
 			return false;
 		}
-		return hasMatchingLeftNeighbor(placement) || hasMatchingRightNeighbor(placement) || hasMatchingMiddleNeighbor(placement);
+		if (isNotAdjacentToExistingPlacement(placement)) {
+			return false;
+		}
+		return leftNeighborFits(placement) && rightNeighborFits(placement) && middleNeighborFits(placement);
+	}
+
+	private boolean isNotAdjacentToExistingPlacement(Placement placement) {
+		return !placements.containsKey(placement.getLocation().getLeftNeighbor())
+				&& !placements.containsKey(placement.getLocation().getRightNeighbor())
+				&& !placements.containsKey(placement.getLocation().getMiddleNeighbor());
 	}
 
 	private boolean isAlreadyTaken(Placement placement) {
 		return placements.get(placement.getLocation()) != null;
 	}
 
-	private boolean hasMatchingLeftNeighbor(Placement placement) {
+	private boolean leftNeighborFits(Placement placement) {
 		return Optional.ofNullable(placements.get(placement.getLocation().getLeftNeighbor()))
 				.map(leftNeighbor -> leftNeighbor.getRightFace().matches(placement.getLeftFace()))
-				.orElse(false);
+				.orElse(true);
 	}
 
-	private boolean hasMatchingRightNeighbor(Placement placement) {
+	private boolean rightNeighborFits(Placement placement) {
 		return Optional.ofNullable(placements.get(placement.getLocation().getRightNeighbor()))
 				.map(rightNeighbor -> rightNeighbor.getLeftFace().matches(placement.getRightFace()))
-				.orElse(false);
+				.orElse(true);
 
 	}
 
-	private boolean hasMatchingMiddleNeighbor(Placement placement) {
+	private boolean middleNeighborFits(Placement placement) {
 		return Optional.ofNullable(placements.get(placement.getLocation().getMiddleNeighbor()))
 				.map(middleNeighbor -> middleNeighbor.getMiddleFace().matches(placement.getMiddleFace()))
-				.orElse(false);
+				.orElse(true);
 	}
 
 	private boolean isFirstTileLocationCentered(Placement placement) {

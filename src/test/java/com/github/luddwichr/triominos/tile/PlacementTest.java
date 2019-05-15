@@ -14,12 +14,12 @@ class PlacementTest {
 
 	private static final Location UP_LOCATION = new Location(0, 0);
 	private static final Location DOWN_LOCATION = new Location(0, 1);
+	private static final Tile tile = new Tile(1, 2, 3);
 
 	@Test
 	void accessors() {
 		Location location = new Location(0, 0);
 		Orientation orientation = Orientation.ABC;
-		Tile tile = new Tile(1, 2, 3);
 
 		Placement placement = new Placement(tile, orientation, location);
 
@@ -30,10 +30,10 @@ class PlacementTest {
 
 	@Test
 	void placementWithOrientationAndLocationFacingInDifferentDirection() {
-		assertThatThrownBy(() -> new Placement( new Tile(1, 2, 3), Orientation.ABC, DOWN_LOCATION))
+		assertThatThrownBy(() -> new Placement(tile, Orientation.ABC, DOWN_LOCATION))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Orientation and location of placement do not face in the same direction!");
-		assertThatThrownBy(() -> new Placement( new Tile(1, 2, 3), Orientation.ACB, UP_LOCATION))
+		assertThatThrownBy(() -> new Placement(tile, Orientation.ACB, UP_LOCATION))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Orientation and location of placement do not face in the same direction!");
 	}
@@ -45,7 +45,6 @@ class PlacementTest {
 	}
 
 	private static Stream<Arguments> providePlacementsForGetLeftFace() {
-		Tile tile = new Tile(1, 2, 3);
 		return Stream.of(
 				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(1, 2)),
 				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), new Face(3, 1)),
@@ -81,7 +80,6 @@ class PlacementTest {
 	}
 
 	private static Stream<Arguments> providePlacementsForGetMiddleFace() {
-		Tile tile = new Tile(1, 2, 3);
 		return Stream.of(
 				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(3, 1)),
 				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), new Face(1, 2)),
@@ -91,4 +89,56 @@ class PlacementTest {
 				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), new Face(2, 3))
 		);
 	}
+
+	@ParameterizedTest
+	@MethodSource("providePlacementsForGetRightCorner")
+	void getRightCorner(Placement placement, int expectedRightCorner) {
+		assertThat(placement.getRightCorner()).isEqualTo(expectedRightCorner);
+	}
+
+	private static Stream<Arguments> providePlacementsForGetRightCorner() {
+		return Stream.of(
+				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), 3),
+				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), 2),
+				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), 2),
+				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), 1),
+				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), 1),
+				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), 3)
+		);
+	}
+
+	@ParameterizedTest
+	@MethodSource("providePlacementsForGetLeftCorner")
+	void getLeftCorner(Placement placement, int expectedLeftCorner) {
+		assertThat(placement.getLeftCorner()).isEqualTo(expectedLeftCorner);
+	}
+
+	private static Stream<Arguments> providePlacementsForGetLeftCorner() {
+		return Stream.of(
+				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), 1),
+				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), 1),
+				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), 3),
+				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), 3),
+				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), 2),
+				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), 2)
+		);
+	}
+
+	@ParameterizedTest
+	@MethodSource("providePlacementsForGetMiddleCorner")
+	void getMiddleCorner(Placement placement, int expectedMiddleCorner) {
+		assertThat(placement.getMiddleCorner()).isEqualTo(expectedMiddleCorner);
+	}
+
+	private static Stream<Arguments> providePlacementsForGetMiddleCorner() {
+		return Stream.of(
+				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), 2),
+				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), 3),
+				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), 1),
+				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), 2),
+				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), 3),
+				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), 1)
+		);
+	}
+
 }

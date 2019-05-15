@@ -43,15 +43,15 @@ public class Placement {
 		return orientation.isFacingUp() ? new Face(getRightCorner(), getLeftCorner()) : new Face(getLeftCorner(), getRightCorner());
 	}
 
-	private int getLeftCorner() {
+	public int getLeftCorner() {
 		return tile.getValue(orientation.getLeft());
 	}
 
-	private int getMiddleCorner() {
+	public int getMiddleCorner() {
 		return tile.getValue(orientation.getMiddle());
 	}
 
-	private int getRightCorner() {
+	public int getRightCorner() {
 		return tile.getValue(orientation.getRight());
 	}
 

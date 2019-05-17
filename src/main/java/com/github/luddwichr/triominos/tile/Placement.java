@@ -35,4 +35,8 @@ public class Placement {
 				throw new IllegalStateException("Unexpected value: " + rotatedCorner);
 		}
 	}
+
+	public Tile getTile() {
+		return tile;
+	}
 }

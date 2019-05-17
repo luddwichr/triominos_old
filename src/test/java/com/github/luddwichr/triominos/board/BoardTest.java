@@ -104,7 +104,7 @@ class BoardTest {
 	void placeTileShouldThrowIfPlacementValidationFails() {
 		board.placeTile(someValidFirstPlacement());
 		Placement placement = placementFacingDown(new Location(0, 1));
-		when(placementValidator.isValidPlacement(board::getPlacement, placement)).thenReturn(false);
+		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(false);
 
 		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
 	}
@@ -131,6 +131,29 @@ class BoardTest {
 		Placement placement = validFirstUpwardsPlacement();
 		board.placeTile(placement);
 		assertThat(board.getPlacement(new Location(0, 0))).get().isEqualTo(placement);
+	}
+
+	@Test
+	void isValidPlacementShouldYieldFalseIfTileAlreadyPlaced(){
+		Placement placement = validFirstUpwardsPlacement();
+		board.placeTile(placement);
+		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, placement.getLocation().getRightNeighbor());
+		// lets assume the placement is legit...
+		when(placementValidator.isValidPlacement(any(), eq(duplicateTilePlacement))).thenReturn(true);
+
+		assertThat(board.isValidPlacement(duplicateTilePlacement)).isFalse();
+	}
+
+	@Test
+	void placeTileShouldThrowIfTileAlreadyPlaced(){
+		Placement placement = validFirstUpwardsPlacement();
+		board.placeTile(placement);
+		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, placement.getLocation().getRightNeighbor());
+		// lets assume the placement is legit...
+		when(placementValidator.isValidPlacement(any(), eq(duplicateTilePlacement))).thenReturn(true);
+
+		assertThatThrownBy(() -> board.placeTile(duplicateTilePlacement))
+				.isInstanceOf(IllegalPlacementException.class);
 	}
 
 	private static Placement someValidFirstPlacement() {

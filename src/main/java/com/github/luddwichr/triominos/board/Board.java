@@ -35,6 +35,9 @@ public class Board {
 		if (placements.isEmpty()) {
 			return isFirstTileLocationCentered(placement);
 		}
+		if (placements.values().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()))) {
+			return false;
+		}
 		return placementValidator.isValidPlacement(this::getPlacement, placement);
 	}
 

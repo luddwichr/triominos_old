@@ -34,12 +34,12 @@ class PlacementTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("providePlacementsForGetRightCorner")
+	@MethodSource("providePlacementsForValueOfRotatedCornerRight")
 	void getValueOfRotatedCornerRight(Placement placement, int expectedRightCorner) {
 		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(expectedRightCorner);
 	}
 
-	private static Stream<Arguments> providePlacementsForGetRightCorner() {
+	private static Stream<Arguments> providePlacementsForValueOfRotatedCornerRight() {
 		return Stream.of(
 				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), 3),
 				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), 2),
@@ -51,12 +51,12 @@ class PlacementTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("providePlacementsForGetLeftCorner")
+	@MethodSource("providePlacementsForValueOfRotatedCornerLeft")
 	void getValueOfRotatedCornerLeft(Placement placement, int expectedLeftCorner) {
 		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.LEFT)).isEqualTo(expectedLeftCorner);
 	}
 
-	private static Stream<Arguments> providePlacementsForGetLeftCorner() {
+	private static Stream<Arguments> providePlacementsForValueOfRotatedCornerLeft() {
 		return Stream.of(
 				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), 1),
 				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), 1),
@@ -68,12 +68,12 @@ class PlacementTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("providePlacementsForGetMiddleCorner")
+	@MethodSource("providePlacementsForValueOfRotatedCornerMiddle")
 	void getValueOfRotatedCornerMiddle(Placement placement, int expectedMiddleCorner) {
 		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(expectedMiddleCorner);
 	}
 
-	private static Stream<Arguments> providePlacementsForGetMiddleCorner() {
+	private static Stream<Arguments> providePlacementsForValueOfRotatedCornerMiddle() {
 		return Stream.of(
 				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), 2),
 				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), 3),

@@ -17,14 +17,14 @@ class PlacementTest {
 	private static final Tile tile = new Tile(1, 2, 3);
 
 	@Test
-	void getLocation() {
+	void getLocationYieldsPassedLocation() {
 		Location location = new Location(0, 0);
 		Placement placement = new Placement(tile, Orientation.ABC, location);
 		assertThat(placement.getLocation()).isSameAs(location);
 	}
 
 	@Test
-	void placementWithOrientationAndLocationFacingInDifferentDirection() {
+	void placementCreationShouldThrowIfOrientationAndLocationFaceInDifferentDirection() {
 		assertThatThrownBy(() -> new Placement(tile, Orientation.ABC, DOWN_LOCATION))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Orientation and location of placement do not face in the same direction!");
@@ -35,7 +35,7 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForValueOfRotatedCornerRight")
-	void getValueOfRotatedCornerRight(Placement placement, int expectedRightCorner) {
+	void getValueOfRotatedCornerShouldYieldCorrectValueForRightCorner(Placement placement, int expectedRightCorner) {
 		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(expectedRightCorner);
 	}
 
@@ -52,7 +52,7 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForValueOfRotatedCornerLeft")
-	void getValueOfRotatedCornerLeft(Placement placement, int expectedLeftCorner) {
+	void getValueOfRotatedCornerShouldYieldCorrectValueForLeftCorner(Placement placement, int expectedLeftCorner) {
 		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.LEFT)).isEqualTo(expectedLeftCorner);
 	}
 
@@ -69,7 +69,7 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForValueOfRotatedCornerMiddle")
-	void getValueOfRotatedCornerMiddle(Placement placement, int expectedMiddleCorner) {
+	void getValueOfRotatedCornerShouldYieldCorrectValueForMiddleCorner(Placement placement, int expectedMiddleCorner) {
 		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(expectedMiddleCorner);
 	}
 

@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TileTest {
 
 	@Test
-	void getValue() {
+	void getValueYieldsValueForGivenCorner() {
 		Tile tile = new Tile(1, 2, 3);
 		assertThat(tile.getValue(Corner.A)).isEqualTo(1);
 		assertThat(tile.getValue(Corner.B)).isEqualTo(2);
@@ -15,7 +15,7 @@ class TileTest {
 	}
 
 	@Test
-	void points() {
+	void pointsYieldsSumOfCornerValues() {
 		assertThat(new Tile(3, 2, 1).points()).isEqualTo(6);
 	}
 }

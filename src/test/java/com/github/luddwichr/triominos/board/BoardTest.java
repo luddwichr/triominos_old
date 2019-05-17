@@ -4,168 +4,153 @@ import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Orientation;
 import com.github.luddwichr.triominos.tile.Placement;
 import com.github.luddwichr.triominos.tile.Tile;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class BoardTest {
 
-	private final Board board = new Board();
+	private Board board;
+	private PlacementValidator placementValidator;
 
-	@Test
-	void placeTileWithInvalidPlacement() {
-		Board boardMock = mock(Board.class);
-		Placement placement = mock(Placement.class);
-		when(boardMock.isValidPlacement(placement)).thenReturn(false);
-		doCallRealMethod().when(boardMock).placeTile(placement);
-		assertThatThrownBy(() -> boardMock.placeTile(placement))
-				.isInstanceOf(IllegalPlacementException.class);
+	@BeforeEach
+	void setup() {
+		placementValidator = mock(PlacementValidator.class);
+		board = new Board(placementValidator);
 	}
 
 	@Test
-	void placeTileOnEmptyBoard() {
-		Placement placement = placementFacingUp(new Location(0, 0));
-		board.placeTile(placement);
-		assertThat(board.getTilePlacements()).containsExactly(placement);
+	void getPlacementsShouldYieldEmptyCollectionInitially() {
+		assertThat(board.getPlacements()).isEmpty();
 	}
 
 	@Test
-	void isValidPlacementWithTileFacingUpOnEmptyBoardAtCenterLocation() {
-		Placement placement = placementFacingUp(new Location(0, 0));
+	void getPlacementsShouldYieldUnmodifiableCollection() {
+		assertThatThrownBy(() -> board.getPlacements().add(someValidFirstPlacement()))
+				.isInstanceOf(UnsupportedOperationException.class);
+		assertThatThrownBy(() -> board.getPlacements().remove(someValidFirstPlacement()))
+				.isInstanceOf(UnsupportedOperationException.class);
+	}
+
+	@Test
+	void isValidPlacementShouldBeTrueIfFirstUpwardsFacingPlacementAtCenterLocation() {
+		Placement placement = validFirstUpwardsPlacement();
 		assertThat(board.isValidPlacement(placement)).isTrue();
 	}
 
 	@Test
-	void isValidPlacementWithTileFacingUpOnEmptyBoardAtNonCenterLocation() {
-		Placement placement = placementFacingUp(new Location(1, 1));
+	void placeTileShouldAddFirstUpwardsFacingPlacementAtCenterLocation() {
+		Placement placement = validFirstUpwardsPlacement();
+		board.placeTile(placement);
+		assertThat(board.getPlacements()).containsExactly(placement);
+	}
+
+	@Test
+	void isValidPlacementShouldBeFalseIfFirstUpwardsFacingPlacementAtNonCenterLocation() {
+		Placement placement = invalidFirstUpwardsPlacement();
 		assertThat(board.isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
-	void isValidPlacementWithTileFacingDownOnEmptyBoardAtCenterLocation() {
+	void placeTileShouldThrowIfFirstUpwardsFacingPlacementAtNonCenterLocation() {
+		Placement placement = invalidFirstUpwardsPlacement();
+		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
+	}
+
+	@Test
+	void isValidPlacementShouldBeTrueIfFirstDownwardsFacingPlacementAtCenterLocation() {
+		Placement placement = validFirstDownwardsPlacement();
+		assertThat(board.isValidPlacement(placement)).isTrue();
+	}
+
+	@Test
+	void placeTileShouldAddFirstDownwardsFacingPlacementAtCenterLocation() {
+		Placement placement = validFirstDownwardsPlacement();
+		board.placeTile(placement);
+		assertThat(board.getPlacements()).containsExactly(placement);
+	}
+
+	@Test
+	void isValidPlacementShouldBeFalseIfFirstDownwardsFacingPlacementAtNonCenterLocation() {
+		Placement placement = invalidFirstDownwardsPlacement();
+		assertThat(board.isValidPlacement(placement)).isFalse();
+	}
+
+	@Test
+	void placeTileShouldThrowIfFirstDownwardsFacingPlacementAtNonCenterLocation() {
+		Placement placement = invalidFirstDownwardsPlacement();
+		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
+	}
+
+	@Test
+	void placeTileShouldAddPlacementIfPlacementValidationSucceeds() {
+		Placement firstPlacement = someValidFirstPlacement();
+		board.placeTile(firstPlacement);
 		Placement placement = placementFacingDown(new Location(0, 1));
-		assertThat(board.isValidPlacement(placement)).isTrue();
-	}
+		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(true);
 
-	@Test
-	void isValidPlacementWithTileFacingDownOnEmptyBoardAtNonCenterLocation() {
-		Placement placement = placementFacingDown(new Location(0, 3));
-		assertThat(board.isValidPlacement(placement)).isFalse();
-	}
-
-	@Test
-	void isValidPlacementWithTileOnAlreadyExistingPlacement(){
-		Placement placement = placementFacingUp(new Location(0, 0));
 		board.placeTile(placement);
-		assertThat(board.isValidPlacement(placement)).isFalse();
+
+		assertThat(board.getPlacements()).containsExactlyInAnyOrder(placement, firstPlacement);
 	}
 
 	@Test
-	void placeTileNextToFirstTile() {
-		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
-		Placement secondPlacement = new Placement(new Tile(2, 3, 3), Orientation.ACB, new Location(0, 1));
-		board.placeTile(firstPlacement);
-		board.placeTile(secondPlacement);
-		assertThat(board.getTilePlacements()).containsExactlyInAnyOrder(firstPlacement, secondPlacement);
+	void placeTileShouldThrowIfPlacementValidationFails() {
+		board.placeTile(someValidFirstPlacement());
+		Placement placement = placementFacingDown(new Location(0, 1));
+		when(placementValidator.isValidPlacement(board::getPlacement, placement)).thenReturn(false);
+
+		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
 	}
 
 	@Test
-	void isValidPlacementWithNoAdjacentPlacement() {
-		Placement firstPlacement = placementFacingUp(new Location(0, 0));
-		Placement secondPlacement = placementFacingUp(new Location(1, 1));
-		board.placeTile(firstPlacement);
-		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
+	void isEmptyShouldBeTrueInitially() {
+		assertThat(board.isEmpty()).isTrue();
 	}
 
 	@Test
-	void isValidPlacementWithNonMatchingLeftEdge() {
-		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
-		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(0, 1));
-		board.placeTile(firstPlacement);
-		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
-
+	void isEmptyShouldBeFalseAfterFirstTileWasPlaced() {
+		board.placeTile(someValidFirstPlacement());
+		assertThat(board.isEmpty()).isFalse();
 	}
 
 	@Test
-	void isValidPlacementWithNonMatchingRightEdge() {
-		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
-		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(0, -1));
-		board.placeTile(firstPlacement);
-		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
+	void getPlacementShouldYieldEmptyIfNoPlacementAtGivenLocation() {
+		board.placeTile(validFirstUpwardsPlacement());
+		assertThat(board.getPlacement(new Location(0, -1))).isEmpty();
 	}
 
 	@Test
-	void isValidPlacementWithNonMatchingMiddleEdge() {
-		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, new Location(0, 0));
-		Placement secondPlacement = new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(-1, 0));
-		board.placeTile(firstPlacement);
-		assertThat(board.isValidPlacement(secondPlacement)).isFalse();
+	void getPlacementShouldYieldPlacementIfPlacementsAtGivenLocation() {
+		Placement placement = validFirstUpwardsPlacement();
+		board.placeTile(placement);
+		assertThat(board.getPlacement(new Location(0, 0))).get().isEqualTo(placement);
 	}
 
-	@Test
-	void isValidPlacementFormingHexagon() {
-		createIncompleteHexagon();
-		Placement placement = new Placement(new Tile(0, 3, 4), Orientation.BAC, new Location(0, -1));
-		assertThat(board.isValidPlacement(placement)).isTrue();
+	private static Placement someValidFirstPlacement() {
+		return placementFacingUp(new Location(0, 0));
 	}
 
-	@Test
-	void isValidPlacementFormingInvalidHexagon() {
-		createIncompleteHexagon();
-		Placement placement = new Placement(new Tile(0, 3, 5), Orientation.BAC, new Location(0, -1));
-		assertThat(board.isValidPlacement(placement)).isFalse();
+	private static Placement validFirstUpwardsPlacement() {
+		return placementFacingUp(new Location(0, 0));
 	}
 
-	private void createIncompleteHexagon() {
-		board.placeTile(new Placement(new Tile(0, 0, 4), Orientation.BCA, new Location(0, 0)));
-		board.placeTile(new Placement(new Tile(0, 0, 0), Orientation.ACB, new Location(-1, 0)));
-		board.placeTile(new Placement(new Tile(0, 0, 1), Orientation.CAB, new Location(-1, -1)));
-		board.placeTile(new Placement(new Tile(0, 1, 2), Orientation.CBA, new Location(-1, -2)));
-		board.placeTile(new Placement(new Tile(0, 2, 3), Orientation.BCA, new Location(0, -2)));
+	private static Placement validFirstDownwardsPlacement() {
+		return placementFacingDown(new Location(0, 1));
 	}
 
-	@Test
-	void isValidPlacementFormingBridgeMatchRightCorner() {
-		createIncompleteBridgeMissingRightCornerMatch();
-		Placement placement = new Placement(new Tile(3, 3, 4), Orientation.ABC, new Location(1, -1));
-		assertThat(board.isValidPlacement(placement)).isTrue();
+	private static Placement invalidFirstUpwardsPlacement() {
+		return placementFacingUp(new Location(1, 1));
 	}
 
-	@Test
-	void isValidPlacementFormingInvalidBridgeNotMatchingRightCorner() {
-		createIncompleteBridgeMissingRightCornerMatch();
-		Placement placement = new Placement(new Tile(3, 3, 5), Orientation.ABC, new Location(1, -1));
-		assertThat(board.isValidPlacement(placement)).isFalse();
-	}
-
-	private void createIncompleteBridgeMissingRightCornerMatch() {
-		createIncompleteHexagon();
-		board.placeTile(new Placement(new Tile(2, 2, 3), Orientation.BAC, new Location(0, -3)));
-		board.placeTile(new Placement(new Tile(2, 3, 3), Orientation.ABC, new Location(1, -3)));
-		board.placeTile(new Placement(new Tile(3, 3, 3), Orientation.ACB, new Location(1, -2)));
-	}
-
-	@Test
-	void isValidPlacementFormingBridgeMatchLeftCorner() {
-		createIncompleteBridgeMissingLeftCornerMatch();
-		Placement placement = new Placement(new Tile(3, 3, 4), Orientation.ABC, new Location(1, -1));
-		assertThat(board.isValidPlacement(placement)).isTrue();
-	}
-
-	@Test
-	void isValidPlacementFormingInvalidBridgeNotMatchingLeftCorner() {
-		createIncompleteBridgeMissingLeftCornerMatch();
-		Placement placement = new Placement(new Tile(5, 3, 4), Orientation.ABC, new Location(1, -1));
-		assertThat(board.isValidPlacement(placement)).isFalse();
-	}
-
-	private void createIncompleteBridgeMissingLeftCornerMatch() {
-		createIncompleteHexagon();
-		board.placeTile(new Placement(new Tile(0, 4, 4), Orientation.BAC, new Location(0, 1)));
-		board.placeTile(new Placement(new Tile(4, 4, 4), Orientation.ABC, new Location(1, 1)));
-		board.placeTile(new Placement(new Tile(3, 4, 4), Orientation.ACB, new Location(1, 0)));
+	private static Placement invalidFirstDownwardsPlacement() {
+		return placementFacingDown(new Location(0, -1));
 	}
 
 	private static Placement placementFacingUp(Location location) {

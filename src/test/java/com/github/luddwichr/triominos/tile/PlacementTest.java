@@ -17,14 +17,9 @@ class PlacementTest {
 	private static final Tile tile = new Tile(1, 2, 3);
 
 	@Test
-	void accessors() {
+	void getLocation() {
 		Location location = new Location(0, 0);
-		Orientation orientation = Orientation.ABC;
-
-		Placement placement = new Placement(tile, orientation, location);
-
-		assertThat(placement.getTile()).isSameAs(tile);
-		assertThat(placement.getOrientation()).isSameAs(orientation);
+		Placement placement = new Placement(tile, Orientation.ABC, location);
 		assertThat(placement.getLocation()).isSameAs(location);
 	}
 

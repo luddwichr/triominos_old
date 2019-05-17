@@ -19,14 +19,6 @@ public class Placement {
 		}
 	}
 
-	public Tile getTile() {
-		return tile;
-	}
-
-	public Orientation getOrientation() {
-		return orientation;
-	}
-
 	public Location getLocation() {
 		return location;
 	}

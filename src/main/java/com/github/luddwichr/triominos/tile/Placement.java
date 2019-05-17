@@ -23,28 +23,16 @@ public class Placement {
 		return location;
 	}
 
-	public Face getLeftFace() {
-		return orientation.isFacingUp() ? new Face(getLeftCorner(), getMiddleCorner()) : new Face(getMiddleCorner(), getLeftCorner());
+	public int getValueOfRotatedCorner(RotatedCorner rotatedCorner) {
+		switch (rotatedCorner) {
+			case LEFT:
+				return tile.getValue(orientation.getLeft());
+			case RIGHT:
+				return tile.getValue(orientation.getRight());
+			case MIDDLE:
+				return tile.getValue(orientation.getMiddle());
+			default:
+				throw new IllegalStateException("Unexpected value: " + rotatedCorner);
+		}
 	}
-
-	public Face getRightFace() {
-		return orientation.isFacingUp() ? new Face(getMiddleCorner(), getRightCorner()) : new Face(getRightCorner(), getMiddleCorner());
-	}
-
-	public Face getMiddleFace() {
-		return orientation.isFacingUp() ? new Face(getRightCorner(), getLeftCorner()) : new Face(getLeftCorner(), getRightCorner());
-	}
-
-	public int getLeftCorner() {
-		return tile.getValue(orientation.getLeft());
-	}
-
-	public int getMiddleCorner() {
-		return tile.getValue(orientation.getMiddle());
-	}
-
-	public int getRightCorner() {
-		return tile.getValue(orientation.getRight());
-	}
-
 }

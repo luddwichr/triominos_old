@@ -1,5 +1,6 @@
 package com.github.luddwichr.triominos.board;
 
+import com.github.luddwichr.triominos.tile.RotatedCorner;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Placement;
 
@@ -28,10 +29,7 @@ public class Board {
 		if (isNotAdjacentToExistingPlacement(placement)) {
 			return false;
 		}
-		if (!(leftNeighborFits(placement) && rightNeighborFits(placement) && middleNeighborFits(placement))) {
-			return false;
-		}
-		return rightCornerFits(placement) && leftCornerFits(placement) && middleCornerFits(placement);
+		return leftCornerFits(placement) && rightCornerFits(placement) && middleCornerFits(placement);
 	}
 
 	private boolean isFirstTileLocationCentered(Placement placement) {
@@ -48,68 +46,64 @@ public class Board {
 				&& !placements.containsKey(placement.getLocation().getMiddleNeighbor());
 	}
 
-	private boolean leftNeighborFits(Placement placement) {
-		return Optional.ofNullable(placements.get(placement.getLocation().getLeftNeighbor()))
-				.map(leftNeighbor -> leftNeighbor.getRightFace().matches(placement.getLeftFace()))
-				.orElse(true);
-	}
-
-	private boolean rightNeighborFits(Placement placement) {
-		return Optional.ofNullable(placements.get(placement.getLocation().getRightNeighbor()))
-				.map(rightNeighbor -> rightNeighbor.getLeftFace().matches(placement.getRightFace()))
-				.orElse(true);
-
-	}
-
-	private boolean middleNeighborFits(Placement placement) {
-		return Optional.ofNullable(placements.get(placement.getLocation().getMiddleNeighbor()))
-				.map(middleNeighbor -> middleNeighbor.getMiddleFace().matches(placement.getMiddleFace()))
-				.orElse(true);
-	}
-
 	private boolean rightCornerFits(Placement placement) {
-		// TODO: write test for all edge cases, refactor
-		int rightCorner = placement.getRightCorner();
-		Placement twoToTheRight = placements.get(placement.getLocation().getRightNeighbor().getRightNeighbor());
-		if (twoToTheRight != null && twoToTheRight.getLeftCorner() != rightCorner) {
+		int cornerValue = placement.getValueOfRotatedCorner(RotatedCorner.RIGHT);
+		Location location = placement.getLocation();
+		if (isNotMatchingCorner(location.getRightNeighbor(), RotatedCorner.MIDDLE, cornerValue)) {
 			return false;
 		}
-		Placement twoToTheRightOfMiddle = placements.get(placement.getLocation().getMiddleNeighbor().getRightNeighbor().getRightNeighbor());
-		if (twoToTheRightOfMiddle != null && twoToTheRightOfMiddle.getLeftCorner() != rightCorner) {
+		if (isNotMatchingCorner(location.getRightNeighbor().getRightNeighbor(), RotatedCorner.LEFT, cornerValue)) {
 			return false;
 		}
-		Placement oneToTheRightOfMiddle = placements.get(placement.getLocation().getMiddleNeighbor().getRightNeighbor());
-		return oneToTheRightOfMiddle == null || oneToTheRightOfMiddle.getMiddleCorner() == rightCorner;
+		if (isNotMatchingCorner(location.getMiddleNeighbor(), RotatedCorner.RIGHT, cornerValue)) {
+			return false;
+		}
+		if (isNotMatchingCorner(location.getMiddleNeighbor().getRightNeighbor(), RotatedCorner.MIDDLE, cornerValue)) {
+			return false;
+		}
+		return !isNotMatchingCorner(location.getMiddleNeighbor().getRightNeighbor().getRightNeighbor(), RotatedCorner.LEFT, cornerValue);
 	}
 
 	private boolean leftCornerFits(Placement placement) {
-		// TODO: write test for all edge cases, refactor
-		int leftCorner = placement.getLeftCorner();
-		Placement twoToTheLeft = placements.get(placement.getLocation().getLeftNeighbor().getLeftNeighbor());
-		if (twoToTheLeft != null && twoToTheLeft.getRightCorner() != leftCorner) {
+		int cornerValue = placement.getValueOfRotatedCorner(RotatedCorner.LEFT);
+		Location location = placement.getLocation();
+		if (isNotMatchingCorner(location.getLeftNeighbor(), RotatedCorner.MIDDLE, cornerValue)) {
 			return false;
 		}
-		Placement twoToTheLeftOfMiddle = placements.get(placement.getLocation().getMiddleNeighbor().getLeftNeighbor().getLeftNeighbor());
-		if (twoToTheLeftOfMiddle != null && twoToTheLeftOfMiddle.getRightCorner() != leftCorner) {
+		if (isNotMatchingCorner(location.getLeftNeighbor().getLeftNeighbor(), RotatedCorner.RIGHT, cornerValue)) {
 			return false;
 		}
-		Placement oneToTheLeftOfMiddle = placements.get(placement.getLocation().getMiddleNeighbor().getLeftNeighbor());
-		return oneToTheLeftOfMiddle == null || oneToTheLeftOfMiddle.getMiddleCorner() == leftCorner;
+		if (isNotMatchingCorner(location.getMiddleNeighbor(), RotatedCorner.LEFT, cornerValue)) {
+			return false;
+		}
+		if (isNotMatchingCorner(location.getMiddleNeighbor().getLeftNeighbor(), RotatedCorner.MIDDLE, cornerValue)) {
+			return false;
+		}
+		return !isNotMatchingCorner(location.getMiddleNeighbor().getLeftNeighbor().getLeftNeighbor(), RotatedCorner.RIGHT, cornerValue);
 	}
 
 	private boolean middleCornerFits(Placement placement) {
-		// TODO: write tests, refactor
-		int middleCorner = placement.getMiddleCorner();
-		Placement leftToOpposite = placements.get(placement.getLocation().getLeftNeighbor().getMiddleNeighbor());
-		if (leftToOpposite != null && leftToOpposite.getRightCorner() != middleCorner) {
+		int cornerValue = placement.getValueOfRotatedCorner(RotatedCorner.MIDDLE);
+		Location location = placement.getLocation();
+
+		if (isNotMatchingCorner(location.getLeftNeighbor(), RotatedCorner.RIGHT, cornerValue)) {
 			return false;
 		}
-		Placement rightToOpposite = placements.get(placement.getLocation().getRightNeighbor().getMiddleNeighbor());
-		if (rightToOpposite != null && rightToOpposite.getLeftCorner() != middleCorner) {
+		if (isNotMatchingCorner(location.getRightNeighbor(), RotatedCorner.LEFT, cornerValue)) {
 			return false;
 		}
-		Placement opposite = placements.get(placement.getLocation().getLeftNeighbor().getMiddleNeighbor().getRightNeighbor());
-		return opposite == null || opposite.getMiddleCorner() == middleCorner;
+		if (isNotMatchingCorner(location.getLeftNeighbor().getMiddleNeighbor().getRightNeighbor(), RotatedCorner.MIDDLE, cornerValue)) {
+			return false;
+		}
+		if (isNotMatchingCorner(location.getLeftNeighbor().getMiddleNeighbor(), RotatedCorner.RIGHT, cornerValue)) {
+			return false;
+		}
+		return !isNotMatchingCorner(location.getRightNeighbor().getMiddleNeighbor(), RotatedCorner.LEFT, cornerValue);
+	}
+
+	private boolean isNotMatchingCorner(Location location, RotatedCorner rotatedCorner, int value) {
+		Placement neighbor = placements.get(location);
+		return neighbor != null && neighbor.getValueOfRotatedCorner(rotatedCorner) != value;
 	}
 
 	public Collection<Placement> getTilePlacements() {

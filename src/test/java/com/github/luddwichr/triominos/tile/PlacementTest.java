@@ -34,61 +34,9 @@ class PlacementTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("providePlacementsForGetLeftFace")
-	void getLeftFace(Placement placement, Face expectedFace) {
-		assertThat(placement.getLeftFace()).isEqualTo(expectedFace);
-	}
-
-	private static Stream<Arguments> providePlacementsForGetLeftFace() {
-		return Stream.of(
-				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(1, 2)),
-				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), new Face(3, 1)),
-				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), new Face(3, 1)),
-				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), new Face(2, 3)),
-				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), new Face(2, 3)),
-				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), new Face(1, 2))
-		);
-	}
-
-	@ParameterizedTest
-	@MethodSource("providePlacementsForGetRightFace")
-	void getRightFace(Placement placement, Face expectedFace) {
-		assertThat(placement.getRightFace()).isEqualTo(expectedFace);
-	}
-
-	private static Stream<Arguments> providePlacementsForGetRightFace() {
-		Tile tile = new Tile(1, 2, 3);
-		return Stream.of(
-				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(2, 3)),
-				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), new Face(2, 3)),
-				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), new Face(1, 2)),
-				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), new Face(1, 2)),
-				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), new Face(3, 1)),
-				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), new Face(3, 1))
-		);
-	}
-
-	@ParameterizedTest
-	@MethodSource("providePlacementsForGetMiddleFace")
-	void getMiddleFace(Placement placement, Face expectedFace) {
-		assertThat(placement.getMiddleFace()).isEqualTo(expectedFace);
-	}
-
-	private static Stream<Arguments> providePlacementsForGetMiddleFace() {
-		return Stream.of(
-				Arguments.of(new Placement(tile, Orientation.ABC, UP_LOCATION), new Face(3, 1)),
-				Arguments.of(new Placement(tile, Orientation.ACB, DOWN_LOCATION), new Face(1, 2)),
-				Arguments.of(new Placement(tile, Orientation.CAB, UP_LOCATION), new Face(2, 3)),
-				Arguments.of(new Placement(tile, Orientation.CBA, DOWN_LOCATION), new Face(3, 1)),
-				Arguments.of(new Placement(tile, Orientation.BCA, UP_LOCATION), new Face(1, 2)),
-				Arguments.of(new Placement(tile, Orientation.BAC, DOWN_LOCATION), new Face(2, 3))
-		);
-	}
-
-	@ParameterizedTest
 	@MethodSource("providePlacementsForGetRightCorner")
-	void getRightCorner(Placement placement, int expectedRightCorner) {
-		assertThat(placement.getRightCorner()).isEqualTo(expectedRightCorner);
+	void getValueOfRotatedCornerRight(Placement placement, int expectedRightCorner) {
+		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(expectedRightCorner);
 	}
 
 	private static Stream<Arguments> providePlacementsForGetRightCorner() {
@@ -104,8 +52,8 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForGetLeftCorner")
-	void getLeftCorner(Placement placement, int expectedLeftCorner) {
-		assertThat(placement.getLeftCorner()).isEqualTo(expectedLeftCorner);
+	void getValueOfRotatedCornerLeft(Placement placement, int expectedLeftCorner) {
+		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.LEFT)).isEqualTo(expectedLeftCorner);
 	}
 
 	private static Stream<Arguments> providePlacementsForGetLeftCorner() {
@@ -121,8 +69,8 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForGetMiddleCorner")
-	void getMiddleCorner(Placement placement, int expectedMiddleCorner) {
-		assertThat(placement.getMiddleCorner()).isEqualTo(expectedMiddleCorner);
+	void getValueOfRotatedCornerMiddle(Placement placement, int expectedMiddleCorner) {
+		assertThat(placement.getValueOfRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(expectedMiddleCorner);
 	}
 
 	private static Stream<Arguments> providePlacementsForGetMiddleCorner() {

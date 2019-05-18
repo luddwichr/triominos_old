@@ -1,10 +1,8 @@
 package com.github.luddwichr.triominos.tile;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrientationTest {
 

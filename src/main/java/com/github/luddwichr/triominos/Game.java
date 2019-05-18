@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 public class Game {
 
     private List<Player> players;
-    private Pile pile = new Pile();
+    private final Pile pile = new Pile();
     private boolean ended = false;
 
     public Game(int numberOfPlayers) {

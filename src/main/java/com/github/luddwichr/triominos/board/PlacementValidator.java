@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class PlacementValidator {
 
-	private ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
+	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
 
 	public boolean isValidPlacement(PlacementAccessor placementAccessor, Placement placement) {
 		this.placementAccessor.set(placementAccessor);

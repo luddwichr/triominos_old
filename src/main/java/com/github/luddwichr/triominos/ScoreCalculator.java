@@ -17,75 +17,103 @@ public class ScoreCalculator {
 
 	public int getScore(Placement placement) {
 		int score = placement.getTile().points();
-		if (isCompletingHexagon(placement)) {
+		if (isCompletingHexagon(placement.getLocation())) {
 			score += HEXAGON_SCORE;
-		} else if (isCompletingBridge(placement)) {
+		} else if (isCompletingBridge(placement.getLocation())) {
 			score += BRIDGE_SCORE;
 		}
 		return score;
 	}
 
-	private boolean isCompletingHexagon(Placement placement) {
-		return hasFiveNeighborsAtMiddleCorner(placement)
-				|| hasFiveNeighborsAtRightCorner(placement)
-				|| hasFiveNeighborsAtLeftCorner(placement);
+	private boolean isCompletingHexagon(Location location) {
+		return hasFiveNeighborsAtMiddleCorner(location)
+				|| hasFiveNeighborsAtRightCorner(location)
+				|| hasFiveNeighborsAtLeftCorner(location);
 	}
 
-	private boolean hasFiveNeighborsAtMiddleCorner(Placement placement) {
-		boolean hasRightNeighbor = placementAccessor.getPlacement(placement.getLocation().getRightNeighbor()).isPresent();
-		boolean hasLeftNeighbor = placementAccessor.getPlacement(placement.getLocation().getLeftNeighbor()).isPresent();
-		Location oppositeLocation = placement.getLocation().getLeftNeighbor().getMiddleNeighbor().getRightNeighbor();
-		boolean hasOppositeNeighbor = placementAccessor.getPlacement(oppositeLocation).isPresent();
-		boolean hasLeftToOppositeNeighbor = placementAccessor.getPlacement(oppositeLocation.getLeftNeighbor()).isPresent();
-		boolean hasRightToOppositeNeighbor = placementAccessor.getPlacement(oppositeLocation.getRightNeighbor()).isPresent();
-		return hasRightNeighbor && hasLeftNeighbor && hasOppositeNeighbor && hasLeftToOppositeNeighbor && hasRightToOppositeNeighbor;
+	private boolean hasFiveNeighborsAtMiddleCorner(Location location) {
+		return hasRightNeighbor(location) && hasLeftNeighbor(location) && hasOppositeNeighbor(location)
+				&& hasLeftToOppositeNeighbor(location) && hasRightToOppositeNeighbor(location);
 	}
 
-	private boolean hasFiveNeighborsAtRightCorner(Placement placement) {
-		boolean hasRightNeighbor = placementAccessor.getPlacement(placement.getLocation().getRightNeighbor()).isPresent();
-		boolean hasFarRightNeighbor = placementAccessor.getPlacement(placement.getLocation().getRightNeighbor().getRightNeighbor()).isPresent();
-		boolean hasMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor()).isPresent();
-		boolean hasRightToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getRightNeighbor()).isPresent();
-		boolean hasFarRightToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getRightNeighbor().getRightNeighbor()).isPresent();
-		return hasRightNeighbor && hasFarRightNeighbor && hasMiddleNeighbor && hasRightToMiddleNeighbor && hasFarRightToMiddleNeighbor;
+	private boolean hasFiveNeighborsAtRightCorner(Location location) {
+		return hasRightNeighbor(location) && hasFarRightNeighbor(location) && hasMiddleNeighbor(location)
+				&& hasRightToMiddleNeighbor(location) && hasFarRightToMiddleNeighbor(location);
 	}
 
-	private boolean hasFiveNeighborsAtLeftCorner(Placement placement) {
-		boolean hasLeftNeighbor = placementAccessor.getPlacement(placement.getLocation().getLeftNeighbor()).isPresent();
-		boolean hasFarLeftNeighbor = placementAccessor.getPlacement(placement.getLocation().getLeftNeighbor().getLeftNeighbor()).isPresent();
-		boolean hasMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor()).isPresent();
-		boolean hasLeftToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getLeftNeighbor()).isPresent();
-		boolean hasFarLeftToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getLeftNeighbor().getLeftNeighbor()).isPresent();
-		return hasLeftNeighbor && hasFarLeftNeighbor && hasMiddleNeighbor && hasLeftToMiddleNeighbor && hasFarLeftToMiddleNeighbor;
+	private boolean hasFiveNeighborsAtLeftCorner(Location location) {
+		return hasLeftNeighbor(location) && hasFarLeftNeighbor(location) && hasMiddleNeighbor(location)
+				&& hasLeftToMiddleNeighbor(location) && hasFarLeftToMiddleNeighbor(location);
 	}
 
-	private boolean isCompletingBridge(Placement placement) {
+	private boolean isCompletingBridge(Location placement) {
 		return isCompletingBridgeAtLeftCorner(placement)
 				|| isCompletingBridgeAtRightCorner(placement)
 				|| isCompletingBridgeAtMiddleCorner(placement);
 	}
 
-	private boolean isCompletingBridgeAtLeftCorner(Placement placement) {
-		boolean hasFarLeftNeighbor = placementAccessor.getPlacement(placement.getLocation().getLeftNeighbor().getLeftNeighbor()).isPresent();
-		boolean hasLeftToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getLeftNeighbor()).isPresent();
-		boolean hasFarLeftToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getLeftNeighbor().getLeftNeighbor()).isPresent();
-		return hasFarLeftNeighbor || hasLeftToMiddleNeighbor || hasFarLeftToMiddleNeighbor;
+	private boolean isCompletingBridgeAtLeftCorner(Location location) {
+		return hasFarLeftNeighbor(location) || hasLeftToMiddleNeighbor(location) || hasFarLeftToMiddleNeighbor(location);
 	}
 
-	private boolean isCompletingBridgeAtRightCorner(Placement placement) {
-		boolean hasFarRightNeighbor = placementAccessor.getPlacement(placement.getLocation().getRightNeighbor().getRightNeighbor()).isPresent();
-		boolean hasRightToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getRightNeighbor()).isPresent();
-		boolean hasFarRightToMiddleNeighbor = placementAccessor.getPlacement(placement.getLocation().getMiddleNeighbor().getRightNeighbor().getRightNeighbor()).isPresent();
-
-		return hasFarRightNeighbor || hasRightToMiddleNeighbor|| hasFarRightToMiddleNeighbor;
+	private boolean isCompletingBridgeAtRightCorner(Location location) {
+		return hasFarRightNeighbor(location) || hasRightToMiddleNeighbor(location) || hasFarRightToMiddleNeighbor(location);
 	}
 
-	private boolean isCompletingBridgeAtMiddleCorner(Placement placement) {
-		Location oppositeLocation = placement.getLocation().getLeftNeighbor().getMiddleNeighbor().getRightNeighbor();
-		boolean hasOppositeNeighbor = placementAccessor.getPlacement(oppositeLocation).isPresent();
-		boolean hasLeftToOppositeNeighbor = placementAccessor.getPlacement(oppositeLocation.getLeftNeighbor()).isPresent();
-		boolean hasRightToOppositeNeighbor = placementAccessor.getPlacement(oppositeLocation.getRightNeighbor()).isPresent();
-		return hasOppositeNeighbor || hasLeftToOppositeNeighbor || hasRightToOppositeNeighbor;
+	private boolean isCompletingBridgeAtMiddleCorner(Location location) {
+		return hasOppositeNeighbor(location) || hasLeftToOppositeNeighbor(location) || hasRightToOppositeNeighbor(location);
+	}
+
+	private boolean hasOppositeNeighbor(Location location) {
+		return placementAccessor.getPlacement(oppositeLocation(location)).isPresent();
+	}
+
+	private boolean hasRightToOppositeNeighbor(Location location) {
+		return placementAccessor.getPlacement(oppositeLocation(location).getRightNeighbor()).isPresent();
+	}
+
+	private boolean hasLeftToOppositeNeighbor(Location location) {
+		return placementAccessor.getPlacement(oppositeLocation(location).getLeftNeighbor()).isPresent();
+	}
+
+	private Location oppositeLocation(Location location) {
+		return location.getLeftNeighbor().getMiddleNeighbor().getRightNeighbor();
+	}
+
+	private boolean hasMiddleNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getMiddleNeighbor()).isPresent();
+	}
+
+	private boolean hasLeftNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getLeftNeighbor()).isPresent();
+	}
+
+	private boolean hasRightNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getRightNeighbor()).isPresent();
+	}
+
+	private boolean hasFarRightNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getRightNeighbor().getRightNeighbor()).isPresent();
+	}
+
+	private boolean hasRightToMiddleNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getMiddleNeighbor().getRightNeighbor()).isPresent();
+	}
+
+	private boolean hasFarRightToMiddleNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getMiddleNeighbor().getRightNeighbor().getRightNeighbor()).isPresent();
+	}
+
+	private boolean hasFarLeftToMiddleNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getMiddleNeighbor().getLeftNeighbor().getLeftNeighbor()).isPresent();
+	}
+
+	private boolean hasLeftToMiddleNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getMiddleNeighbor().getLeftNeighbor()).isPresent();
+	}
+
+	private boolean hasFarLeftNeighbor(Location location) {
+		return placementAccessor.getPlacement(location.getLeftNeighbor().getLeftNeighbor()).isPresent();
 	}
 
 }

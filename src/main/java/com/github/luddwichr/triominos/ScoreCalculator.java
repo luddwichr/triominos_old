@@ -53,15 +53,15 @@ public class ScoreCalculator {
 	}
 
 	private boolean isCompletingBridgeAtLeftCorner(Location location) {
-		return hasFarLeftNeighbor(location) || hasLeftToMiddleNeighbor(location) || hasFarLeftToMiddleNeighbor(location);
+		return hasFarLeftNeighbor(location) && hasRightNeighbor(location);
 	}
 
 	private boolean isCompletingBridgeAtRightCorner(Location location) {
-		return hasFarRightNeighbor(location) || hasRightToMiddleNeighbor(location) || hasFarRightToMiddleNeighbor(location);
+		return hasFarRightNeighbor(location) && hasLeftNeighbor(location);
 	}
 
 	private boolean isCompletingBridgeAtMiddleCorner(Location location) {
-		return hasOppositeNeighbor(location) || hasLeftToOppositeNeighbor(location) || hasRightToOppositeNeighbor(location);
+		return hasMiddleNeighbor(location) && hasOppositeNeighbor(location);
 	}
 
 	private boolean hasOppositeNeighbor(Location location) {

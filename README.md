@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.com/luddwichr/triominos.svg?branch=master)](https://travis-ci.org/luddwichr/triominos)
+[![codecov](https://codecov.io/gh/luddwichr/triominos/branch/master/graph/badge.svg)](https://codecov.io/gh/luddwichr/triominos)
+[![Maintainability](https://api.codeclimate.com/v1/badges/23a9728a83310e36f54f/maintainability)](https://codeclimate.com/github/luddwichr/triominos/maintainability)
+
 *Note: Triominos is a game marketed and sold by Pressman Toy Corporation.
 In no way does this project intend to take away any rights that Pressman has regarding the trademark Triominos.*
 

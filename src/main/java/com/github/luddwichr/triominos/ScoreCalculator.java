@@ -65,19 +65,15 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasOppositeNeighbor(Location location) {
-		return isPlacementExisting(oppositeLocation(location));
+		return isPlacementExisting(location.getOppositeNeighbor());
 	}
 
 	private boolean hasRightToOppositeNeighbor(Location location) {
-		return isPlacementExisting(oppositeLocation(location).getRightNeighbor());
+		return isPlacementExisting(location.getOppositeNeighbor().getRightNeighbor());
 	}
 
 	private boolean hasLeftToOppositeNeighbor(Location location) {
-		return isPlacementExisting(oppositeLocation(location).getLeftNeighbor());
-	}
-
-	private Location oppositeLocation(Location location) {
-		return location.getLeftNeighbor().getMiddleNeighbor().getRightNeighbor();
+		return isPlacementExisting(location.getOppositeNeighbor().getLeftNeighbor());
 	}
 
 	private boolean hasMiddleNeighbor(Location location) {
@@ -93,7 +89,7 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasFarRightNeighbor(Location location) {
-		return isPlacementExisting(location.getRightNeighbor().getRightNeighbor());
+		return isPlacementExisting(location.getFarRightNeighbor());
 	}
 
 	private boolean hasRightToMiddleNeighbor(Location location) {
@@ -101,11 +97,11 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasFarRightToMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor().getRightNeighbor().getRightNeighbor());
+		return isPlacementExisting(location.getMiddleNeighbor().getFarRightNeighbor());
 	}
 
 	private boolean hasFarLeftToMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor().getLeftNeighbor().getLeftNeighbor());
+		return isPlacementExisting(location.getMiddleNeighbor().getFarLeftNeighbor());
 	}
 
 	private boolean hasLeftToMiddleNeighbor(Location location) {
@@ -113,7 +109,7 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasFarLeftNeighbor(Location location) {
-		return isPlacementExisting(location.getLeftNeighbor().getLeftNeighbor());
+		return isPlacementExisting(location.getFarLeftNeighbor());
 	}
 
 	private boolean isPlacementExisting(Location location) {

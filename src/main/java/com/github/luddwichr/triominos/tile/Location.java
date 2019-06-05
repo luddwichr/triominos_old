@@ -47,4 +47,16 @@ public class Location {
 	public Location getMiddleNeighbor() {
 		return new Location(row + (isFacingUp() ? - 1 : 1), column);
 	}
+
+	public Location getOppositeNeighbor() {
+		return new Location(row + (isFacingUp() ? 1 : -1), column);
+	}
+
+	public Location getFarRightNeighbor() {
+		return new Location(row, column + 2);
+	}
+
+	public Location getFarLeftNeighbor() {
+		return new Location(row, column - 2);
+	}
 }

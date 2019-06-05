@@ -35,10 +35,14 @@ public class Board {
 		if (placements.isEmpty()) {
 			return isFirstTileLocationCentered(placement);
 		}
-		if (placements.values().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()))) {
+		if (isTileAlreadyPlaced(placement)) {
 			return false;
 		}
 		return placementValidator.isValidPlacement(this::getPlacement, placement);
+	}
+
+	private boolean isTileAlreadyPlaced(Placement placement) {
+		return placements.values().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()));
 	}
 
 	private boolean isFirstTileLocationCentered(Placement placement) {

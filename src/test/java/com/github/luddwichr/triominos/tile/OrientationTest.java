@@ -18,32 +18,32 @@ class OrientationTest {
 
 	@Test
 	void getLeft() {
-		assertThat(Orientation.ABC.getRotatedCorner(RotatedCorner.LEFT)).isEqualTo(Corner.A);
-		assertThat(Orientation.ACB.getRotatedCorner(RotatedCorner.LEFT)).isEqualTo(Corner.A);
-		assertThat(Orientation.CAB.getRotatedCorner(RotatedCorner.LEFT)).isEqualTo(Corner.C);
-		assertThat(Orientation.CBA.getRotatedCorner(RotatedCorner.LEFT)).isEqualTo(Corner.C);
-		assertThat(Orientation.BCA.getRotatedCorner(RotatedCorner.LEFT)).isEqualTo(Corner.B);
-		assertThat(Orientation.BAC.getRotatedCorner(RotatedCorner.LEFT)).isEqualTo(Corner.B);
+		assertThat(Orientation.ABC.getRotatedCorner(Corner.LEFT)).isEqualTo(Corner.LEFT);
+		assertThat(Orientation.ACB.getRotatedCorner(Corner.LEFT)).isEqualTo(Corner.LEFT);
+		assertThat(Orientation.CAB.getRotatedCorner(Corner.LEFT)).isEqualTo(Corner.RIGHT);
+		assertThat(Orientation.CBA.getRotatedCorner(Corner.LEFT)).isEqualTo(Corner.RIGHT);
+		assertThat(Orientation.BCA.getRotatedCorner(Corner.LEFT)).isEqualTo(Corner.MIDDLE);
+		assertThat(Orientation.BAC.getRotatedCorner(Corner.LEFT)).isEqualTo(Corner.MIDDLE);
 	}
 
 	@Test
 	void getRight() {
-		assertThat(Orientation.ABC.getRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(Corner.C);
-		assertThat(Orientation.ACB.getRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(Corner.B);
-		assertThat(Orientation.CAB.getRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(Corner.B);
-		assertThat(Orientation.CBA.getRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(Corner.A);
-		assertThat(Orientation.BCA.getRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(Corner.A);
-		assertThat(Orientation.BAC.getRotatedCorner(RotatedCorner.RIGHT)).isEqualTo(Corner.C);
+		assertThat(Orientation.ABC.getRotatedCorner(Corner.RIGHT)).isEqualTo(Corner.RIGHT);
+		assertThat(Orientation.ACB.getRotatedCorner(Corner.RIGHT)).isEqualTo(Corner.MIDDLE);
+		assertThat(Orientation.CAB.getRotatedCorner(Corner.RIGHT)).isEqualTo(Corner.MIDDLE);
+		assertThat(Orientation.CBA.getRotatedCorner(Corner.RIGHT)).isEqualTo(Corner.LEFT);
+		assertThat(Orientation.BCA.getRotatedCorner(Corner.RIGHT)).isEqualTo(Corner.LEFT);
+		assertThat(Orientation.BAC.getRotatedCorner(Corner.RIGHT)).isEqualTo(Corner.RIGHT);
 	}
 
 	@Test
 	void getMiddle() {
-		assertThat(Orientation.ABC.getRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(Corner.B);
-		assertThat(Orientation.ACB.getRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(Corner.C);
-		assertThat(Orientation.CAB.getRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(Corner.A);
-		assertThat(Orientation.CBA.getRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(Corner.B);
-		assertThat(Orientation.BCA.getRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(Corner.C);
-		assertThat(Orientation.BAC.getRotatedCorner(RotatedCorner.MIDDLE)).isEqualTo(Corner.A);
+		assertThat(Orientation.ABC.getRotatedCorner(Corner.MIDDLE)).isEqualTo(Corner.MIDDLE);
+		assertThat(Orientation.ACB.getRotatedCorner(Corner.MIDDLE)).isEqualTo(Corner.RIGHT);
+		assertThat(Orientation.CAB.getRotatedCorner(Corner.MIDDLE)).isEqualTo(Corner.LEFT);
+		assertThat(Orientation.CBA.getRotatedCorner(Corner.MIDDLE)).isEqualTo(Corner.MIDDLE);
+		assertThat(Orientation.BCA.getRotatedCorner(Corner.MIDDLE)).isEqualTo(Corner.RIGHT);
+		assertThat(Orientation.BAC.getRotatedCorner(Corner.MIDDLE)).isEqualTo(Corner.LEFT);
 	}
 
 }

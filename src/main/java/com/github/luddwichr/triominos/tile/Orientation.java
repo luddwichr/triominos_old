@@ -4,20 +4,20 @@ import java.util.EnumMap;
 
 public enum Orientation {
 
-	ABC(Corner.A, Corner.B, Corner.C, true),
-	ACB(Corner.A, Corner.C, Corner.B, false),
-	CAB(Corner.C, Corner.A, Corner.B, true),
-	CBA(Corner.C, Corner.B, Corner.A, false),
-	BCA(Corner.B, Corner.C, Corner.A, true),
-	BAC(Corner.B, Corner.A, Corner.C, false);
+	ABC(Corner.LEFT, Corner.MIDDLE, Corner.RIGHT, true),
+	ACB(Corner.LEFT, Corner.RIGHT, Corner.MIDDLE, false),
+	CAB(Corner.RIGHT, Corner.LEFT, Corner.MIDDLE, true),
+	CBA(Corner.RIGHT, Corner.MIDDLE, Corner.LEFT, false),
+	BCA(Corner.MIDDLE, Corner.RIGHT, Corner.LEFT, true),
+	BAC(Corner.MIDDLE, Corner.LEFT, Corner.RIGHT, false);
 
-	private final EnumMap<RotatedCorner, Corner> corners = new EnumMap<>(RotatedCorner.class);
+	private final EnumMap<Corner, Corner> corners = new EnumMap<>(Corner.class);
 	private final boolean isFacingUp;
 
 	Orientation(Corner left, Corner middle, Corner right, boolean isFacingUp) {
-		corners.put(RotatedCorner.LEFT, left);
-		corners.put(RotatedCorner.MIDDLE, middle);
-		corners.put(RotatedCorner.RIGHT, right);
+		corners.put(Corner.LEFT, left);
+		corners.put(Corner.MIDDLE, middle);
+		corners.put(Corner.RIGHT, right);
 		this.isFacingUp = isFacingUp;
 	}
 
@@ -25,7 +25,7 @@ public enum Orientation {
 		return isFacingUp;
 	}
 
-	public Corner getRotatedCorner(RotatedCorner rotatedCorner) {
-		return corners.get(rotatedCorner);
+	public Corner getRotatedCorner(Corner corner) {
+		return corners.get(corner);
 	}
 }

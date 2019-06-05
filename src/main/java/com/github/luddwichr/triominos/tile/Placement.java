@@ -23,8 +23,8 @@ public class Placement {
 		return location;
 	}
 
-	public int getValueOfRotatedCorner(RotatedCorner rotatedCorner) {
-		return tile.getValue(orientation.getRotatedCorner(rotatedCorner));
+	public int getRotatedNumber(Corner corner) {
+		return tile.getNumber(orientation.getRotatedCorner(corner));
 	}
 
 	public Tile getTile() {

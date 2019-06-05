@@ -3,29 +3,29 @@ package com.github.luddwichr.triominos.tile;
 import java.util.EnumMap;
 
 /*
- *      b
- *     / \
- *    /   \
- *   /     \
- *  a-------c
+ *        middle
+ *         / \
+ *        /   \
+ *       /     \
+ *  left ------- right
  *
  */
 public class Tile {
 
-	private final EnumMap<Corner, Integer> values = new EnumMap<>(Corner.class);
+	private final EnumMap<Corner, Integer> cornerNumbers = new EnumMap<>(Corner.class);
 
-	public Tile(int a, int b, int c) {
-		values.put(Corner.A, a);
-		values.put(Corner.B, b);
-		values.put(Corner.C, c);
+	public Tile(int leftCornerNumber, int middleCornerNumber, int rightCornerNumber) {
+		cornerNumbers.put(Corner.LEFT, leftCornerNumber);
+		cornerNumbers.put(Corner.MIDDLE, middleCornerNumber);
+		cornerNumbers.put(Corner.RIGHT, rightCornerNumber);
 	}
 
-	public int getValue(Corner corner) {
-		return values.get(corner);
+	public int getNumber(Corner corner) {
+		return cornerNumbers.get(corner);
 	}
 
 	public int points() {
-		return values.get(Corner.A) + values.get(Corner.B) + values.get(Corner.C);
+		return cornerNumbers.get(Corner.LEFT) + cornerNumbers.get(Corner.MIDDLE) + cornerNumbers.get(Corner.RIGHT);
 	}
 
 }

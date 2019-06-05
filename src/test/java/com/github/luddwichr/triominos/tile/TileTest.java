@@ -9,9 +9,9 @@ class TileTest {
 	@Test
 	void getValueYieldsValueForGivenCorner() {
 		Tile tile = new Tile(1, 2, 3);
-		assertThat(tile.getValue(Corner.A)).isEqualTo(1);
-		assertThat(tile.getValue(Corner.B)).isEqualTo(2);
-		assertThat(tile.getValue(Corner.C)).isEqualTo(3);
+		assertThat(tile.getNumber(Corner.LEFT)).isEqualTo(1);
+		assertThat(tile.getNumber(Corner.MIDDLE)).isEqualTo(2);
+		assertThat(tile.getNumber(Corner.RIGHT)).isEqualTo(3);
 	}
 
 	@Test

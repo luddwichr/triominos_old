@@ -1,5 +1,6 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.pile.Pile;
 import com.github.luddwichr.triominos.tile.Tile;
 
 import java.util.Collections;

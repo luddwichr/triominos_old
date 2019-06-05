@@ -1,16 +1,12 @@
-package com.github.luddwichr.triominos;
+package com.github.luddwichr.triominos.pile;
 
 import com.github.luddwichr.triominos.tile.Tile;
-import com.github.luddwichr.triominos.tile.TileSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Pile {
-
-	public static class EmptyPileException extends RuntimeException {
-	}
 
 	private final List<Tile> pile;
 

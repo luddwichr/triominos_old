@@ -1,6 +1,7 @@
 package com.github.luddwichr.triominos;
 
-import com.github.luddwichr.triominos.tile.TileSet;
+import com.github.luddwichr.triominos.pile.Pile;
+import com.github.luddwichr.triominos.pile.TileSet;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;

@@ -1,4 +1,6 @@
-package com.github.luddwichr.triominos.tile;
+package com.github.luddwichr.triominos.pile;
+
+import com.github.luddwichr.triominos.tile.Tile;
 
 import java.util.Collections;
 import java.util.HashSet;

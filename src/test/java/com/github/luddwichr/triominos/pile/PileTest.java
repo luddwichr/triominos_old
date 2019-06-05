@@ -1,7 +1,6 @@
-package com.github.luddwichr.triominos;
+package com.github.luddwichr.triominos.pile;
 
 import com.github.luddwichr.triominos.tile.Tile;
-import com.github.luddwichr.triominos.tile.TileSet;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -43,6 +42,6 @@ class PileTest {
 	@Test
 	void drawRandomTileFromEmptyPileThrows() {
 		tileSet.forEach(tile -> pile.drawRandomTile());
-		assertThatThrownBy(pile::drawRandomTile).isInstanceOf(Pile.EmptyPileException.class);
+		assertThatThrownBy(pile::drawRandomTile).isInstanceOf(EmptyPileException.class);
 	}
 }

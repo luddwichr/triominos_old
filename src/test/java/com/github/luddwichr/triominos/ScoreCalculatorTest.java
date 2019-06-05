@@ -6,6 +6,7 @@ import com.github.luddwichr.triominos.tile.Orientation;
 import com.github.luddwichr.triominos.tile.Placement;
 import com.github.luddwichr.triominos.tile.Tile;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -79,6 +80,7 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
+	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtMiddleCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, new Location(0, 0));
 		when(placementAccessor.getPlacement(eq(new Location(1, 1)))).thenReturn(existingPlacementResponse());
@@ -89,6 +91,7 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
+	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtLeftCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, new Location(0, 0));
 		when(placementAccessor.getPlacement(eq(new Location(0, -2)))).thenReturn(existingPlacementResponse());
@@ -99,6 +102,7 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
+	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtRightCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, new Location(0, 0));
 		when(placementAccessor.getPlacement(eq(new Location(0, 2)))).thenReturn(existingPlacementResponse());

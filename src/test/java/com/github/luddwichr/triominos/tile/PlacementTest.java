@@ -35,7 +35,7 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForRotatedNumberRightCorner")
-	void getRotatedNumberShouldYieldCorrectValueForRightCorner(Placement placement, int expectedRightCorner) {
+	void getRotatedNumberShouldYieldCorrectNumberForRightCorner(Placement placement, int expectedRightCorner) {
 		assertThat(placement.getRotatedNumber(Corner.RIGHT)).isEqualTo(expectedRightCorner);
 	}
 
@@ -52,7 +52,7 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForRotatedNumberLeftCorner")
-	void getRotatedNumberShouldYieldCorrectValueForLeftCorner(Placement placement, int expectedLeftCorner) {
+	void getRotatedNumberShouldYieldCorrectNumberForLeftCorner(Placement placement, int expectedLeftCorner) {
 		assertThat(placement.getRotatedNumber(Corner.LEFT)).isEqualTo(expectedLeftCorner);
 	}
 
@@ -69,7 +69,7 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForRotatedNumberMiddleCorner")
-	void getRotatedNumberShouldYieldCorrectValueForMiddleCorner(Placement placement, int expectedMiddleCorner) {
+	void getRotatedNumberShouldYieldCorrectNumberForMiddleCorner(Placement placement, int expectedMiddleCorner) {
 		assertThat(placement.getRotatedNumber(Corner.MIDDLE)).isEqualTo(expectedMiddleCorner);
 	}
 

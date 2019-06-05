@@ -5,6 +5,7 @@ import com.github.luddwichr.triominos.tile.Placement;
 
 import java.util.Optional;
 
+@FunctionalInterface
 public interface PlacementAccessor {
 	Optional<Placement> getPlacement(Location location);
 }

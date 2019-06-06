@@ -92,7 +92,7 @@ class BoardTest {
 	void placeTileShouldAddPlacementIfPlacementValidationSucceeds() {
 		Placement firstPlacement = someValidFirstPlacement();
 		board.placeTile(firstPlacement);
-		Placement placement = placementFacingDown(new Location(0, 1));
+		Placement placement = placementFacingDown(Location.at(0, 1));
 		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(true);
 
 		board.placeTile(placement);
@@ -103,7 +103,7 @@ class BoardTest {
 	@Test
 	void placeTileShouldThrowIfPlacementValidationFails() {
 		board.placeTile(someValidFirstPlacement());
-		Placement placement = placementFacingDown(new Location(0, 1));
+		Placement placement = placementFacingDown(Location.at(0, 1));
 		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(false);
 
 		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
@@ -123,14 +123,14 @@ class BoardTest {
 	@Test
 	void getPlacementShouldYieldEmptyIfNoPlacementAtGivenLocation() {
 		board.placeTile(validFirstUpwardsPlacement());
-		assertThat(board.getPlacement(new Location(0, -1))).isEmpty();
+		assertThat(board.getPlacement(Location.at(0, -1))).isEmpty();
 	}
 
 	@Test
 	void getPlacementShouldYieldPlacementIfPlacementsAtGivenLocation() {
 		Placement placement = validFirstUpwardsPlacement();
 		board.placeTile(placement);
-		assertThat(board.getPlacement(new Location(0, 0))).get().isEqualTo(placement);
+		assertThat(board.getPlacement(Location.at(0, 0))).get().isEqualTo(placement);
 	}
 
 	@Test
@@ -157,23 +157,23 @@ class BoardTest {
 	}
 
 	private static Placement someValidFirstPlacement() {
-		return placementFacingUp(new Location(0, 0));
+		return placementFacingUp(Location.at(0, 0));
 	}
 
 	private static Placement validFirstUpwardsPlacement() {
-		return placementFacingUp(new Location(0, 0));
+		return placementFacingUp(Location.at(0, 0));
 	}
 
 	private static Placement validFirstDownwardsPlacement() {
-		return placementFacingDown(new Location(0, 1));
+		return placementFacingDown(Location.at(0, 1));
 	}
 
 	private static Placement invalidFirstUpwardsPlacement() {
-		return placementFacingUp(new Location(1, 1));
+		return placementFacingUp(Location.at(1, 1));
 	}
 
 	private static Placement invalidFirstDownwardsPlacement() {
-		return placementFacingDown(new Location(0, -1));
+		return placementFacingDown(Location.at(0, -1));
 	}
 
 	private static Placement placementFacingUp(Location location) {

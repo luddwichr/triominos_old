@@ -7,8 +7,8 @@ import java.util.*;
 
 public class Board {
 
-	private static final Location UP_CENTER_TILE_LOCATION = new Location(0, 0);
-	private static final Location DOWN_CENTER_TILE_LOCATION = new Location(0, 1);
+	private static final Location UP_CENTER_TILE_LOCATION = Location.at(0, 0);
+	private static final Location DOWN_CENTER_TILE_LOCATION = Location.at(0, 1);
 	private final Map<Location, Placement> placements = new HashMap<>();
 	private final PlacementValidator placementValidator;
 

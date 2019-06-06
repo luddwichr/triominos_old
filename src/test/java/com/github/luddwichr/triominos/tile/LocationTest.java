@@ -14,7 +14,7 @@ class LocationTest {
 
 	@Test
 	void constructorAndAccessors() {
-		Location location = new Location(1, 2);
+		Location location = Location.at(1, 2);
 		assertThat(location.getRow()).isEqualTo(1);
 		assertThat(location.getColumn()).isEqualTo(2);
 	}
@@ -27,15 +27,15 @@ class LocationTest {
 
 	private static Stream<Arguments> provideLocationsForIsFacingUp() {
 		return Stream.of(
-				Arguments.of(new Location(0, 0), true),
-				Arguments.of(new Location(0, 1), false),
-				Arguments.of(new Location(0, 2), true),
-				Arguments.of(new Location(0, -1), false),
-				Arguments.of(new Location(0, -2), true),
-				Arguments.of(new Location(1, 0), false),
-				Arguments.of(new Location(1, 1), true),
-				Arguments.of(new Location(-1, 0), false),
-				Arguments.of(new Location(-1, -1), true)
+				Arguments.of(Location.at(0, 0), true),
+				Arguments.of(Location.at(0, 1), false),
+				Arguments.of(Location.at(0, 2), true),
+				Arguments.of(Location.at(0, -1), false),
+				Arguments.of(Location.at(0, -2), true),
+				Arguments.of(Location.at(1, 0), false),
+				Arguments.of(Location.at(1, 1), true),
+				Arguments.of(Location.at(-1, 0), false),
+				Arguments.of(Location.at(-1, -1), true)
 		);
 	}
 
@@ -46,26 +46,26 @@ class LocationTest {
 
 	@Test
 	void getLeftNeighbor() {
-		Location location = new Location(0, 0);
-		assertThat(location.getLeftNeighbor()).isEqualTo(new Location(0, -1));
+		Location location = Location.at(0, 0);
+		assertThat(location.getLeftNeighbor()).isEqualTo(Location.at(0, -1));
 	}
 
 	@Test
 	void getRightNeighbor() {
-		Location location = new Location(0, 0);
-		assertThat(location.getRightNeighbor()).isEqualTo(new Location(0, 1));
+		Location location = Location.at(0, 0);
+		assertThat(location.getRightNeighbor()).isEqualTo(Location.at(0, 1));
 	}
 
 	@Test
 	void getMiddleNeighborForUpFacingLocation() {
-		Location location = new Location(0, 0);
-		assertThat(location.getMiddleNeighbor()).isEqualTo(new Location(-1, 0));
+		Location location = Location.at(0, 0);
+		assertThat(location.getMiddleNeighbor()).isEqualTo(Location.at(-1, 0));
 	}
 
 	@Test
 	void getMiddleNeighborForDownFacingLocation() {
-		Location location = new Location(-1, 0);
-		assertThat(location.getMiddleNeighbor()).isEqualTo(new Location(0, 0));
+		Location location = Location.at(-1, 0);
+		assertThat(location.getMiddleNeighbor()).isEqualTo(Location.at(0, 0));
 	}
 
 }

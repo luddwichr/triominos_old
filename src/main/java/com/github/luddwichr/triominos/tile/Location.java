@@ -6,7 +6,11 @@ public class Location {
 	private final int row;
 	private final int column;
 
-	public Location(int row, int column) {
+	public static Location at(int row, int column) {
+		return new Location(row, column);
+	}
+
+	private Location(int row, int column) {
 		this.row = row;
 		this.column = column;
 	}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500" font-size="12">
+    <!-- tile -->
+    <g transform="translate(30, 30)">
+        <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="2"/>
+        <text x="60" y="80" fill="blue">Tile</text>
+    </g>
+
+    <!-- numbers -->
+    <g transform="translate(270, 30)">
+        <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="2"/>
+        <text transform="translate(10, -5)" x="0" y="123" fill="red">1</text>
+        <text transform="translate(-3, 20)" x="71" y="0" fill="red">2</text>
+        <text transform="translate(-18, -5)" x="142" y="123" fill="red">3</text>
+        <text x="50" y="80" fill="blue">Number</text>
+    </g>
+
+    <!-- up/down facing -->
+
+    <g transform="translate(30, 180)">
+        <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="2"/>
+        <text x="45" y="80" fill="blue">Up-Facing</text>
+    </g>
+
+    <g transform="translate(270, 180)">
+        <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="2"/>
+        <text x="35" y="50" fill="blue">Down-Facing</text>
+    </g>
+
+    <!-- corners -->
+    <g transform="translate(30, 350)">
+        <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="2"/>
+        <text transform="translate(-30, 5)" x="0" y="123" fill="red">Left</text>
+        <text transform="translate(-20, -10)" x="71" y="0" fill="red">Middle</text>
+        <text transform="translate(10, 5)" x="142" y="123" fill="red">Right</text>
+        <text x="50" y="70" fill="blue">Corner</text>
+    </g>
+
+    <g transform="translate(270, 335)">
+        <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="2"/>
+        <text transform="translate(-30, 5)" x="0" y="0" fill="red">Left</text>
+        <text transform="translate(-20, 20)" x="71" y="123" fill="red">Middle</text>
+        <text transform="translate(10, 5)" x="142" y="0" fill="red">Right</text>
+        <text x="50" y="60" fill="blue">Corner</text>
+    </g>
+</svg>

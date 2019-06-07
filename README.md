@@ -82,6 +82,7 @@ A placement is valid if:
 - the tile orientation and location are facing in the same direction 
 - it is the first placement and the location is either *(0/0)* or *(1/0)*
 - no other tile has been placed at the location yet
+- the same tile has not been played yet
 - it has at least one existing **adjacent placement**, i.e. a tile is already placed at its left, middle, or right neighbor location
 - for each existing adjacent placement, the edges match accordingly
 

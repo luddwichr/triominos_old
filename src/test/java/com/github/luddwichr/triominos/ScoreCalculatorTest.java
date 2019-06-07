@@ -50,6 +50,7 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
+	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtRightCorner() {
 		Placement placement = new Placement(new Tile(2, 1, 0), Orientation.ACB, Location.at(0, -1));
 		when(placementAccessor.getPlacement(eq(Location.at(0, 0)))).thenReturn(existingPlacementResponse());
@@ -80,7 +81,6 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
-	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtMiddleCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
 		when(placementAccessor.getPlacement(eq(Location.at(1, 1)))).thenReturn(existingPlacementResponse());
@@ -91,7 +91,6 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
-	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtLeftCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
 		when(placementAccessor.getPlacement(eq(Location.at(0, -2)))).thenReturn(existingPlacementResponse());
@@ -102,7 +101,6 @@ class ScoreCalculatorTest {
 	}
 
 	@Test
-	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtRightCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
 		when(placementAccessor.getPlacement(eq(Location.at(0, 2)))).thenReturn(existingPlacementResponse());

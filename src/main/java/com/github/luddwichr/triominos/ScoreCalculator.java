@@ -17,6 +17,12 @@ public class ScoreCalculator {
 			EnumSet.of(Neighbor.RIGHT, Neighbor.FAR_RIGHT, Neighbor.MIDDLE, Neighbor.RIGHT_TO_MIDDLE, Neighbor.FAR_RIGHT_TO_MIDDLE);
 	private static final EnumSet<Neighbor> LEFT_CORNER_NEIGHBORS =
 			EnumSet.of(Neighbor.LEFT, Neighbor.FAR_LEFT, Neighbor.MIDDLE, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
+	private static final EnumSet<Neighbor> NON_ADJACENT_LEFT_CORNER_NEIGHBORS =
+			EnumSet.of(Neighbor.FAR_LEFT, Neighbor.FAR_LEFT_TO_MIDDLE, Neighbor.LEFT_TO_MIDDLE);
+	private static final EnumSet<Neighbor> NON_ADJACENT_RIGHT_CORNER_NEIGHBORS =
+			EnumSet.of(Neighbor.FAR_RIGHT, Neighbor.FAR_RIGHT_TO_MIDDLE, Neighbor.RIGHT_TO_MIDDLE);
+	private static final EnumSet<Neighbor> NON_ADJACENT_MIDDLE_CORNER_NEIGHBORS =
+			EnumSet.of(Neighbor.OPPOSITE, Neighbor.LEFT_TO_OPPOSITE, Neighbor.RIGHT_TO_OPPOSITE);
 
 	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
 
@@ -53,21 +59,22 @@ public class ScoreCalculator {
 	}
 
 	private boolean isCompletingBridge(Location placement) {
+		// TODO: correctly implement detection of bridges
 		return isCompletingBridgeAtLeftCorner(placement)
 				|| isCompletingBridgeAtRightCorner(placement)
 				|| isCompletingBridgeAtMiddleCorner(placement);
 	}
 
 	private boolean isCompletingBridgeAtLeftCorner(Location location) {
-		return hasNeighbor(Neighbor.FAR_LEFT, location) && hasNeighbor(Neighbor.RIGHT, location);
+		return hasAllNeighbors(location, NON_ADJACENT_LEFT_CORNER_NEIGHBORS);
 	}
 
 	private boolean isCompletingBridgeAtRightCorner(Location location) {
-		return hasNeighbor(Neighbor.FAR_RIGHT, location) && hasNeighbor(Neighbor.LEFT, location);
+		return hasAllNeighbors(location, NON_ADJACENT_RIGHT_CORNER_NEIGHBORS);
 	}
 
 	private boolean isCompletingBridgeAtMiddleCorner(Location location) {
-		return hasNeighbor(Neighbor.MIDDLE, location) && hasNeighbor(Neighbor.OPPOSITE, location);
+		return hasAllNeighbors(location, NON_ADJACENT_MIDDLE_CORNER_NEIGHBORS);
 	}
 
 	private boolean hasAllNeighbors(Location location, EnumSet<Neighbor> neighbors) {

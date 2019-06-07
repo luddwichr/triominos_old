@@ -44,28 +44,4 @@ class LocationTest {
 		EqualsVerifier.forClass(Location.class).verify();
 	}
 
-	@Test
-	void getLeftNeighbor() {
-		Location location = Location.at(0, 0);
-		assertThat(location.getLeftNeighbor()).isEqualTo(Location.at(0, -1));
-	}
-
-	@Test
-	void getRightNeighbor() {
-		Location location = Location.at(0, 0);
-		assertThat(location.getRightNeighbor()).isEqualTo(Location.at(0, 1));
-	}
-
-	@Test
-	void getMiddleNeighborForUpFacingLocation() {
-		Location location = Location.at(0, 0);
-		assertThat(location.getMiddleNeighbor()).isEqualTo(Location.at(-1, 0));
-	}
-
-	@Test
-	void getMiddleNeighborForDownFacingLocation() {
-		Location location = Location.at(-1, 0);
-		assertThat(location.getMiddleNeighbor()).isEqualTo(Location.at(0, 0));
-	}
-
 }

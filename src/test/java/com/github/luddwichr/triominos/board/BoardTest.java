@@ -1,9 +1,6 @@
 package com.github.luddwichr.triominos.board;
 
-import com.github.luddwichr.triominos.tile.Location;
-import com.github.luddwichr.triominos.tile.Orientation;
-import com.github.luddwichr.triominos.tile.Placement;
-import com.github.luddwichr.triominos.tile.Tile;
+import com.github.luddwichr.triominos.tile.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -137,7 +134,7 @@ class BoardTest {
 	void isValidPlacementShouldYieldFalseIfTileAlreadyPlaced(){
 		Placement placement = validFirstUpwardsPlacement();
 		board.placeTile(placement);
-		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, placement.getLocation().getRightNeighbor());
+		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));
 		// lets assume the placement is legit...
 		when(placementValidator.isValidPlacement(any(), eq(duplicateTilePlacement))).thenReturn(true);
 
@@ -148,7 +145,7 @@ class BoardTest {
 	void placeTileShouldThrowIfTileAlreadyPlaced(){
 		Placement placement = validFirstUpwardsPlacement();
 		board.placeTile(placement);
-		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, placement.getLocation().getRightNeighbor());
+		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));
 		// lets assume the placement is legit...
 		when(placementValidator.isValidPlacement(any(), eq(duplicateTilePlacement))).thenReturn(true);
 

@@ -2,12 +2,21 @@ package com.github.luddwichr.triominos;
 
 import com.github.luddwichr.triominos.board.PlacementAccessor;
 import com.github.luddwichr.triominos.tile.Location;
+import com.github.luddwichr.triominos.tile.Neighbor;
 import com.github.luddwichr.triominos.tile.Placement;
+
+import java.util.EnumSet;
 
 public class ScoreCalculator {
 
 	private static final int HEXAGON_SCORE = 50;
 	private static final int BRIDGE_SCORE = 40;
+	private static final EnumSet<Neighbor> MIDDLE_CORNER_NEIGHBORS =
+			EnumSet.of(Neighbor.RIGHT, Neighbor.LEFT, Neighbor.OPPOSITE, Neighbor.LEFT_TO_OPPOSITE, Neighbor.RIGHT_TO_OPPOSITE);
+	private static final EnumSet<Neighbor> RIGHT_CORNER_NEIGHBORS =
+			EnumSet.of(Neighbor.RIGHT, Neighbor.FAR_RIGHT, Neighbor.MIDDLE, Neighbor.RIGHT_TO_MIDDLE, Neighbor.FAR_RIGHT_TO_MIDDLE);
+	private static final EnumSet<Neighbor> LEFT_CORNER_NEIGHBORS =
+			EnumSet.of(Neighbor.LEFT, Neighbor.FAR_LEFT, Neighbor.MIDDLE, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
 
 	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
 
@@ -32,18 +41,15 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasFiveNeighborsAtMiddleCorner(Location location) {
-		return hasRightNeighbor(location) && hasLeftNeighbor(location) && hasOppositeNeighbor(location)
-				&& hasLeftToOppositeNeighbor(location) && hasRightToOppositeNeighbor(location);
+		return hasAllNeighbors(location, MIDDLE_CORNER_NEIGHBORS);
 	}
 
 	private boolean hasFiveNeighborsAtRightCorner(Location location) {
-		return hasRightNeighbor(location) && hasFarRightNeighbor(location) && hasMiddleNeighbor(location)
-				&& hasRightToMiddleNeighbor(location) && hasFarRightToMiddleNeighbor(location);
+		return hasAllNeighbors(location, RIGHT_CORNER_NEIGHBORS);
 	}
 
 	private boolean hasFiveNeighborsAtLeftCorner(Location location) {
-		return hasLeftNeighbor(location) && hasFarLeftNeighbor(location) && hasMiddleNeighbor(location)
-				&& hasLeftToMiddleNeighbor(location) && hasFarLeftToMiddleNeighbor(location);
+		return hasAllNeighbors(location, LEFT_CORNER_NEIGHBORS);
 	}
 
 	private boolean isCompletingBridge(Location placement) {
@@ -53,67 +59,23 @@ public class ScoreCalculator {
 	}
 
 	private boolean isCompletingBridgeAtLeftCorner(Location location) {
-		return hasFarLeftNeighbor(location) && hasRightNeighbor(location);
+		return hasNeighbor(Neighbor.FAR_LEFT, location) && hasNeighbor(Neighbor.RIGHT, location);
 	}
 
 	private boolean isCompletingBridgeAtRightCorner(Location location) {
-		return hasFarRightNeighbor(location) && hasLeftNeighbor(location);
+		return hasNeighbor(Neighbor.FAR_RIGHT, location) && hasNeighbor(Neighbor.LEFT, location);
 	}
 
 	private boolean isCompletingBridgeAtMiddleCorner(Location location) {
-		return hasMiddleNeighbor(location) && hasOppositeNeighbor(location);
+		return hasNeighbor(Neighbor.MIDDLE, location) && hasNeighbor(Neighbor.OPPOSITE, location);
 	}
 
-	private boolean hasOppositeNeighbor(Location location) {
-		return isPlacementExisting(location.getOppositeNeighbor());
+	private boolean hasAllNeighbors(Location location, EnumSet<Neighbor> neighbors) {
+		return neighbors.stream().allMatch(neighbor -> hasNeighbor(neighbor, location));
 	}
 
-	private boolean hasRightToOppositeNeighbor(Location location) {
-		return isPlacementExisting(location.getOppositeNeighbor().getRightNeighbor());
-	}
-
-	private boolean hasLeftToOppositeNeighbor(Location location) {
-		return isPlacementExisting(location.getOppositeNeighbor().getLeftNeighbor());
-	}
-
-	private boolean hasMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor());
-	}
-
-	private boolean hasLeftNeighbor(Location location) {
-		return isPlacementExisting(location.getLeftNeighbor());
-	}
-
-	private boolean hasRightNeighbor(Location location) {
-		return isPlacementExisting(location.getRightNeighbor());
-	}
-
-	private boolean hasFarRightNeighbor(Location location) {
-		return isPlacementExisting(location.getFarRightNeighbor());
-	}
-
-	private boolean hasRightToMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor().getRightNeighbor());
-	}
-
-	private boolean hasFarRightToMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor().getFarRightNeighbor());
-	}
-
-	private boolean hasFarLeftToMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor().getFarLeftNeighbor());
-	}
-
-	private boolean hasLeftToMiddleNeighbor(Location location) {
-		return isPlacementExisting(location.getMiddleNeighbor().getLeftNeighbor());
-	}
-
-	private boolean hasFarLeftNeighbor(Location location) {
-		return isPlacementExisting(location.getFarLeftNeighbor());
-	}
-
-	private boolean isPlacementExisting(Location location) {
-		return placementAccessor.get().getPlacement(location).isPresent();
+	private boolean hasNeighbor(Neighbor neighbor, Location location) {
+		return placementAccessor.get().getPlacement(neighbor.relativeTo(location)).isPresent();
 	}
 
 }

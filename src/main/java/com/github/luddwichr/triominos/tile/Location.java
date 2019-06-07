@@ -40,27 +40,4 @@ public class Location {
 		return (row + column) % 2 == 0;
 	}
 
-	public Location getRightNeighbor() {
-		return new Location(row, column + 1);
-	}
-
-	public Location getLeftNeighbor() {
-		return new Location(row, column - 1);
-	}
-
-	public Location getMiddleNeighbor() {
-		return new Location(row + (isFacingUp() ? - 1 : 1), column);
-	}
-
-	public Location getOppositeNeighbor() {
-		return new Location(row + (isFacingUp() ? 1 : -1), column);
-	}
-
-	public Location getFarRightNeighbor() {
-		return new Location(row, column + 2);
-	}
-
-	public Location getFarLeftNeighbor() {
-		return new Location(row, column - 2);
-	}
 }

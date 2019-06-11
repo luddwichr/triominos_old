@@ -17,12 +17,6 @@ public class ScoreCalculator {
 			EnumSet.of(Neighbor.RIGHT, Neighbor.FAR_RIGHT, Neighbor.MIDDLE, Neighbor.RIGHT_TO_MIDDLE, Neighbor.FAR_RIGHT_TO_MIDDLE);
 	private static final EnumSet<Neighbor> LEFT_CORNER_NEIGHBORS =
 			EnumSet.of(Neighbor.LEFT, Neighbor.FAR_LEFT, Neighbor.MIDDLE, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
-	private static final EnumSet<Neighbor> NON_ADJACENT_LEFT_CORNER_NEIGHBORS =
-			EnumSet.of(Neighbor.FAR_LEFT, Neighbor.FAR_LEFT_TO_MIDDLE, Neighbor.LEFT_TO_MIDDLE);
-	private static final EnumSet<Neighbor> NON_ADJACENT_RIGHT_CORNER_NEIGHBORS =
-			EnumSet.of(Neighbor.FAR_RIGHT, Neighbor.FAR_RIGHT_TO_MIDDLE, Neighbor.RIGHT_TO_MIDDLE);
-	private static final EnumSet<Neighbor> NON_ADJACENT_MIDDLE_CORNER_NEIGHBORS =
-			EnumSet.of(Neighbor.OPPOSITE, Neighbor.LEFT_TO_OPPOSITE, Neighbor.RIGHT_TO_OPPOSITE);
 
 	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
 
@@ -58,27 +52,44 @@ public class ScoreCalculator {
 		return hasAllNeighbors(location, LEFT_CORNER_NEIGHBORS);
 	}
 
-	private boolean isCompletingBridge(Location placement) {
-		// TODO: correctly implement detection of bridges
-		return isCompletingBridgeAtLeftCorner(placement)
-				|| isCompletingBridgeAtRightCorner(placement)
-				|| isCompletingBridgeAtMiddleCorner(placement);
-	}
-
-	private boolean isCompletingBridgeAtLeftCorner(Location location) {
-		return hasAllNeighbors(location, NON_ADJACENT_LEFT_CORNER_NEIGHBORS);
-	}
-
-	private boolean isCompletingBridgeAtRightCorner(Location location) {
-		return hasAllNeighbors(location, NON_ADJACENT_RIGHT_CORNER_NEIGHBORS);
-	}
-
-	private boolean isCompletingBridgeAtMiddleCorner(Location location) {
-		return hasAllNeighbors(location, NON_ADJACENT_MIDDLE_CORNER_NEIGHBORS);
-	}
-
 	private boolean hasAllNeighbors(Location location, EnumSet<Neighbor> neighbors) {
 		return neighbors.stream().allMatch(neighbor -> hasNeighbor(neighbor, location));
+	}
+
+	private boolean isCompletingBridge(Location location) {
+		int directNeighbors = numberOfDirectNeighbors(location);
+
+		return directNeighbors < 3 && hasAnyNeighborAtMiddleCorner(location) && hasAnyNeighborAtRightCorner(location) && hasAnyNeighborAtLeftCorner(location);
+	}
+
+	private boolean hasAnyNeighborAtMiddleCorner(Location location) {
+		return hasAnyNeighbor(location, MIDDLE_CORNER_NEIGHBORS);
+	}
+
+	private boolean hasAnyNeighborAtRightCorner(Location location) {
+		return hasAnyNeighbor(location, RIGHT_CORNER_NEIGHBORS);
+	}
+
+	private boolean hasAnyNeighborAtLeftCorner(Location location) {
+		return hasAnyNeighbor(location, LEFT_CORNER_NEIGHBORS);
+	}
+
+	private int numberOfDirectNeighbors(Location location) {
+		int directNeighbors = 0;
+		if (hasNeighbor(Neighbor.LEFT, location)) {
+			directNeighbors++;
+		}
+		if (hasNeighbor(Neighbor.RIGHT, location)) {
+			directNeighbors++;
+		}
+		if (hasNeighbor(Neighbor.MIDDLE, location)) {
+			directNeighbors++;
+		}
+		return directNeighbors;
+	}
+
+	private boolean hasAnyNeighbor(Location location, EnumSet<Neighbor> neighbors) {
+		return neighbors.stream().anyMatch(neighbor -> hasNeighbor(neighbor, location));
 	}
 
 	private boolean hasNeighbor(Neighbor neighbor, Location location) {

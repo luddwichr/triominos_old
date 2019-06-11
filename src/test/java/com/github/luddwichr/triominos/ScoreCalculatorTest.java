@@ -1,30 +1,30 @@
 package com.github.luddwichr.triominos;
 
-import com.github.luddwichr.triominos.board.PlacementAccessor;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Orientation;
 import com.github.luddwichr.triominos.tile.Placement;
 import com.github.luddwichr.triominos.tile.Tile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class ScoreCalculatorTest {
 
-	private ScoreCalculator scoreCalculator;
-	private PlacementAccessor placementAccessor;
+	private ScoreCalculator scoreCalculator = new ScoreCalculator(this::getPlacement);
+	private Set<Location> locationsWithPlacement = new HashSet<>();
 
-	@BeforeEach
-	void setup() {
-		placementAccessor = mock(PlacementAccessor.class);
-		scoreCalculator = new ScoreCalculator(placementAccessor);
+	private void setLocationsWithPlacement(Location ...locations) {
+		Collections.addAll(locationsWithPlacement, locations);
+	}
+
+	private Optional<Placement> getPlacement(Location location) {
+		return locationsWithPlacement.stream().anyMatch(location::equals) ? Optional.of(mock(Placement.class)) : Optional.empty();
 	}
 
 	@Test
@@ -37,55 +37,45 @@ class ScoreCalculatorTest {
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtMiddleCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		when(placementAccessor.getPlacement(eq(Location.at(0, 1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(12);
-		when(placementAccessor.getPlacement(eq(Location.at(0, -1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(12);
-		when(placementAccessor.getPlacement(eq(Location.at(1, 1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(12);
-		when(placementAccessor.getPlacement(eq(Location.at(1, 0)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(12);
-		when(placementAccessor.getPlacement(eq(Location.at(1, -1)))).thenReturn(existingPlacementResponse());
+		setLocationsWithPlacement(
+				Location.at(0, 1),
+				Location.at(0, -1),
+				Location.at(1, 1),
+				Location.at(1, 0),
+				Location.at(1, -1));
 		assertThat(scoreCalculator.getScore(placement)).isEqualTo(62);
 	}
 
 	@Test
-	@Disabled
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtRightCorner() {
 		Placement placement = new Placement(new Tile(2, 1, 0), Orientation.ACB, Location.at(0, -1));
-		when(placementAccessor.getPlacement(eq(Location.at(0, 0)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
-		when(placementAccessor.getPlacement(eq(Location.at(0, 1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
-		when(placementAccessor.getPlacement(eq(Location.at(1, 1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
-		when(placementAccessor.getPlacement(eq(Location.at(1, 0)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
-		when(placementAccessor.getPlacement(eq(Location.at(1, -1)))).thenReturn(existingPlacementResponse());
+		setLocationsWithPlacement(
+				Location.at(0, 0),
+				Location.at(0, 1),
+				Location.at(1, 1),
+				Location.at(1, 0),
+				Location.at(1, -1));
 		assertThat(scoreCalculator.getScore(placement)).isEqualTo(53);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtLeftCorner() {
 		Placement placement = new Placement(new Tile(3, 4, 2), Orientation.ACB, Location.at(0, 1));
-		when(placementAccessor.getPlacement(eq(Location.at(0, 0)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(9);
-		when(placementAccessor.getPlacement(eq(Location.at(0, -1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(9);
-		when(placementAccessor.getPlacement(eq(Location.at(1, 1)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(9);
-		when(placementAccessor.getPlacement(eq(Location.at(1, 0)))).thenReturn(existingPlacementResponse());
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(9);
-		when(placementAccessor.getPlacement(eq(Location.at(1, -1)))).thenReturn(existingPlacementResponse());
+		setLocationsWithPlacement(
+				Location.at(0, 0),
+				Location.at(0, -1),
+				Location.at(1, 1),
+				Location.at(1, 0),
+				Location.at(1, -1));
 		assertThat(scoreCalculator.getScore(placement)).isEqualTo(59);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtMiddleCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		when(placementAccessor.getPlacement(eq(Location.at(1, 1)))).thenReturn(existingPlacementResponse());
-		when(placementAccessor.getPlacement(eq(Location.at(1, 0)))).thenReturn(existingPlacementResponse());
-		when(placementAccessor.getPlacement(eq(Location.at(1, -1)))).thenReturn(existingPlacementResponse());
+		setLocationsWithPlacement(
+				Location.at(0, 1),
+				Location.at(0, -2));
 		int score = scoreCalculator.getScore(placement);
 		assertThat(score).isEqualTo(52);
 	}
@@ -93,9 +83,9 @@ class ScoreCalculatorTest {
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtLeftCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		when(placementAccessor.getPlacement(eq(Location.at(0, -2)))).thenReturn(existingPlacementResponse());
-		when(placementAccessor.getPlacement(eq(Location.at(-1, -2)))).thenReturn(existingPlacementResponse());
-		when(placementAccessor.getPlacement(eq(Location.at(-1, -1)))).thenReturn(existingPlacementResponse());
+		setLocationsWithPlacement(
+				Location.at(0, 1),
+				Location.at(0, -2));
 		int score = scoreCalculator.getScore(placement);
 		assertThat(score).isEqualTo(52);
 	}
@@ -103,14 +93,11 @@ class ScoreCalculatorTest {
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtRightCorner() {
 		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		when(placementAccessor.getPlacement(eq(Location.at(0, 2)))).thenReturn(existingPlacementResponse());
-		when(placementAccessor.getPlacement(eq(Location.at(-1, 2)))).thenReturn(existingPlacementResponse());
-		when(placementAccessor.getPlacement(eq(Location.at(-1, 1)))).thenReturn(existingPlacementResponse());
+		setLocationsWithPlacement(
+				Location.at(-1, 0),
+				Location.at(1, 0));
 		int score = scoreCalculator.getScore(placement);
 		assertThat(score).isEqualTo(52);
 	}
 
-	private static Optional<Placement> existingPlacementResponse() {
-		return Optional.of(mock(Placement.class));
-	}
 }

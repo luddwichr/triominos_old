@@ -19,7 +19,7 @@ class ScoreCalculatorTest {
 	private ScoreCalculator scoreCalculator = new ScoreCalculator(this::getPlacement);
 	private Set<Location> locationsWithPlacement = new HashSet<>();
 
-	private void setLocationsWithPlacement(Location ...locations) {
+	private void addLocationsWithPlacement(Location... locations) {
 		Collections.addAll(locationsWithPlacement, locations);
 	}
 
@@ -30,74 +30,80 @@ class ScoreCalculatorTest {
 	@Test
 	void getScoreShouldReturnPointsOfRegularPlacedTile() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		int score = scoreCalculator.getScore(placement);
-		assertThat(score).isEqualTo(6);
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(6);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtMiddleCorner() {
-		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		setLocationsWithPlacement(
-				Location.at(0, 1),
-				Location.at(0, -1),
-				Location.at(1, 1),
-				Location.at(1, 0),
-				Location.at(1, -1));
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(62);
+		Placement placement = new Placement(new Tile(3, 2, 1), Orientation.ABC, Location.at(0, 0));
+
+		addLocationsWithPlacement(Location.at(0, 1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(6);
+		addLocationsWithPlacement(Location.at(0, -1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(6);
+		addLocationsWithPlacement(Location.at(1, 1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(6);
+		addLocationsWithPlacement(Location.at(1, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(6);
+		addLocationsWithPlacement(Location.at(1, -1));
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(56);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtRightCorner() {
-		Placement placement = new Placement(new Tile(2, 1, 0), Orientation.ACB, Location.at(0, -1));
-		setLocationsWithPlacement(
-				Location.at(0, 0),
-				Location.at(0, 1),
-				Location.at(1, 1),
-				Location.at(1, 0),
-				Location.at(1, -1));
+		Placement placement = new Placement(new Tile(0, 1, 2), Orientation.ACB, Location.at(0, -1));
+
+		addLocationsWithPlacement(Location.at(0, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(0, 1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(1, 1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(1, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(1, -1));
+
 		assertThat(scoreCalculator.getScore(placement)).isEqualTo(53);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus50PointsForCompletedHexagonAtLeftCorner() {
-		Placement placement = new Placement(new Tile(3, 4, 2), Orientation.ACB, Location.at(0, 1));
-		setLocationsWithPlacement(
-				Location.at(0, 0),
-				Location.at(0, -1),
-				Location.at(1, 1),
-				Location.at(1, 0),
-				Location.at(1, -1));
-		assertThat(scoreCalculator.getScore(placement)).isEqualTo(59);
+		Placement placement = new Placement(new Tile(2, 1, 0), Orientation.ACB, Location.at(0, 1));
+
+		addLocationsWithPlacement(Location.at(0, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(0, -1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(1, 1));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(1, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(3);
+		addLocationsWithPlacement(Location.at(1, -1));
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(53);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtMiddleCorner() {
-		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		setLocationsWithPlacement(
-				Location.at(0, 1),
-				Location.at(0, -2));
-		int score = scoreCalculator.getScore(placement);
-		assertThat(score).isEqualTo(52);
+		addLocationsWithPlacement(Location.at(0, 1), Location.at(0, -2));
+		Placement placement = new Placement(new Tile(1, 1, 1), Orientation.ABC, Location.at(0, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(43);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtLeftCorner() {
-		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		setLocationsWithPlacement(
-				Location.at(0, 1),
-				Location.at(0, -2));
-		int score = scoreCalculator.getScore(placement);
-		assertThat(score).isEqualTo(52);
+		addLocationsWithPlacement(Location.at(0, 1), Location.at(0, -2));
+		Placement placement = new Placement(new Tile(2, 2, 2), Orientation.ABC, Location.at(0, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(46);
 	}
 
 	@Test
 	void getScoreShouldReturnPointsOfTilePlus40PointsForCompletedBridgeAtRightCorner() {
-		Placement placement = new Placement(new Tile(5, 4, 3), Orientation.ABC, Location.at(0, 0));
-		setLocationsWithPlacement(
-				Location.at(-1, 0),
-				Location.at(1, 0));
-		int score = scoreCalculator.getScore(placement);
-		assertThat(score).isEqualTo(52);
+		addLocationsWithPlacement(Location.at(-1, 0), Location.at(1, 0));
+		Placement placement = new Placement(new Tile(3, 3, 3), Orientation.ABC, Location.at(0, 0));
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(49);
 	}
 
 }

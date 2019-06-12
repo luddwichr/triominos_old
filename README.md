@@ -63,8 +63,7 @@ The following scoring rules apply:
   E.g., placing a tile "1-2-3" results in a score of *6*.
 - for a placement that completes a hexagon, 50 points are credited in addition.
 - for a placement that completes a two hexagons, 60 points are credited in addition.
-- for a placement that forms a bridge, 40 points are credited in addition.
-- for a placement that extends a bridge, 40 points are credited in addition.
+- for a placement that completes a bridge, 40 points are credited in addition.
 
 
 ## Neighbors
@@ -100,16 +99,11 @@ This reasoning can be easily understood by looking at the graphic in the [Neighb
 ## Detecting two completed hexagons
 To detect a placement that completes two hexagons, simply check if hexagons are completed at two corners by applying the rules in the previous secion.
 
-## Detecting a formed or extended bridge
-A placements forms a bridge, if:
-- it has one adjacent placement
-- the corner opposite to the adjacent placement has one or more **non-adjacent placement**s. That is:
-    - for the left corner, placements for any of the neighbors *far-left, far-left-to-middle, left-to-middle* may exist.  
-    - for the middle corner, placements for any of the neighbors *opposite, left-to-opposite, right-to-opposite* may exist.  
-    - for the right corner, placements for any of the neighbors *far-right, far-right-to-middle, right-to-middle* may exist.  
-
-A placement extends a bridge, if:
-- ?
+## Detecting a completed bridge
+A placements completes a bridge, if the corner opposite to an adjacent placement has one or more **non-adjacent placement**s. That is:
+    - for an adjacent left neighbor, placements for any of the neighbors *far-left, far-left-to-middle, left-to-middle* must exist exist.  
+    - for an adjacent middle neighbor, placements for any of the neighbors *opposite, left-to-opposite, right-to-opposite* must exist exist.  
+    - for an adjacent right neighbor, placements for any of the neighbors *far-right, far-right-to-middle, right-to-middle* must exist exist.  
 
 # Related work: 
 https://github.com/AgileBitFlipper/triominos

@@ -17,6 +17,12 @@ public class ScoreCalculator {
 			EnumSet.of(Neighbor.RIGHT, Neighbor.FAR_RIGHT, Neighbor.MIDDLE, Neighbor.RIGHT_TO_MIDDLE, Neighbor.FAR_RIGHT_TO_MIDDLE);
 	private static final EnumSet<Neighbor> LEFT_CORNER_NEIGHBORS =
 			EnumSet.of(Neighbor.LEFT, Neighbor.FAR_LEFT, Neighbor.MIDDLE, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
+	private static final EnumSet<Neighbor> MIDDLE_CORNER_NON_ADJACENT_NEIGHBORS =
+			EnumSet.of(Neighbor.OPPOSITE, Neighbor.LEFT_TO_OPPOSITE, Neighbor.RIGHT_TO_OPPOSITE);
+	private static final EnumSet<Neighbor> RIGHT_CORNER_NON_ADJACENT_NEIGHBORS =
+			EnumSet.of(Neighbor.FAR_RIGHT, Neighbor.RIGHT_TO_MIDDLE, Neighbor.FAR_RIGHT_TO_MIDDLE);
+	private static final EnumSet<Neighbor> LEFT_CORNER_NON_ADJACENT_NEIGHBORS =
+			EnumSet.of(Neighbor.FAR_LEFT, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
 
 	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
 
@@ -53,46 +59,32 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasAllNeighbors(Location location, EnumSet<Neighbor> neighbors) {
-		return neighbors.stream().allMatch(neighbor -> hasNeighbor(neighbor, location));
+		return neighbors.stream().allMatch(neighbor -> hasNeighbor(location, neighbor));
 	}
 
 	private boolean isCompletingBridge(Location location) {
-		int directNeighbors = numberOfDirectNeighbors(location);
-
-		return directNeighbors < 3 && hasAnyNeighborAtMiddleCorner(location) && hasAnyNeighborAtRightCorner(location) && hasAnyNeighborAtLeftCorner(location);
+		return isCompletingBridgeAtRightCorner(location)
+				||isCompletingBridgeAtLeftCorner(location)
+				|| isCompletingBridgeAtMiddleCorner(location);
 	}
 
-	private boolean hasAnyNeighborAtMiddleCorner(Location location) {
-		return hasAnyNeighbor(location, MIDDLE_CORNER_NEIGHBORS);
+	private boolean isCompletingBridgeAtMiddleCorner(Location location) {
+		return hasNeighbor(location, Neighbor.MIDDLE) && hasAnyNeighbor(location, MIDDLE_CORNER_NON_ADJACENT_NEIGHBORS);
 	}
 
-	private boolean hasAnyNeighborAtRightCorner(Location location) {
-		return hasAnyNeighbor(location, RIGHT_CORNER_NEIGHBORS);
+	private boolean isCompletingBridgeAtLeftCorner(Location location) {
+		return hasNeighbor(location, Neighbor.RIGHT) && hasAnyNeighbor(location, LEFT_CORNER_NON_ADJACENT_NEIGHBORS);
 	}
 
-	private boolean hasAnyNeighborAtLeftCorner(Location location) {
-		return hasAnyNeighbor(location, LEFT_CORNER_NEIGHBORS);
-	}
-
-	private int numberOfDirectNeighbors(Location location) {
-		int directNeighbors = 0;
-		if (hasNeighbor(Neighbor.LEFT, location)) {
-			directNeighbors++;
-		}
-		if (hasNeighbor(Neighbor.RIGHT, location)) {
-			directNeighbors++;
-		}
-		if (hasNeighbor(Neighbor.MIDDLE, location)) {
-			directNeighbors++;
-		}
-		return directNeighbors;
+	private boolean isCompletingBridgeAtRightCorner(Location location) {
+		return hasNeighbor(location, Neighbor.LEFT) && hasAnyNeighbor(location, RIGHT_CORNER_NON_ADJACENT_NEIGHBORS);
 	}
 
 	private boolean hasAnyNeighbor(Location location, EnumSet<Neighbor> neighbors) {
-		return neighbors.stream().anyMatch(neighbor -> hasNeighbor(neighbor, location));
+		return neighbors.stream().anyMatch(neighbor -> hasNeighbor(location, neighbor));
 	}
 
-	private boolean hasNeighbor(Neighbor neighbor, Location location) {
+	private boolean hasNeighbor(Location location, Neighbor neighbor) {
 		return placementAccessor.get().getPlacement(neighbor.relativeTo(location)).isPresent();
 	}
 

@@ -66,6 +66,18 @@ The following scoring rules apply:
 - for a placement that completes a three hexagons, 70 points are credited in addition.
 - for a placement that completes a bridge, 40 points are credited in addition.
 
+### Examples for special figures
+Hexagon:
+[![Hexagon](doc/hexagon.svg)](doc/hexagon.svg)
+Double Hexagon:
+[![Double Hexagon](doc/double_hexagon.svg)](doc/double_hexagon.svg)
+Triple Hexagon:
+[![Triple Hexagon](doc/triple_hexagon.svg)](doc/triple_hexagon.svg)
+
+Bridge Completed:
+[![Bridge Completed](doc/bridge_completed.svg)](doc/bridge_completed.svg)
+Bridge Extended:
+[![Bridge Extended](doc/bridge_extended.svg)](doc/bridge_extended.svg)
 
 ## Neighbors
 Checking the validity of a placement or calculating its resulting score is a non-trivial task.
@@ -95,15 +107,17 @@ That is:
 - for the middle corner, placements must exist for the neighbors *left, right, left-to-opposite, opposite, right-to-opposite*.
 - for the right corner, placements must exist for the neighbors *right, far-right, far-right-to-middle, right-to-middle, middle*.
 
-This reasoning can be easily understood by looking at the graphic in the [Neighbors](#neighbors) section.
+This reasoning can be better understood by also looking at the graphic in the [Neighbors](#neighbors) section.
 
 To detect a placement that completes multiple hexagons, simply check if hexagons are completed at multiple corners.
 
 ## Detecting a completed bridge
 A placements completes a bridge, if the corner opposite to an adjacent placement has one or more **non-adjacent placement**s. That is:
-    - for an adjacent left neighbor, placements for any of the neighbors *far-left, far-left-to-middle, left-to-middle* must exist exist.  
-    - for an adjacent middle neighbor, placements for any of the neighbors *opposite, left-to-opposite, right-to-opposite* must exist exist.  
-    - for an adjacent right neighbor, placements for any of the neighbors *far-right, far-right-to-middle, right-to-middle* must exist exist.  
+- for an adjacent left neighbor, placements for any of the neighbors *far-left, far-left-to-middle, left-to-middle* must exist exist.  
+- for an adjacent middle neighbor, placements for any of the neighbors *opposite, left-to-opposite, right-to-opposite* must exist exist.  
+- for an adjacent right neighbor, placements for any of the neighbors *far-right, far-right-to-middle, right-to-middle* must exist exist.  
+
+This reasoning can be better understood by also looking at the graphic in the [Neighbors](#neighbors) section.
 
 # Related work: 
 https://github.com/AgileBitFlipper/triominos

@@ -89,7 +89,7 @@ class BoardTest {
 	void placeTileShouldAddPlacementIfPlacementValidationSucceeds() {
 		Placement firstPlacement = someValidFirstPlacement();
 		board.placeTile(firstPlacement);
-		Placement placement = placementFacingDown(Location.at(0, 1));
+		Placement placement = placementFacingDown(Location.at(1, 0));
 		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(true);
 
 		board.placeTile(placement);
@@ -100,7 +100,7 @@ class BoardTest {
 	@Test
 	void placeTileShouldThrowIfPlacementValidationFails() {
 		board.placeTile(someValidFirstPlacement());
-		Placement placement = placementFacingDown(Location.at(0, 1));
+		Placement placement = placementFacingDown(Location.at(1, 0));
 		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(false);
 
 		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
@@ -120,7 +120,7 @@ class BoardTest {
 	@Test
 	void getPlacementShouldYieldEmptyIfNoPlacementAtGivenLocation() {
 		board.placeTile(validFirstUpwardsPlacement());
-		assertThat(board.getPlacement(Location.at(0, -1))).isEmpty();
+		assertThat(board.getPlacement(Location.at(-1, 0))).isEmpty();
 	}
 
 	@Test
@@ -162,7 +162,7 @@ class BoardTest {
 	}
 
 	private static Placement validFirstDownwardsPlacement() {
-		return placementFacingDown(Location.at(0, 1));
+		return placementFacingDown(Location.at(1, 0));
 	}
 
 	private static Placement invalidFirstUpwardsPlacement() {
@@ -170,7 +170,7 @@ class BoardTest {
 	}
 
 	private static Placement invalidFirstDownwardsPlacement() {
-		return placementFacingDown(Location.at(0, -1));
+		return placementFacingDown(Location.at(-1, 0));
 	}
 
 	private static Placement placementFacingUp(Location location) {

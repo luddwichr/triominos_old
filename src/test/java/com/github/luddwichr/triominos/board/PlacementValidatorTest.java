@@ -50,8 +50,8 @@ class PlacementValidatorTest {
 		Placement leftNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(leftNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(2, 0, 3), Orientation.ACB, Location.at(0, 1));
-		Placement nextInvalidPlacement = new Placement(new Tile(1, 0, 3), Orientation.ACB, Location.at(0, 1));
+		Placement nextValidPlacement = new Placement(new Tile(2, 0, 3), Orientation.ACB, Location.at(1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(1, 0, 3), Orientation.ACB, Location.at(1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -61,8 +61,8 @@ class PlacementValidatorTest {
 		Placement middleNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(middleNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(1, 3, 0), Orientation.ACB, Location.at(-1, 0));
-		Placement nextInvalidPlacement = new Placement(new Tile(2, 3, 0), Orientation.ACB, Location.at(-1, 0));
+		Placement nextValidPlacement = new Placement(new Tile(1, 3, 0), Orientation.ACB, Location.at(0, 1));
+		Placement nextInvalidPlacement = new Placement(new Tile(2, 3, 0), Orientation.ACB, Location.at(0, 1));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -70,11 +70,11 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_leftCorner_leftToMiddleNeighbor() {
 		Placement rightNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement leftToMiddleNeighbor = new Placement(new Tile(0, 0, 4), Orientation.ACB, Location.at(1, -2));
+		Placement leftToMiddleNeighbor = new Placement(new Tile(0, 0, 4), Orientation.ACB, Location.at(-2, -1));
 		setExistingPlacements(rightNeighbor, leftToMiddleNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(0, -1));
-		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(0, -1));
+		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(-1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -82,11 +82,11 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_leftCorner_farLeftNeighbor() {
 		Placement rightNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement farLeftNeighbor = new Placement(new Tile(0, 4, 0), Orientation.ACB, Location.at(0, -3));
+		Placement farLeftNeighbor = new Placement(new Tile(0, 4, 0), Orientation.ACB, Location.at(-3, 0));
 		setExistingPlacements(rightNeighbor, farLeftNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(0, -1));
-		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(0, -1));
+		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(-1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -94,11 +94,11 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_leftCorner_farLeftToMiddleNeighbor() {
 		Placement rightNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement farLeftToMiddleNeighbor = new Placement(new Tile(0, 0, 4), Orientation.ABC, Location.at(1, -3));
+		Placement farLeftToMiddleNeighbor = new Placement(new Tile(0, 0, 4), Orientation.ABC, Location.at(-3, -1));
 		setExistingPlacements(rightNeighbor, farLeftToMiddleNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(0, -1));
-		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(0, -1));
+		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(-1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -110,8 +110,8 @@ class PlacementValidatorTest {
 		Placement rightNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(rightNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(0, 2, 1), Orientation.ACB, Location.at(0, -1));
-		Placement nextInvalidPlacement = new Placement(new Tile(0, 1, 1), Orientation.ACB, Location.at(0, -1));
+		Placement nextValidPlacement = new Placement(new Tile(0, 2, 1), Orientation.ACB, Location.at(-1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(0, 1, 1), Orientation.ACB, Location.at(-1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -121,8 +121,8 @@ class PlacementValidatorTest {
 		Placement middleNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(middleNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(1, 3, 0), Orientation.ACB, Location.at(-1, 0));
-		Placement nextInvalidPlacement = new Placement(new Tile(1, 2, 0), Orientation.ACB, Location.at(-1, 0));
+		Placement nextValidPlacement = new Placement(new Tile(1, 3, 0), Orientation.ACB, Location.at(0, 1));
+		Placement nextInvalidPlacement = new Placement(new Tile(1, 2, 0), Orientation.ACB, Location.at(0, 1));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -130,11 +130,11 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_rightCorner_rightToMiddleNeighbor() {
 		Placement leftNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement rightToMiddleNeighbor = new Placement(new Tile(0, 0, 4), Orientation.ACB, Location.at(1, 2));
+		Placement rightToMiddleNeighbor = new Placement(new Tile(0, 0, 4), Orientation.ACB, Location.at(2, -1));
 		setExistingPlacements(leftNeighbor, rightToMiddleNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(0, 1));
-		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(0, 1));
+		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -142,11 +142,11 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_rightCorner_farRightNeighbor() {
 		Placement leftNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement farRightNeighbor = new Placement(new Tile(4, 0, 0), Orientation.ACB, Location.at(0, 3));
+		Placement farRightNeighbor = new Placement(new Tile(4, 0, 0), Orientation.ACB, Location.at(3, 0));
 		setExistingPlacements(leftNeighbor, farRightNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(0, 1));
-		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(0, 1));
+		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -154,11 +154,11 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_rightCorner_farRightToMiddleNeighbor() {
 		Placement leftNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement farRightToMiddleNeighbor = new Placement(new Tile(4, 0, 0), Orientation.ABC, Location.at(1, 3));
+		Placement farRightToMiddleNeighbor = new Placement(new Tile(4, 0, 0), Orientation.ABC, Location.at(3, -1));
 		setExistingPlacements(leftNeighbor, farRightToMiddleNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(0, 1));
-		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(0, 1));
+		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -170,8 +170,8 @@ class PlacementValidatorTest {
 		Placement rightNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(rightNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(0, 2, 1), Orientation.ACB, Location.at(0, -1));
-		Placement nextInvalidPlacement = new Placement(new Tile(0, 2, 2), Orientation.ACB, Location.at(0, -1));
+		Placement nextValidPlacement = new Placement(new Tile(0, 2, 1), Orientation.ACB, Location.at(-1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(0, 2, 2), Orientation.ACB, Location.at(-1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
@@ -181,44 +181,44 @@ class PlacementValidatorTest {
 		Placement leftNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(leftNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(2, 0, 3), Orientation.ACB, Location.at(0, 1));
-		Placement nextInvalidPlacement = new Placement(new Tile(2, 0, 2), Orientation.ACB, Location.at(0, 1));
+		Placement nextValidPlacement = new Placement(new Tile(2, 0, 3), Orientation.ACB, Location.at(1, 0));
+		Placement nextInvalidPlacement = new Placement(new Tile(2, 0, 2), Orientation.ACB, Location.at(1, 0));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
-	void isValidPlacement_middleCorner_rightToOppositeMiddleNeighbor() {
+	void isValidPlacement_middleCorner_rightToOppositeNeighbor() {
 		Placement middleNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement rightToOppositeMiddleNeighbor = new Placement(new Tile(4, 0, 0), Orientation.ACB, Location.at(-2, 1));
-		setExistingPlacements(middleNeighbor, rightToOppositeMiddleNeighbor);
+		Placement rightToOppositeNeighbor = new Placement(new Tile(4, 0, 0), Orientation.ACB, Location.at(1, 2));
+		setExistingPlacements(middleNeighbor, rightToOppositeNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(-1, 0));
-		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(-1, 0));
+		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(0, 1));
+		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(0, 1));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
-	void isValidPlacement_middleCorner_leftToOppositeMiddleNeighbor() {
+	void isValidPlacement_middleCorner_leftToOppositeNeighbor() {
 		Placement middleNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement leftToOppositeMiddleNeighbor = new Placement(new Tile(0, 4, 0), Orientation.ACB, Location.at(-2, -1));
-		setExistingPlacements(middleNeighbor, leftToOppositeMiddleNeighbor);
+		Placement leftToOppositeNeighbor = new Placement(new Tile(0, 4, 0), Orientation.ACB, Location.at(-1, 2));
+		setExistingPlacements(middleNeighbor, leftToOppositeNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(-1, 0));
-		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(-1, 0));
+		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(0, 1));
+		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(0, 1));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
-	void isValidPlacement_middleCorner_oppositeMiddleNeighbor() {
+	void isValidPlacement_middleCorner_oppositeNeighbor() {
 		Placement middleNeighbor = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		Placement oppositeMiddleNeighbor = new Placement(new Tile(0, 4, 0), Orientation.ABC, Location.at(-2, 0));
-		setExistingPlacements(middleNeighbor, oppositeMiddleNeighbor);
+		Placement oppositeNeighbor = new Placement(new Tile(0, 4, 0), Orientation.ABC, Location.at(0, 2));
+		setExistingPlacements(middleNeighbor, oppositeNeighbor);
 
-		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(-1, 0));
-		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(-1, 0));
+		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(0, 1));
+		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(0, 1));
 		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
 		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}

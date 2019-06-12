@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PlacementTest {
 
 	private static final Location UP_LOCATION = Location.at(0, 0);
-	private static final Location DOWN_LOCATION = Location.at(0, 1);
+	private static final Location DOWN_LOCATION = Location.at(1, 0);
 	private static final Tile tile = new Tile(1, 2, 3);
 
 	@Test

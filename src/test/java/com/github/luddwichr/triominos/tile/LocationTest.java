@@ -14,7 +14,7 @@ class LocationTest {
 
 	@Test
 	void constructorAndAccessors() {
-		Location location = Location.at(1, 2);
+		Location location = Location.at(2, 1);
 		assertThat(location.getRow()).isEqualTo(1);
 		assertThat(location.getColumn()).isEqualTo(2);
 	}
@@ -28,13 +28,13 @@ class LocationTest {
 	private static Stream<Arguments> provideLocationsForIsFacingUp() {
 		return Stream.of(
 				Arguments.of(Location.at(0, 0), true),
-				Arguments.of(Location.at(0, 1), false),
-				Arguments.of(Location.at(0, 2), true),
-				Arguments.of(Location.at(0, -1), false),
-				Arguments.of(Location.at(0, -2), true),
 				Arguments.of(Location.at(1, 0), false),
-				Arguments.of(Location.at(1, 1), true),
+				Arguments.of(Location.at(2, 0), true),
 				Arguments.of(Location.at(-1, 0), false),
+				Arguments.of(Location.at(-2, 0), true),
+				Arguments.of(Location.at(0, 1), false),
+				Arguments.of(Location.at(1, 1), true),
+				Arguments.of(Location.at(0, -1), false),
 				Arguments.of(Location.at(-1, -1), true)
 		);
 	}

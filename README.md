@@ -69,13 +69,16 @@ The following scoring rules apply:
 ### Examples for special figures
 Hexagon:
 [![Hexagon](doc/hexagon.svg)](doc/hexagon.svg)
+
 Double Hexagon:
 [![Double Hexagon](doc/double_hexagon.svg)](doc/double_hexagon.svg)
+
 Triple Hexagon:
 [![Triple Hexagon](doc/triple_hexagon.svg)](doc/triple_hexagon.svg)
 
 Bridge Completed:
 [![Bridge Completed](doc/bridge_completed.svg)](doc/bridge_completed.svg)
+
 Bridge Extended:
 [![Bridge Extended](doc/bridge_extended.svg)](doc/bridge_extended.svg)
 

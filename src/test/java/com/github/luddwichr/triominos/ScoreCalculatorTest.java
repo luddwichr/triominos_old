@@ -106,4 +106,53 @@ class ScoreCalculatorTest {
 		assertThat(scoreCalculator.getScore(placement)).isEqualTo(49);
 	}
 
+	@Test
+	void getScoreShouldReturnPointsOfTilePlus60PointsForTwoCompletedHexagonsAtLeftAndMiddleCorner() {
+		Placement placement = new Placement(new Tile(1, 0, 0), Orientation.ABC, Location.at(0, 0));
+
+		addLocationsWithPlacement(
+				Location.at(0, 1), Location.at(-1, 1), Location.at(-2, 1), Location.at(-2, 0), Location.at(-1, 0),
+				Location.at(-1, -1), Location.at(0, -1), Location.at(1, -1), Location.at(1, 0)
+		);
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(61);
+	}
+
+	@Test
+	void getScoreShouldReturnPointsOfTilePlus60PointsForTwoCompletedHexagonsAtLeftAndRightCorner() {
+		Placement placement = new Placement(new Tile(1, 0, 0), Orientation.ABC, Location.at(0, 0));
+
+		addLocationsWithPlacement(
+				Location.at(0, 1), Location.at(-1, 1), Location.at(-2, 1), Location.at(-2, 0), Location.at(-1, 0),
+				Location.at(1, 0), Location.at(2, 0), Location.at(2, 1), Location.at(1, 1)
+		);
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(61);
+	}
+
+	@Test
+	void getScoreShouldReturnPointsOfTilePlus60PointsForTwoCompletedHexagonsAtRightAndMiddleCorner() {
+		Placement placement = new Placement(new Tile(1, 0, 0), Orientation.ABC, Location.at(0, 0));
+
+		addLocationsWithPlacement(
+				Location.at(-1, 0), Location.at(-1, -1), Location.at(0, -1), Location.at(1, -1), Location.at(1, 0),
+				Location.at(2, 0), Location.at(2, 1), Location.at(1, 1), Location.at(0, 1)
+		);
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(61);
+	}
+
+	@Test
+	void getScoreShouldReturnPointsOfTilePlus70PointsForThreeCompletedHexagons() {
+		Placement placement = new Placement(new Tile(0, 2, 0), Orientation.ABC, Location.at(0, 0));
+
+		addLocationsWithPlacement(
+				Location.at(0, 1), Location.at(-1, 1), Location.at(-2, 1), Location.at(-2, 0), Location.at(-1, 0),
+				Location.at(-1, -1), Location.at(0, -1), Location.at(1, -1), Location.at(1, 0),
+				Location.at(2, 0), Location.at(2, 1), Location.at(1, 1), Location.at(0, 1)
+
+		);
+
+		assertThat(scoreCalculator.getScore(placement)).isEqualTo(72);
+	}
 }

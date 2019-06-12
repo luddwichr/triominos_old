@@ -63,6 +63,7 @@ The following scoring rules apply:
   E.g., placing a tile "1-2-3" results in a score of *6*.
 - for a placement that completes a hexagon, 50 points are credited in addition.
 - for a placement that completes a two hexagons, 60 points are credited in addition.
+- for a placement that completes a three hexagons, 70 points are credited in addition.
 - for a placement that completes a bridge, 40 points are credited in addition.
 
 
@@ -87,7 +88,7 @@ A placement is valid if:
 
 # Calculating the score
 
-## Detecting a completed hexagon
+## Detecting one or more completed hexagons
 A placement completes a hexagon if placements for all five neighbor locations around any of its corners exist already.
 That is:
 - for the left corner, placements must exist for the neighbors *left, far-left, far-left-to-middle, left-to-middle, middle*. 
@@ -96,8 +97,7 @@ That is:
 
 This reasoning can be easily understood by looking at the graphic in the [Neighbors](#neighbors) section.
 
-## Detecting two completed hexagons
-To detect a placement that completes two hexagons, simply check if hexagons are completed at two corners by applying the rules in the previous secion.
+To detect a placement that completes multiple hexagons, simply check if hexagons are completed at multiple corners.
 
 ## Detecting a completed bridge
 A placements completes a bridge, if the corner opposite to an adjacent placement has one or more **non-adjacent placement**s. That is:

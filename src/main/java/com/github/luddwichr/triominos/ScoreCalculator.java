@@ -6,11 +6,12 @@ import com.github.luddwichr.triominos.tile.Neighbor;
 import com.github.luddwichr.triominos.tile.Placement;
 
 import java.util.EnumSet;
+import java.util.Map;
 
 public class ScoreCalculator {
 
-	private static final int HEXAGON_SCORE = 50;
 	private static final int BRIDGE_SCORE = 40;
+	private static final Map<Integer, Integer> HEXAGON_SCORES = Map.of(1, 50, 2, 60, 3, 70);
 	private static final EnumSet<Neighbor> MIDDLE_CORNER_NEIGHBORS =
 			EnumSet.of(Neighbor.RIGHT, Neighbor.LEFT, Neighbor.OPPOSITE, Neighbor.LEFT_TO_OPPOSITE, Neighbor.RIGHT_TO_OPPOSITE);
 	private static final EnumSet<Neighbor> RIGHT_CORNER_NEIGHBORS =
@@ -32,18 +33,27 @@ public class ScoreCalculator {
 
 	public int getScore(Placement placement) {
 		int score = placement.getTile().points();
-		if (isCompletingHexagon(placement.getLocation())) {
-			score += HEXAGON_SCORE;
+		int completedHexagons = completedHexagons(placement.getLocation());
+		if (completedHexagons > 0) {
+			score += HEXAGON_SCORES.get(completedHexagons);
 		} else if (isCompletingBridge(placement.getLocation())) {
 			score += BRIDGE_SCORE;
 		}
 		return score;
 	}
 
-	private boolean isCompletingHexagon(Location location) {
-		return hasFiveNeighborsAtMiddleCorner(location)
-				|| hasFiveNeighborsAtRightCorner(location)
-				|| hasFiveNeighborsAtLeftCorner(location);
+	private int completedHexagons(Location location) {
+		int completedHexagons = 0;
+		if (hasFiveNeighborsAtMiddleCorner(location)) {
+			completedHexagons++;
+		}
+		if (hasFiveNeighborsAtRightCorner(location)) {
+			completedHexagons++;
+		}
+		if (hasFiveNeighborsAtLeftCorner(location)) {
+			completedHexagons++;
+		}
+		return completedHexagons;
 	}
 
 	private boolean hasFiveNeighborsAtMiddleCorner(Location location) {

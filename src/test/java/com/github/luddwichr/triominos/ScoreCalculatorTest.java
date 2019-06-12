@@ -1,30 +1,24 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Orientation;
 import com.github.luddwichr.triominos.tile.Placement;
 import com.github.luddwichr.triominos.tile.Tile;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 class ScoreCalculatorTest {
 
-	private ScoreCalculator scoreCalculator = new ScoreCalculator(this::getPlacement);
-	private Set<Location> locationsWithPlacement = new HashSet<>();
+	private final Board board = new Board();
+	private final ScoreCalculator scoreCalculator = new ScoreCalculator(board);
 
 	private void addLocationsWithPlacement(Location... locations) {
-		Collections.addAll(locationsWithPlacement, locations);
-	}
-
-	private Optional<Placement> getPlacement(Location location) {
-		return locationsWithPlacement.stream().anyMatch(location::equals) ? Optional.of(mock(Placement.class)) : Optional.empty();
+		for (Location location : locations) {
+			board.placeTile(new Placement(mock(Tile.class), location.isFacingUp() ? Orientation.ABC : Orientation.ACB, location));
+		}
 	}
 
 	@Test

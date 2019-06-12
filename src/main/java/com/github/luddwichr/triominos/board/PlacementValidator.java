@@ -8,9 +8,11 @@ import com.github.luddwichr.triominos.tile.Placement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class PlacementValidator {
+
+	private static final Location UP_CENTER_TILE_LOCATION = Location.at(0, 0);
+	private static final Location DOWN_CENTER_TILE_LOCATION = Location.at(1, 0);
 
 	private static class CornerMatchRule {
 		public final Neighbor neighbor;
@@ -49,10 +51,19 @@ public class PlacementValidator {
 			Corner.RIGHT, CORNER_TO_MATCH_PER_RIGHT_CORNER_NEIGHBOR
 	);
 
-	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
+	private final Board board;
 
-	public boolean isValidPlacement(PlacementAccessor placementAccessor, Placement placement) {
-		this.placementAccessor.set(placementAccessor);
+	public PlacementValidator(Board board) {
+		this.board = board;
+	}
+
+	public boolean isValidPlacement(Placement placement) {
+		if (board.isEmpty()) {
+			return isFirstTileLocationCentered(placement);
+		}
+		if (isTileAlreadyPlaced(placement)) {
+			return false;
+		}
 		if (isAlreadyTaken(placement)) {
 			return false;
 		}
@@ -62,15 +73,23 @@ public class PlacementValidator {
 		return isLeftCornerFitting(placement) && isRightCornerFitting(placement) && isMiddleCornerFitting(placement);
 	}
 
+	private boolean isTileAlreadyPlaced(Placement placement) {
+		return board.getPlacements().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()));
+	}
+
+	private boolean isFirstTileLocationCentered(Placement placement) {
+		return placement.getLocation().equals(UP_CENTER_TILE_LOCATION) || placement.getLocation().equals(DOWN_CENTER_TILE_LOCATION);
+	}
+
 	private boolean isAlreadyTaken(Placement placement) {
 		return isPlacementExisting(placement.getLocation());
 	}
 
 	private boolean isAdjacentToExistingPlacement(Placement placement) {
 		Location location = placement.getLocation();
-		return isPlacementExisting(Neighbor.LEFT.relativeTo(location)) ||
-				isPlacementExisting(Neighbor.RIGHT.relativeTo(location)) ||
-				isPlacementExisting(Neighbor.MIDDLE.relativeTo(location));
+		return isPlacementExisting(Neighbor.LEFT.relativeTo(location))
+				|| isPlacementExisting(Neighbor.RIGHT.relativeTo(location))
+				|| isPlacementExisting(Neighbor.MIDDLE.relativeTo(location));
 	}
 
 	private boolean isRightCornerFitting(Placement placement) {
@@ -93,17 +112,13 @@ public class PlacementValidator {
 	}
 
 	private boolean isMatchingCorner(Location location, CornerMatchRule cornerMatchRule, int cornerNumber) {
-		return getPlacement(cornerMatchRule.neighbor.relativeTo(location))
+		return board.getPlacement(cornerMatchRule.neighbor.relativeTo(location))
 				.map(neighborPlacement -> neighborPlacement.getRotatedNumber(cornerMatchRule.corner) == cornerNumber)
 				.orElse(true);
 	}
 
 	private boolean isPlacementExisting(Location location) {
-		return getPlacement(location).isPresent();
-	}
-
-	private Optional<Placement> getPlacement(Location location) {
-		return placementAccessor.get().getPlacement(location);
+		return board.getPlacement(location).isPresent();
 	}
 
 }

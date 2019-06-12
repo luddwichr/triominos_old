@@ -1,6 +1,6 @@
 package com.github.luddwichr.triominos;
 
-import com.github.luddwichr.triominos.board.PlacementAccessor;
+import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Neighbor;
 import com.github.luddwichr.triominos.tile.Placement;
@@ -25,10 +25,10 @@ public class ScoreCalculator {
 	private static final EnumSet<Neighbor> LEFT_CORNER_NON_ADJACENT_NEIGHBORS =
 			EnumSet.of(Neighbor.FAR_LEFT, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
 
-	private final ThreadLocal<PlacementAccessor> placementAccessor = new ThreadLocal<>();
+	private final Board board;
 
-	public ScoreCalculator(PlacementAccessor placementAccessor) {
-		this.placementAccessor.set(placementAccessor);
+	public ScoreCalculator(Board board) {
+		this.board = board;
 	}
 
 	public int getScore(Placement placement) {
@@ -95,7 +95,7 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasNeighbor(Location location, Neighbor neighbor) {
-		return placementAccessor.get().getPlacement(neighbor.relativeTo(location)).isPresent();
+		return board.getPlacement(neighbor.relativeTo(location)).isPresent();
 	}
 
 }

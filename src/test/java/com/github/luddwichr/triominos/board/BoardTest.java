@@ -1,7 +1,6 @@
 package com.github.luddwichr.triominos.board;
 
 import com.github.luddwichr.triominos.tile.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,14 +12,7 @@ import static org.mockito.Mockito.when;
 
 class BoardTest {
 
-	private Board board;
-	private PlacementValidator placementValidator;
-
-	@BeforeEach
-	void setup() {
-		placementValidator = mock(PlacementValidator.class);
-		board = new Board(placementValidator);
-	}
+	private Board board = new Board();
 
 	@Test
 	void getPlacementsShouldYieldEmptyCollectionInitially() {
@@ -29,81 +21,17 @@ class BoardTest {
 
 	@Test
 	void getPlacementsShouldYieldUnmodifiableCollection() {
-		assertThatThrownBy(() -> board.getPlacements().add(someValidFirstPlacement()))
+		assertThatThrownBy(() -> board.getPlacements().add(centerUpFacingPlacement()))
 				.isInstanceOf(UnsupportedOperationException.class);
-		assertThatThrownBy(() -> board.getPlacements().remove(someValidFirstPlacement()))
+		assertThatThrownBy(() -> board.getPlacements().remove(centerUpFacingPlacement()))
 				.isInstanceOf(UnsupportedOperationException.class);
 	}
 
 	@Test
-	void isValidPlacementShouldBeTrueIfFirstUpwardsFacingPlacementAtCenterLocation() {
-		Placement placement = validFirstUpwardsPlacement();
-		assertThat(board.isValidPlacement(placement)).isTrue();
-	}
-
-	@Test
-	void placeTileShouldAddFirstUpwardsFacingPlacementAtCenterLocation() {
-		Placement placement = validFirstUpwardsPlacement();
+	void placeTileShouldAddPlacement() {
+		Placement placement = centerUpFacingPlacement();
 		board.placeTile(placement);
 		assertThat(board.getPlacements()).containsExactly(placement);
-	}
-
-	@Test
-	void isValidPlacementShouldBeFalseIfFirstUpwardsFacingPlacementAtNonCenterLocation() {
-		Placement placement = invalidFirstUpwardsPlacement();
-		assertThat(board.isValidPlacement(placement)).isFalse();
-	}
-
-	@Test
-	void placeTileShouldThrowIfFirstUpwardsFacingPlacementAtNonCenterLocation() {
-		Placement placement = invalidFirstUpwardsPlacement();
-		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
-	}
-
-	@Test
-	void isValidPlacementShouldBeTrueIfFirstDownwardsFacingPlacementAtCenterLocation() {
-		Placement placement = validFirstDownwardsPlacement();
-		assertThat(board.isValidPlacement(placement)).isTrue();
-	}
-
-	@Test
-	void placeTileShouldAddFirstDownwardsFacingPlacementAtCenterLocation() {
-		Placement placement = validFirstDownwardsPlacement();
-		board.placeTile(placement);
-		assertThat(board.getPlacements()).containsExactly(placement);
-	}
-
-	@Test
-	void isValidPlacementShouldBeFalseIfFirstDownwardsFacingPlacementAtNonCenterLocation() {
-		Placement placement = invalidFirstDownwardsPlacement();
-		assertThat(board.isValidPlacement(placement)).isFalse();
-	}
-
-	@Test
-	void placeTileShouldThrowIfFirstDownwardsFacingPlacementAtNonCenterLocation() {
-		Placement placement = invalidFirstDownwardsPlacement();
-		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
-	}
-
-	@Test
-	void placeTileShouldAddPlacementIfPlacementValidationSucceeds() {
-		Placement firstPlacement = someValidFirstPlacement();
-		board.placeTile(firstPlacement);
-		Placement placement = placementFacingDown(Location.at(1, 0));
-		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(true);
-
-		board.placeTile(placement);
-
-		assertThat(board.getPlacements()).containsExactlyInAnyOrder(placement, firstPlacement);
-	}
-
-	@Test
-	void placeTileShouldThrowIfPlacementValidationFails() {
-		board.placeTile(someValidFirstPlacement());
-		Placement placement = placementFacingDown(Location.at(1, 0));
-		when(placementValidator.isValidPlacement(any(), eq(placement))).thenReturn(false);
-
-		assertThatThrownBy(() -> board.placeTile(placement)).isInstanceOf(IllegalPlacementException.class);
 	}
 
 	@Test
@@ -113,72 +41,23 @@ class BoardTest {
 
 	@Test
 	void isEmptyShouldBeFalseAfterFirstTileWasPlaced() {
-		board.placeTile(someValidFirstPlacement());
+		board.placeTile(centerUpFacingPlacement());
 		assertThat(board.isEmpty()).isFalse();
 	}
 
 	@Test
 	void getPlacementShouldYieldEmptyIfNoPlacementAtGivenLocation() {
-		board.placeTile(validFirstUpwardsPlacement());
 		assertThat(board.getPlacement(Location.at(-1, 0))).isEmpty();
 	}
 
 	@Test
 	void getPlacementShouldYieldPlacementIfPlacementsAtGivenLocation() {
-		Placement placement = validFirstUpwardsPlacement();
+		Placement placement = centerUpFacingPlacement();
 		board.placeTile(placement);
 		assertThat(board.getPlacement(Location.at(0, 0))).get().isEqualTo(placement);
 	}
 
-	@Test
-	void isValidPlacementShouldYieldFalseIfTileAlreadyPlaced(){
-		Placement placement = validFirstUpwardsPlacement();
-		board.placeTile(placement);
-		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));
-		// lets assume the placement is legit...
-		when(placementValidator.isValidPlacement(any(), eq(duplicateTilePlacement))).thenReturn(true);
-
-		assertThat(board.isValidPlacement(duplicateTilePlacement)).isFalse();
+	private Placement centerUpFacingPlacement() {
+		return new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 	}
-
-	@Test
-	void placeTileShouldThrowIfTileAlreadyPlaced(){
-		Placement placement = validFirstUpwardsPlacement();
-		board.placeTile(placement);
-		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));
-		// lets assume the placement is legit...
-		when(placementValidator.isValidPlacement(any(), eq(duplicateTilePlacement))).thenReturn(true);
-
-		assertThatThrownBy(() -> board.placeTile(duplicateTilePlacement))
-				.isInstanceOf(IllegalPlacementException.class);
-	}
-
-	private static Placement someValidFirstPlacement() {
-		return placementFacingUp(Location.at(0, 0));
-	}
-
-	private static Placement validFirstUpwardsPlacement() {
-		return placementFacingUp(Location.at(0, 0));
-	}
-
-	private static Placement validFirstDownwardsPlacement() {
-		return placementFacingDown(Location.at(1, 0));
-	}
-
-	private static Placement invalidFirstUpwardsPlacement() {
-		return placementFacingUp(Location.at(1, 1));
-	}
-
-	private static Placement invalidFirstDownwardsPlacement() {
-		return placementFacingDown(Location.at(-1, 0));
-	}
-
-	private static Placement placementFacingUp(Location location) {
-		return new Placement(new Tile(1, 2, 3), Orientation.ABC, location);
-	}
-
-	private static Placement placementFacingDown(Location location) {
-		return new Placement(new Tile(1, 2, 3), Orientation.CBA, location);
-	}
-
 }

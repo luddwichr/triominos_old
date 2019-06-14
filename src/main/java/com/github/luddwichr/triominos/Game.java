@@ -1,24 +1,38 @@
 package com.github.luddwichr.triominos;
 
+import com.github.luddwichr.triominos.board.Board;
+import com.github.luddwichr.triominos.board.PlacementValidator;
 import com.github.luddwichr.triominos.pile.Pile;
+import com.github.luddwichr.triominos.player.Player;
+import com.github.luddwichr.triominos.player.PlayerState;
 import com.github.luddwichr.triominos.tile.Tile;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 public class Game {
 
-    private List<Player> players;
+    public static class PlayerInfo {
+        public final Player player;
+        public final PlayerState playerState;
+
+        private PlayerInfo(Player player, PlayerState playerState) {
+            this.player = player;
+            this.playerState = playerState;
+        }
+    }
+
+    private List<PlayerInfo> players;
     private final Pile pile = new Pile();
+    private final Board board = new Board();
+    private final PlacementValidator placementValidator = new PlacementValidator(board);
     private boolean ended = false;
 
-    public Game(int numberOfPlayers) {
-        validateNumberOfPlayersAllowed(numberOfPlayers);
-        initializePlayers(numberOfPlayers);
+    public Game(List<Player> players) {
+        validateNumberOfPlayersAllowed(players.size());
+        initializePlayers(players);
     }
 
     private void validateNumberOfPlayersAllowed(int numberOfPlayers) {
@@ -27,11 +41,11 @@ public class Game {
         }
     }
 
-    private void initializePlayers(int numberOfPlayers) {
-        int numberOfTilesToDraw = numberOfPlayers == 2 ? 9 : 7;
-        players = Stream.generate(() -> new Player(drawInitialTrayForPlayer(numberOfTilesToDraw)))
-                .limit(numberOfPlayers)
-                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    private void initializePlayers(List<Player> players) {
+        int numberOfTilesToDraw = players.size() == 2 ? 9 : 7;
+        this.players = players.stream()
+                .map(player -> new PlayerInfo(player, new PlayerState(drawInitialTrayForPlayer(numberOfTilesToDraw), 0)))
+                .collect(toList());
     }
 
     private List<Tile> drawInitialTrayForPlayer(int tilesInTray) {
@@ -40,9 +54,9 @@ public class Game {
 
     public void run() {
         while (!ended) {
-            for (Player player : players) {
-                player.play();
-                if (player.getScore() > 400 || player.getNumberOfTilesInTray() == 0) {
+            for (PlayerInfo playerInfo : players) {
+                playerInfo.player.play(board.getPlacements(), pile.remainingTiles());
+                if (playerInfo.playerState.getScore() > 400 || playerInfo.playerState.getNumberOfTilesInTray() == 0) {
                     ended = true;
                 }
                 if (ended) {
@@ -52,7 +66,7 @@ public class Game {
         }
     }
 
-    public List<Player> getPlayers() {
+    public List<PlayerInfo> getPlayers() {
         return players;
     }
 

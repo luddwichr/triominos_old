@@ -8,26 +8,26 @@ import java.util.List;
 
 public class Pile {
 
-	private final List<Tile> pile;
+	private final List<Tile> tiles;
 
 	public Pile() {
-		pile = new ArrayList<>(TileSet.getClassicSet());
-		Collections.shuffle(pile);
+		tiles = new ArrayList<>(TileSet.getClassicSet());
+		Collections.shuffle(tiles);
 	}
 
 	public boolean isEmpty() {
-		return pile.isEmpty();
+		return tiles.isEmpty();
 	}
 
 	public int remainingTiles() {
-		return pile.size();
+		return tiles.size();
 	}
 
 	public Tile drawRandomTile() {
 		if (isEmpty()) {
 			throw new EmptyPileException();
 		}
-		return pile.remove(pile.size() - 1);
+		return tiles.remove(tiles.size() - 1);
 	}
 
 }

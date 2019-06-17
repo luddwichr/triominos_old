@@ -52,13 +52,10 @@ public class PlacementValidator {
 			Corner.RIGHT, CORNER_TO_MATCH_PER_RIGHT_CORNER_NEIGHBOR
 	);
 
-	private final Board board;
+	private final ThreadLocal<Board> threadSafeBoard = new ThreadLocal<>();
 
-	public PlacementValidator(Board board) {
-		this.board = board;
-	}
-
-	public boolean isValidPlacement(Placement placement) {
+	public boolean isValidPlacement(Board board, Placement placement) {
+		this.threadSafeBoard.set(board);
 		if (board.isEmpty()) {
 			return isFirstTileLocationCentered(placement);
 		}
@@ -75,7 +72,7 @@ public class PlacementValidator {
 	}
 
 	private boolean isTileAlreadyPlaced(Placement placement) {
-		return board.getPlacements().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()));
+		return getBoard().getPlacements().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()));
 	}
 
 	private boolean isFirstTileLocationCentered(Placement placement) {
@@ -113,13 +110,16 @@ public class PlacementValidator {
 	}
 
 	private boolean isMatchingCorner(Location location, CornerMatchRule cornerMatchRule, int cornerNumber) {
-		return board.getPlacement(cornerMatchRule.neighbor.relativeTo(location))
+		return getBoard().getPlacement(cornerMatchRule.neighbor.relativeTo(location))
 				.map(neighborPlacement -> neighborPlacement.getRotatedNumber(cornerMatchRule.corner) == cornerNumber)
 				.orElse(true);
 	}
 
 	private boolean isPlacementExisting(Location location) {
-		return board.getPlacement(location).isPresent();
+		return getBoard().getPlacement(location).isPresent();
 	}
 
+	private Board getBoard() {
+		return threadSafeBoard.get();
+	}
 }

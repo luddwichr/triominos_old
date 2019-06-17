@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PlacementValidatorTest {
 
 	private final Board board = new Board();
-	private final PlacementValidator placementValidator = new PlacementValidator(board);
+	private final PlacementValidator placementValidator = new PlacementValidator();
 
 	private void setExistingPlacements(Placement... placements) {
 		Stream.of(placements).forEach(board::placeTile);
@@ -20,25 +20,25 @@ class PlacementValidatorTest {
 	@Test
 	void isValidPlacement_firstUpwardsFacingPlacement_atCenterLocation() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
-		assertThat(placementValidator.isValidPlacement(placement)).isTrue();
+		assertThat(isValidPlacement(placement)).isTrue();
 	}
 
 	@Test
 	void isValidPlacement_firstUpwardsFacingPlacement_atNonCenterLocation() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(2, 0));
-		assertThat(placementValidator.isValidPlacement(placement)).isFalse();
+		assertThat(isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
 	void isValidPlacement_firstDownwardsFacingPlacement_atCenterLocation() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ACB, Location.at(1, 0));
-		assertThat(placementValidator.isValidPlacement(placement)).isTrue();
+		assertThat(isValidPlacement(placement)).isTrue();
 	}
 
 	@Test
 	void isValidPlacement_firstDownwardsFacingPlacement_atNonCenterLocation() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ACB, Location.at(-1, 0));
-		assertThat(placementValidator.isValidPlacement(placement)).isFalse();
+		assertThat(isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
@@ -47,7 +47,7 @@ class PlacementValidatorTest {
 		setExistingPlacements(firstPlacement);
 		Placement placement = new Placement(new Tile(3, 4, 5), Orientation.ABC, Location.at(0, 0));
 
-		assertThat(placementValidator.isValidPlacement(placement)).isFalse();
+		assertThat(isValidPlacement(placement)).isFalse();
 	}
 
 	@Test
@@ -56,7 +56,7 @@ class PlacementValidatorTest {
 		setExistingPlacements(placement);
 		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));
 
-		assertThat(placementValidator.isValidPlacement(duplicateTilePlacement)).isFalse();
+		assertThat(isValidPlacement(duplicateTilePlacement)).isFalse();
 	}
 
 	@Test
@@ -64,7 +64,7 @@ class PlacementValidatorTest {
 		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(firstPlacement);
 		Placement secondPlacement = new Placement(new Tile(2, 2, 2), Orientation.ABC, Location.at(1, 1));
-		assertThat(placementValidator.isValidPlacement(secondPlacement)).isFalse();
+		assertThat(isValidPlacement(secondPlacement)).isFalse();
 	}
 
 	// --- left corner ---
@@ -76,8 +76,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(2, 0, 3), Orientation.ACB, Location.at(1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(1, 0, 3), Orientation.ACB, Location.at(1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -87,8 +87,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(1, 3, 0), Orientation.ACB, Location.at(0, 1));
 		Placement nextInvalidPlacement = new Placement(new Tile(2, 3, 0), Orientation.ACB, Location.at(0, 1));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -99,8 +99,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(-1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -111,8 +111,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(-1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -123,8 +123,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(4, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(5, 2, 1), Orientation.ACB, Location.at(-1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	// --- right corner
@@ -136,8 +136,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(0, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(0, 1, 1), Orientation.ACB, Location.at(-1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -147,8 +147,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(1, 3, 0), Orientation.ACB, Location.at(0, 1));
 		Placement nextInvalidPlacement = new Placement(new Tile(1, 2, 0), Orientation.ACB, Location.at(0, 1));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -159,8 +159,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -171,8 +171,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -183,8 +183,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(2, 4, 3), Orientation.ACB, Location.at(1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(2, 5, 3), Orientation.ACB, Location.at(1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	// --- middle corner
@@ -196,8 +196,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(0, 2, 1), Orientation.ACB, Location.at(-1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(0, 2, 2), Orientation.ACB, Location.at(-1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -207,8 +207,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(2, 0, 3), Orientation.ACB, Location.at(1, 0));
 		Placement nextInvalidPlacement = new Placement(new Tile(2, 0, 2), Orientation.ACB, Location.at(1, 0));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -219,8 +219,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(0, 1));
 		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(0, 1));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -231,8 +231,8 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(0, 1));
 		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(0, 1));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
 	}
 
 	@Test
@@ -243,8 +243,12 @@ class PlacementValidatorTest {
 
 		Placement nextValidPlacement = new Placement(new Tile(1, 3, 4), Orientation.ACB, Location.at(0, 1));
 		Placement nextInvalidPlacement = new Placement(new Tile(1, 3, 5), Orientation.ACB, Location.at(0, 1));
-		assertThat(placementValidator.isValidPlacement(nextValidPlacement)).isTrue();
-		assertThat(placementValidator.isValidPlacement(nextInvalidPlacement)).isFalse();
+		assertThat(isValidPlacement(nextValidPlacement)).isTrue();
+		assertThat(isValidPlacement(nextInvalidPlacement)).isFalse();
+	}
+
+	private boolean isValidPlacement(Placement nextValidPlacement) {
+		return placementValidator.isValidPlacement(board, nextValidPlacement);
 	}
 
 }

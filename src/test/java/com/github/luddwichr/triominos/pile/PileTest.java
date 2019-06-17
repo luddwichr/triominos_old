@@ -12,8 +12,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PileTest {
 
-	private final Pile pile = new Pile();
-	private static final Set<Tile> tileSet = TileSet.getClassicSet();
+	private static final Set<Tile> tileSet = Set.of(new Tile(1, 2, 3), new Tile(3, 2, 1));
+	private final Pile pile = new Pile(tileSet);
 
 	@Test
 	void pileHasAsManyRemainingTilesAsClassicTileSetContains() {

@@ -5,14 +5,15 @@ import com.github.luddwichr.triominos.tile.Tile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class Pile {
 
 	private final List<Tile> tiles;
 
-	public Pile() {
-		tiles = new ArrayList<>(TileSet.getClassicSet());
-		Collections.shuffle(tiles);
+	public Pile(Set<Tile> tiles) {
+		this.tiles = new ArrayList<>(tiles);
+		Collections.shuffle(this.tiles);
 	}
 
 	public boolean isEmpty() {

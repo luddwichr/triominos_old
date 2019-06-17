@@ -1,5 +1,6 @@
-package com.github.luddwichr.triominos.board;
+package com.github.luddwichr.triominos.logic;
 
+import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.*;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ class PlacementValidatorTest {
 	private final Board board = new Board();
 	private final PlacementValidator placementValidator = new PlacementValidator(board);
 
-	private void setExistingPlacements(Placement ...placements) {
+	private void setExistingPlacements(Placement... placements) {
 		Stream.of(placements).forEach(board::placeTile);
 	}
 
@@ -41,7 +42,7 @@ class PlacementValidatorTest {
 	}
 
 	@Test
-	void isValidPlacement_locationAlreadyOccupied(){
+	void isValidPlacement_locationAlreadyOccupied() {
 		Placement firstPlacement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(firstPlacement);
 		Placement placement = new Placement(new Tile(3, 4, 5), Orientation.ABC, Location.at(0, 0));
@@ -50,7 +51,7 @@ class PlacementValidatorTest {
 	}
 
 	@Test
-	void isValidPlacement_tileAlreadyPlaced(){
+	void isValidPlacement_tileAlreadyPlaced() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(placement);
 		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));

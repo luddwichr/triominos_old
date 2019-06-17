@@ -1,5 +1,6 @@
-package com.github.luddwichr.triominos.board;
+package com.github.luddwichr.triominos.logic;
 
+import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.Corner;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Neighbor;

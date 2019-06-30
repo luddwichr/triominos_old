@@ -1,18 +1,17 @@
 package com.github.luddwichr.triominos.board;
 
-import com.github.luddwichr.triominos.tile.*;
+import com.github.luddwichr.triominos.tile.Location;
+import com.github.luddwichr.triominos.tile.Orientation;
+import com.github.luddwichr.triominos.tile.Placement;
+import com.github.luddwichr.triominos.tile.Tile;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class BoardTest {
 
-	private Board board = new Board();
+	private final Board board = new Board();
 
 	@Test
 	void getPlacementsShouldYieldEmptyCollectionInitially() {

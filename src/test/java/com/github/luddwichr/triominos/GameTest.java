@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 
 class GameTest {
 
-	private Game game = new Game();
+	private final Game game = new Game();
 
 	@ParameterizedTest
 	@ValueSource(ints = {1, 5})

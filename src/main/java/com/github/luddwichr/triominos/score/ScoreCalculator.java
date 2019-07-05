@@ -25,13 +25,10 @@ public class ScoreCalculator {
 	private static final EnumSet<Neighbor> LEFT_CORNER_NON_ADJACENT_NEIGHBORS =
 			EnumSet.of(Neighbor.FAR_LEFT, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
 
-	private final Board board;
+	private final ThreadLocal<Board> threadSafeBoard = new ThreadLocal<>();
 
-	public ScoreCalculator(Board board) {
-		this.board = board;
-	}
-
-	public int getScore(Placement placement) {
+	public int getScore(Board board, Placement placement) {
+		threadSafeBoard.set(board);
 		int score = placement.getTile().points();
 		int completedHexagons = completedHexagons(placement.getLocation());
 		if (completedHexagons > 0) {
@@ -95,7 +92,11 @@ public class ScoreCalculator {
 	}
 
 	private boolean hasNeighbor(Location location, Neighbor neighbor) {
-		return board.getPlacement(neighbor.relativeTo(location)).isPresent();
+		return getBoard().getPlacement(neighbor.relativeTo(location)).isPresent();
+	}
+
+	private Board getBoard() {
+		return threadSafeBoard.get();
 	}
 
 }

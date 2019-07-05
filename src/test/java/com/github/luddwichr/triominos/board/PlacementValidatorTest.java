@@ -1,6 +1,5 @@
-package com.github.luddwichr.triominos.logic;
+package com.github.luddwichr.triominos.board;
 
-import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.*;
 import org.junit.jupiter.api.Test;
 

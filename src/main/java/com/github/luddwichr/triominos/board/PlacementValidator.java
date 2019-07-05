@@ -1,6 +1,5 @@
-package com.github.luddwichr.triominos.logic;
+package com.github.luddwichr.triominos.board;
 
-import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.Corner;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Neighbor;
@@ -16,8 +15,8 @@ public class PlacementValidator {
 	private static final Location DOWN_CENTER_TILE_LOCATION = Location.at(1, 0);
 
 	private static class CornerMatchRule {
-		public final Neighbor neighbor;
-		public final Corner corner;
+		final Neighbor neighbor;
+		final Corner corner;
 
 		private CornerMatchRule(Neighbor neighbor, Corner corner) {
 			this.neighbor = neighbor;

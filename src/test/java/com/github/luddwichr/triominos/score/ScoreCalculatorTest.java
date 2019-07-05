@@ -1,4 +1,4 @@
-package com.github.luddwichr.triominos.logic;
+package com.github.luddwichr.triominos.score;
 
 import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.tile.Location;

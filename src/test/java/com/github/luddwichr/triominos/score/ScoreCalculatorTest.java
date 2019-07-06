@@ -1,6 +1,7 @@
 package com.github.luddwichr.triominos.score;
 
 import com.github.luddwichr.triominos.board.Board;
+import com.github.luddwichr.triominos.board.Board.BoardFactory;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Orientation;
 import com.github.luddwichr.triominos.tile.Placement;
@@ -12,7 +13,7 @@ import static org.mockito.Mockito.mock;
 
 class ScoreCalculatorTest {
 
-	private final Board board = new Board();
+	private final Board board = new BoardFactory().emptyBoard();
 	private final ScoreCalculator scoreCalculator = new ScoreCalculator();
 
 	private void addLocationsWithPlacement(Location... locations) {

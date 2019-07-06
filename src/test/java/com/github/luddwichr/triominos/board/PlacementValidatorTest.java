@@ -1,5 +1,6 @@
 package com.github.luddwichr.triominos.board;
 
+import com.github.luddwichr.triominos.board.Board.BoardFactory;
 import com.github.luddwichr.triominos.tile.*;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PlacementValidatorTest {
 
-	private final Board board = new Board();
+	private final Board board = new BoardFactory().emptyBoard();
 	private final PlacementValidator placementValidator = new PlacementValidator();
 
 	private void setExistingPlacements(Placement... placements) {

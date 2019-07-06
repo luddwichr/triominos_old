@@ -7,6 +7,16 @@ import java.util.*;
 
 public class Board {
 
+	public static class BoardFactory {
+		public Board emptyBoard() {
+			return new Board();
+		}
+	}
+
+	private Board() {
+		// hide from user, enforce use factory
+	}
+
 	private final Map<Location, Placement> placements = new HashMap<>();
 
 	public boolean isEmpty() {

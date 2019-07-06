@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
 
-	private final Board board = new Board();
+	private final Board board = new Board.BoardFactory().emptyBoard();
 
 	@Test
 	void getPlacementsShouldYieldEmptyCollectionInitially() {

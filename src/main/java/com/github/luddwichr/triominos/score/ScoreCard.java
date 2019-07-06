@@ -1,17 +1,23 @@
 package com.github.luddwichr.triominos.score;
 
 import com.github.luddwichr.triominos.player.Player;
+import com.github.luddwichr.triominos.game.Participants;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ScoreCard {
 
+	public static class ScoreCardFactory {
+		public ScoreCard createScoreCard(Participants participants) {
+			return new ScoreCard(participants);
+		}
+	}
+
 	private final Map<Player, Integer> scores;
 
-	public ScoreCard(Collection<Player> players) {
-		scores = players.stream().collect(Collectors.toMap(player -> player, player -> 0));
+	private ScoreCard(Participants participants) {
+		scores = participants.getAllPlayers().stream().collect(Collectors.toMap(player -> player, player -> 0));
 	}
 
 	public int getScore(Player player) {

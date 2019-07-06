@@ -1,8 +1,7 @@
-package com.github.luddwichr.triominos.player;
+package com.github.luddwichr.triominos.game;
 
-import com.github.luddwichr.triominos.game.GameRuleChecker;
-import com.github.luddwichr.triominos.game.Participants;
 import com.github.luddwichr.triominos.game.Participants.ParticipantsFactory;
+import com.github.luddwichr.triominos.player.Player;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

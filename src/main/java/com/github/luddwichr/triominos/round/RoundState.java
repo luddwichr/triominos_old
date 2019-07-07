@@ -37,7 +37,6 @@ public class RoundState {
 	private final ScoreCard scoreCard;
 	private final Participants participants;
 	private final Map<Player, Tray> trays;
-	private Player roundWinner;
 
 	private RoundState(Board board, Pile pile, Participants participants, ScoreCard scoreCard) {
 		this.board = board;
@@ -65,21 +64,6 @@ public class RoundState {
 
 	public Map<Player, Tray> getTrays() {
 		return trays;
-	}
-
-	public Player getRoundWinner() {
-		return roundWinner;
-	}
-
-	public void setRoundWinner(Player roundWinner) {
-		verifyPlayerIsKnown(roundWinner);
-		this.roundWinner = roundWinner;
-	}
-
-	private void verifyPlayerIsKnown(Player roundWinner) {
-		if (!participants.getAllPlayers().contains(roundWinner)) {
-			throw new IllegalArgumentException("Unknown player!");
-		}
 	}
 
 }

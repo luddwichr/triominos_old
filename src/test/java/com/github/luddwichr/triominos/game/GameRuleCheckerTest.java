@@ -1,7 +1,7 @@
 package com.github.luddwichr.triominos.game;
 
 import com.github.luddwichr.triominos.player.Player;
-import com.github.luddwichr.triominos.round.RoundState;
+import com.github.luddwichr.triominos.round.RoundResult;
 import com.github.luddwichr.triominos.score.ScoreCard;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,49 +26,42 @@ class GameRuleCheckerTest {
 		void winsGame_hasWinningScore_isWinnerOfRound() {
 			when(scoreCard.getScore(playerA)).thenReturn(400);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
-			RoundState roundState = fakeRoundState(playerA, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundState)).isTrue();
+			RoundResult roundResult = new RoundResult(playerA, scoreCard);
+			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isTrue();
 		}
 
 		@Test
 		void winsGame_hasWinningScore_winnerOfRoundHasNotWinningScore() {
 			when(scoreCard.getScore(playerA)).thenReturn(400);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
-			RoundState roundState = fakeRoundState(playerB, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundState)).isTrue();
+			RoundResult roundResult = new RoundResult(playerB, scoreCard);
+			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isTrue();
 		}
 
 		@Test
 		void winsGame_hasWinningScore_winnerOfRoundHasWinningScore() {
 			when(scoreCard.getScore(playerA)).thenReturn(400);
 			when(scoreCard.getScore(playerB)).thenReturn(400);
-			RoundState roundState = fakeRoundState(playerB, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundState)).isFalse();
+			RoundResult roundResult = new RoundResult(playerB, scoreCard);
+			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isFalse();
 		}
 
 		@Test
 		void winsGame_hasNotWinningScore_isWinnerOfRound() {
 			when(scoreCard.getScore(playerA)).thenReturn(399);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
-			RoundState roundState = fakeRoundState(playerA, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundState)).isFalse();
+			RoundResult roundResult = new RoundResult(playerA, scoreCard);
+			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isFalse();
 		}
 
 		@Test
 		void winsGame_hasNotWinningScore_isNotWinnerOfRound() {
 			when(scoreCard.getScore(playerA)).thenReturn(399);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
-			RoundState roundState = fakeRoundState(playerB, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundState)).isFalse();
+			RoundResult roundResult = new RoundResult(playerB, scoreCard);
+			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isFalse();
 		}
 
-
-		private RoundState fakeRoundState(Player winner, ScoreCard scoreCard) {
-			RoundState roundState = mock(RoundState.class);
-			when(roundState.getScoreCard()).thenReturn(scoreCard);
-			when(roundState.getRoundWinner()).thenReturn(winner);
-			return roundState;
-		}
 	}
 
 	@ParameterizedTest

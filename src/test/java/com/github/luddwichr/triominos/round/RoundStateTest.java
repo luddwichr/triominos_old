@@ -60,24 +60,7 @@ class RoundStateTest {
 			assertThat(roundState.getTrays()).containsOnlyKeys(playerA, playerB);
 			assertThat(roundState.getTrays().get(playerA).getTiles()).isEmpty();
 			assertThat(roundState.getTrays().get(playerB).getTiles()).isEmpty();
-			assertThat(roundState.getRoundWinner()).isNull();
 		}
-	}
-
-	@Test
-	void setRoundWinnerUpdatesWinner() {
-		RoundState roundState = createRoundState();
-		roundState.setRoundWinner(playerA);
-		assertThat(roundState.getRoundWinner()).isEqualTo(playerA);
-	}
-
-	@Test
-	void setRoundWinnerShouldThrowIfPlayerIsUnknown() {
-		RoundState roundState = createRoundState();
-		Player somePlayer = mock(Player.class);
-		assertThatThrownBy(() -> roundState.setRoundWinner(somePlayer))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("Unknown player!");
 	}
 
 	@Test

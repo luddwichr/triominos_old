@@ -18,16 +18,34 @@ public class RoundState {
 
 	public static class RoundStateFactory {
 
+		private final RoundRules roundRules;
 		private final BoardFactory boardFactory;
 		private final PileFactory pileFactory;
 
-		public RoundStateFactory(BoardFactory boardFactory, PileFactory pileFactory) {
+		public RoundStateFactory(RoundRules roundRules, BoardFactory boardFactory, PileFactory pileFactory) {
+			this.roundRules = roundRules;
 			this.boardFactory = boardFactory;
 			this.pileFactory = pileFactory;
 		}
 
 		public RoundState createRoundState(Participants participants, ScoreCard scoreCard) {
-			return new RoundState(boardFactory.emptyBoard(), pileFactory.classicGamePile(), participants, scoreCard);
+			Board board = boardFactory.emptyBoard();
+			Pile pile = pileFactory.classicGamePile();
+			Map<Player, Tray> trays = unmodifiableMap(initializeTrays(participants, pile));
+			return new RoundState(board, pile, participants, scoreCard, trays);
+		}
+
+		private Map<Player, Tray> initializeTrays(Participants participants, Pile pile) {
+			int numberOfTilesToDraw = roundRules.getNumberOfTilesToDrawForInitialTray(participants.getAllPlayers().size()) ;
+			return participants.getAllPlayers().stream().collect(toMap(player -> player, player -> createTray(pile, numberOfTilesToDraw)));
+		}
+
+		private Tray createTray(Pile pile, int numberOfTilesToDraw) {
+			Tray tray = new Tray();
+			for (int i = 0; i < numberOfTilesToDraw; i++) {
+				tray.addTile(pile.drawRandomTile());
+			}
+			return tray;
 		}
 
 	}
@@ -38,12 +56,12 @@ public class RoundState {
 	private final Participants participants;
 	private final Map<Player, Tray> trays;
 
-	private RoundState(Board board, Pile pile, Participants participants, ScoreCard scoreCard) {
+	private RoundState(Board board, Pile pile, Participants participants, ScoreCard scoreCard, Map<Player, Tray> trays) {
 		this.board = board;
 		this.pile = pile;
 		this.scoreCard = scoreCard;
 		this.participants = participants;
-		this.trays = unmodifiableMap(participants.getAllPlayers().stream().collect(toMap(player -> player, player -> new Tray())));
+		this.trays = trays;
 	}
 
 	public Board getBoard() {

@@ -8,6 +8,7 @@ import com.github.luddwichr.triominos.pile.PileFactory;
 import com.github.luddwichr.triominos.player.Player;
 import com.github.luddwichr.triominos.round.RoundState.RoundStateFactory;
 import com.github.luddwichr.triominos.score.ScoreCard;
+import com.github.luddwichr.triominos.tile.Tile;
 import com.github.luddwichr.triominos.tray.Tray;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RoundStateTest {
 
+	@Mock
+	private RoundRules roundRules;
 	@Mock
 	private BoardFactory boardFactory;
 	@Mock
@@ -51,6 +54,13 @@ class RoundStateTest {
 
 		@Test
 		void initializesRoundStateWithCorrectSetup() {
+			when(roundRules.getNumberOfTilesToDrawForInitialTray(2)).thenReturn(2);
+			Tile tileA = mock(Tile.class);
+			Tile tileB = mock(Tile.class);
+			Tile tileC = mock(Tile.class);
+			Tile tileD = mock(Tile.class);
+			when(pile.drawRandomTile()).thenReturn(tileA).thenReturn(tileB).thenReturn(tileC).thenReturn(tileD);
+
 			RoundState roundState = createRoundState();
 
 			assertThat(roundState.getBoard()).isSameAs(board);
@@ -58,8 +68,8 @@ class RoundStateTest {
 			assertThat(roundState.getScoreCard()).isSameAs(scoreCard);
 			assertThat(roundState.getParticipants()).isSameAs(participants);
 			assertThat(roundState.getTrays()).containsOnlyKeys(playerA, playerB);
-			assertThat(roundState.getTrays().get(playerA).getTiles()).isEmpty();
-			assertThat(roundState.getTrays().get(playerB).getTiles()).isEmpty();
+			assertThat(roundState.getTrays().get(playerA).getTiles()).containsExactly(tileA, tileB);
+			assertThat(roundState.getTrays().get(playerB).getTiles()).containsExactly(tileC, tileD);
 		}
 	}
 

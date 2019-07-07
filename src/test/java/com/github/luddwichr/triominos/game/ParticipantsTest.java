@@ -16,8 +16,8 @@ import static org.mockito.Mockito.when;
 
 class ParticipantsTest {
 
-	private final GameRuleChecker gameRuleChecker = mock(GameRuleChecker.class);
-	private final ParticipantsFactory participantsFactory = new ParticipantsFactory(gameRuleChecker);
+	private final GameRules gameRules = mock(GameRules.class);
+	private final ParticipantsFactory participantsFactory = new ParticipantsFactory(gameRules);
 	private final List<Player> players = createFakePlayers();
 
 	@Nested
@@ -25,7 +25,7 @@ class ParticipantsTest {
 
 		@Test
 		void throwsIfNumberOfPlayersNotAllowed() {
-			when(gameRuleChecker.isNumberOfPlayersAllowed(players.size())).thenReturn(false);
+			when(gameRules.isNumberOfPlayersAllowed(players.size())).thenReturn(false);
 			assertThatThrownBy(() -> participantsFactory.createParticipants(players))
 					.isInstanceOf(IllegalArgumentException.class)
 					.hasMessage("Number of players not allowed");
@@ -50,7 +50,7 @@ class ParticipantsTest {
 	}
 
 	private Participants createParticipants() {
-		when(gameRuleChecker.isNumberOfPlayersAllowed(players.size())).thenReturn(true);
+		when(gameRules.isNumberOfPlayersAllowed(players.size())).thenReturn(true);
 		return participantsFactory.createParticipants(players);
 	}
 

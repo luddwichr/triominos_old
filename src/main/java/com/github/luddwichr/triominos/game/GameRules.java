@@ -3,7 +3,7 @@ package com.github.luddwichr.triominos.game;
 import com.github.luddwichr.triominos.player.Player;
 import com.github.luddwichr.triominos.round.RoundResult;
 
-public class GameRuleChecker {
+public class GameRules {
 
 	private static final int MIN_PLAYER_COUNT = 2;
 	private static final int MAX_PLAYER_COUNT = 4;

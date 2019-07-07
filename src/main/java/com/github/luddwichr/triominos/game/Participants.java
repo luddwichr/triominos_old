@@ -11,10 +11,10 @@ public class Participants {
 
 	public static class ParticipantsFactory {
 
-		private final GameRuleChecker gameRuleChecker;
+		private final GameRules gameRules;
 
-		public ParticipantsFactory(GameRuleChecker gameRuleChecker) {
-			this.gameRuleChecker = gameRuleChecker;
+		public ParticipantsFactory(GameRules gameRules) {
+			this.gameRules = gameRules;
 		}
 
 		public Participants createParticipants(List<Player> players) {
@@ -23,7 +23,7 @@ public class Participants {
 		}
 
 		private void verifyNumberOfPlayersAllowed(int numberOfPlayers) {
-			if (!gameRuleChecker.isNumberOfPlayersAllowed(numberOfPlayers)) {
+			if (!gameRules.isNumberOfPlayersAllowed(numberOfPlayers)) {
 				throw new IllegalArgumentException("Number of players not allowed");
 			}
 		}

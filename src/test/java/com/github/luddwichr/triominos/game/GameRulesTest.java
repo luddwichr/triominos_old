@@ -12,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class GameRuleCheckerTest {
+class GameRulesTest {
 
-	private final GameRuleChecker gameRuleChecker = new GameRuleChecker();
+	private final GameRules gameRules = new GameRules();
 
 	@Nested
 	class GameWinnerCheck {
@@ -27,7 +27,7 @@ class GameRuleCheckerTest {
 			when(scoreCard.getScore(playerA)).thenReturn(400);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
 			RoundResult roundResult = new RoundResult(playerA, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isTrue();
+			assertThat(gameRules.winsGame(playerA, roundResult)).isTrue();
 		}
 
 		@Test
@@ -35,7 +35,7 @@ class GameRuleCheckerTest {
 			when(scoreCard.getScore(playerA)).thenReturn(400);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
 			RoundResult roundResult = new RoundResult(playerB, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isTrue();
+			assertThat(gameRules.winsGame(playerA, roundResult)).isTrue();
 		}
 
 		@Test
@@ -43,7 +43,7 @@ class GameRuleCheckerTest {
 			when(scoreCard.getScore(playerA)).thenReturn(400);
 			when(scoreCard.getScore(playerB)).thenReturn(400);
 			RoundResult roundResult = new RoundResult(playerB, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isFalse();
+			assertThat(gameRules.winsGame(playerA, roundResult)).isFalse();
 		}
 
 		@Test
@@ -51,7 +51,7 @@ class GameRuleCheckerTest {
 			when(scoreCard.getScore(playerA)).thenReturn(399);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
 			RoundResult roundResult = new RoundResult(playerA, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isFalse();
+			assertThat(gameRules.winsGame(playerA, roundResult)).isFalse();
 		}
 
 		@Test
@@ -59,7 +59,7 @@ class GameRuleCheckerTest {
 			when(scoreCard.getScore(playerA)).thenReturn(399);
 			when(scoreCard.getScore(playerB)).thenReturn(0);
 			RoundResult roundResult = new RoundResult(playerB, scoreCard);
-			assertThat(gameRuleChecker.winsGame(playerA, roundResult)).isFalse();
+			assertThat(gameRules.winsGame(playerA, roundResult)).isFalse();
 		}
 
 	}
@@ -67,12 +67,12 @@ class GameRuleCheckerTest {
 	@ParameterizedTest
 	@ValueSource(ints = {2, 3, 4})
 	void isNumberOfPlayersAllowed(int numberOfPlayers) {
-		assertThat(gameRuleChecker.isNumberOfPlayersAllowed(numberOfPlayers)).isTrue();
+		assertThat(gameRules.isNumberOfPlayersAllowed(numberOfPlayers)).isTrue();
 	}
 
 	@ParameterizedTest
 	@ValueSource(ints = {0, 1, 5, 6})
 	void isNumberOfPlayersAllowedWithInvalidNumberOfPlayers(int numberOfPlayers) {
-		assertThat(gameRuleChecker.isNumberOfPlayersAllowed(numberOfPlayers)).isFalse();
+		assertThat(gameRules.isNumberOfPlayersAllowed(numberOfPlayers)).isFalse();
 	}
 }

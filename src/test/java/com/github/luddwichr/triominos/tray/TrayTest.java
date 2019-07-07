@@ -42,4 +42,12 @@ class TrayTest {
 
 		assertThat(tray.getTiles()).isEmpty();
 	}
+
+	@Test
+	void pointsInTray() {
+		tray.addTile(new Tile(0, 1, 2));
+		assertThat(tray.pointsInTray()).isEqualTo(3);
+		tray.addTile(new Tile(3, 4, 5));
+		assertThat(tray.pointsInTray()).isEqualTo(15);
+	}
 }

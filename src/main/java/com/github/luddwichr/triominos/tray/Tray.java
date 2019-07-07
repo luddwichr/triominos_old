@@ -22,4 +22,8 @@ public class Tray {
 		tiles.remove(tile);
 	}
 
+	public int pointsInTray() {
+		return tiles.stream().mapToInt(Tile::points).sum();
+	}
+
 }

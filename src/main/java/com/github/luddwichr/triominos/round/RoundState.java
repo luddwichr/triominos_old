@@ -9,8 +9,9 @@ import com.github.luddwichr.triominos.player.Player;
 import com.github.luddwichr.triominos.score.ScoreCard;
 import com.github.luddwichr.triominos.tray.Tray;
 
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.stream.Collectors.toMap;
 
@@ -32,7 +33,8 @@ public class RoundState {
 			Board board = boardFactory.emptyBoard();
 			Pile pile = pileFactory.classicGamePile();
 			Map<Player, Tray> trays = unmodifiableMap(initializeTrays(participants, pile));
-			return new RoundState(board, pile, participants, scoreCard, trays);
+			List<Player> moveOrder = unmodifiableList(determineMoveOrder(participants, trays));
+			return new RoundState(board, pile, moveOrder, scoreCard, trays);
 		}
 
 		private Map<Player, Tray> initializeTrays(Participants participants, Pile pile) {
@@ -48,19 +50,26 @@ public class RoundState {
 			return tray;
 		}
 
+		private List<Player> determineMoveOrder(Participants participants, Map<Player, Tray> trays) {
+			Player firstPlayer = roundRules.determineFirstPlayer(trays);
+			List<Player> playersInMoveOrder = new ArrayList<>(participants.getAllPlayers());
+			Collections.rotate(playersInMoveOrder, -playersInMoveOrder.indexOf(firstPlayer));
+			return playersInMoveOrder;
+		}
+
 	}
 
 	private final Board board;
 	private final Pile pile;
 	private final ScoreCard scoreCard;
-	private final Participants participants;
+	private final List<Player> playersInMoveOrder;
 	private final Map<Player, Tray> trays;
 
-	private RoundState(Board board, Pile pile, Participants participants, ScoreCard scoreCard, Map<Player, Tray> trays) {
+	private RoundState(Board board, Pile pile, List<Player> playersInMoveOrder, ScoreCard scoreCard, Map<Player, Tray> trays) {
 		this.board = board;
 		this.pile = pile;
 		this.scoreCard = scoreCard;
-		this.participants = participants;
+		this.playersInMoveOrder = playersInMoveOrder;
 		this.trays = trays;
 	}
 
@@ -76,8 +85,8 @@ public class RoundState {
 		return scoreCard;
 	}
 
-	public Participants getParticipants() {
-		return participants;
+	public List<Player> getPlayersInMoveOrder() {
+		return playersInMoveOrder;
 	}
 
 	public Map<Player, Tray> getTrays() {

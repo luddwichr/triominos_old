@@ -8,6 +8,7 @@ import com.github.luddwichr.triominos.pile.PileFactory;
 import com.github.luddwichr.triominos.player.Player;
 import com.github.luddwichr.triominos.round.RoundState.RoundStateFactory;
 import com.github.luddwichr.triominos.score.ScoreCard;
+import com.github.luddwichr.triominos.tray.Tray;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,6 +78,16 @@ class RoundStateTest {
 		assertThatThrownBy(() -> roundState.setRoundWinner(somePlayer))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Unknown player!");
+	}
+
+	@Test
+	void getTraysShouldYieldUnmodifiableCollection() {
+		RoundState roundState = createRoundState();
+		Player somePlayer = mock(Player.class);
+		assertThatThrownBy(() -> roundState.getTrays().put(somePlayer, new Tray()))
+				.isInstanceOf(UnsupportedOperationException.class);
+		assertThatThrownBy(() -> roundState.getTrays().remove(somePlayer))
+				.isInstanceOf(UnsupportedOperationException.class);
 	}
 
 	private RoundState createRoundState() {

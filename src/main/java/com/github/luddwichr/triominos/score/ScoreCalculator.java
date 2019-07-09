@@ -1,9 +1,12 @@
 package com.github.luddwichr.triominos.score;
 
 import com.github.luddwichr.triominos.board.Board;
+import com.github.luddwichr.triominos.player.Player;
+import com.github.luddwichr.triominos.round.RoundWinReason;
 import com.github.luddwichr.triominos.tile.Location;
 import com.github.luddwichr.triominos.tile.Neighbor;
 import com.github.luddwichr.triominos.tile.Placement;
+import com.github.luddwichr.triominos.tray.Tray;
 
 import java.util.EnumSet;
 import java.util.Map;
@@ -24,8 +27,35 @@ public class ScoreCalculator {
 			EnumSet.of(Neighbor.FAR_RIGHT, Neighbor.RIGHT_TO_MIDDLE, Neighbor.FAR_RIGHT_TO_MIDDLE);
 	private static final EnumSet<Neighbor> LEFT_CORNER_NON_ADJACENT_NEIGHBORS =
 			EnumSet.of(Neighbor.FAR_LEFT, Neighbor.LEFT_TO_MIDDLE, Neighbor.FAR_LEFT_TO_MIDDLE);
+	private static final int ROUND_WON_BY_PLAYING_ALL_TILES_BASE_SCORE = 25;
 
 	private final ThreadLocal<Board> threadSafeBoard = new ThreadLocal<>();
+
+	public int getScoreForRoundWin(RoundWinReason roundWinReason, Player winner, Map<Player, Tray> trays) {
+		switch (roundWinReason) {
+			case ALL_TILES_PLACED:
+				return 	getScoreForWinningRoundByPlayingAllTiles(winner, trays);
+			case LEAST_POINTS_IN_TRAY:
+				return getScoreForWinningRoundByHavingFewestPointsInTray(winner, trays);
+			default:
+				throw new IllegalStateException("Unexpected value: " + roundWinReason);
+		}
+	}
+
+	private int getScoreForWinningRoundByHavingFewestPointsInTray(Player winner, Map<Player, Tray> trays) {
+		return getTotalPointsInTraysOfOtherPlayers(winner, trays) - trays.get(winner).pointsInTray();
+	}
+
+	private int getScoreForWinningRoundByPlayingAllTiles(Player winner, Map<Player, Tray> trays) {
+		return ROUND_WON_BY_PLAYING_ALL_TILES_BASE_SCORE + getTotalPointsInTraysOfOtherPlayers(winner, trays);
+	}
+
+	private int getTotalPointsInTraysOfOtherPlayers(Player winner, Map<Player, Tray> trays) {
+		return trays.entrySet().stream()
+				.filter(entry -> entry.getKey() == winner)
+				.mapToInt(entry -> entry.getValue().pointsInTray())
+				.sum();
+	}
 
 	public int getScore(Board board, Placement placement) {
 		threadSafeBoard.set(board);
@@ -71,7 +101,7 @@ public class ScoreCalculator {
 
 	private boolean isCompletingBridge(Location location) {
 		return isCompletingBridgeAtRightCorner(location)
-				||isCompletingBridgeAtLeftCorner(location)
+				|| isCompletingBridgeAtLeftCorner(location)
 				|| isCompletingBridgeAtMiddleCorner(location);
 	}
 

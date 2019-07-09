@@ -4,8 +4,11 @@ import com.github.luddwichr.triominos.player.Player;
 import com.github.luddwichr.triominos.round.RoundResult;
 import com.github.luddwichr.triominos.tile.Tile;
 import com.github.luddwichr.triominos.tray.Tray;
+import com.github.luddwichr.triominos.turn.TurnState;
 
 import java.util.Map;
+
+import static java.util.Comparator.comparingInt;
 
 public class GameRules {
 
@@ -51,6 +54,18 @@ public class GameRules {
 
 	private int compareTile(Tile tileA, Tile tileB) {
 		return tileB.points() - tileA.points();
+	}
+
+	public boolean winsRound(Player player, Map<Player, Tray> trays, TurnState turnState) {
+		boolean hasEmptyTray = trays.get(player).getTiles().isEmpty();
+
+		boolean isPlayerWithFewestPointsInTray = trays.entrySet().stream()
+				.min(comparingInt(entry -> entry.getValue().pointsInTray()))
+				.map(Map.Entry::getKey)
+				.filter(playerWithFewestPoints -> playerWithFewestPoints == player)
+				.isPresent();
+
+		return hasEmptyTray || (turnState.isAllPlayersBlocked() && isPlayerWithFewestPointsInTray);
 	}
 
 }

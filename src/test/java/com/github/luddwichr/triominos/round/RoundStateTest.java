@@ -2,6 +2,7 @@ package com.github.luddwichr.triominos.round;
 
 import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.board.Board.BoardFactory;
+import com.github.luddwichr.triominos.game.GameRules;
 import com.github.luddwichr.triominos.pile.Pile;
 import com.github.luddwichr.triominos.pile.PileFactory;
 import com.github.luddwichr.triominos.player.Player;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.when;
 class RoundStateTest {
 
 	@Mock
-	private RoundRules roundRules;
+	private GameRules gameRules;
 	@Mock
 	private BoardFactory boardFactory;
 	@Mock
@@ -66,7 +67,7 @@ class RoundStateTest {
 		@Test
 		void fillsInitialTrays() {
 			when(pileFactory.classicGamePile()).thenReturn(pile);
-			when(roundRules.getNumberOfTilesToDrawForInitialTray(2)).thenReturn(2);
+			when(gameRules.getNumberOfTilesToDrawForInitialTray(2)).thenReturn(2);
 			Tile tileA = mock(Tile.class);
 			Tile tileB = mock(Tile.class);
 			Tile tileC = mock(Tile.class);
@@ -90,7 +91,7 @@ class RoundStateTest {
 			Player playerB = mock(Player.class);
 			Player playerC = mock(Player.class);
 			List<Player> players = List.of(playerA, playerB, playerC);
-			when(roundRules.determineFirstPlayer(any())).thenReturn(playerC);
+			when(gameRules.determineFirstPlayer(any())).thenReturn(playerC);
 
 			RoundState roundState = roundStateFactory.createRoundState(players, scoreCard);
 

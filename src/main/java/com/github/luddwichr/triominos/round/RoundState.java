@@ -2,6 +2,7 @@ package com.github.luddwichr.triominos.round;
 
 import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.board.Board.BoardFactory;
+import com.github.luddwichr.triominos.game.GameRules;
 import com.github.luddwichr.triominos.pile.Pile;
 import com.github.luddwichr.triominos.pile.PileFactory;
 import com.github.luddwichr.triominos.player.Player;
@@ -21,12 +22,12 @@ public class RoundState {
 
 	public static class RoundStateFactory {
 
-		private final RoundRules roundRules;
+		private final GameRules gameRules;
 		private final BoardFactory boardFactory;
 		private final PileFactory pileFactory;
 
-		public RoundStateFactory(RoundRules roundRules, BoardFactory boardFactory, PileFactory pileFactory) {
-			this.roundRules = roundRules;
+		public RoundStateFactory(GameRules gameRules, BoardFactory boardFactory, PileFactory pileFactory) {
+			this.gameRules = gameRules;
 			this.boardFactory = boardFactory;
 			this.pileFactory = pileFactory;
 		}
@@ -40,7 +41,7 @@ public class RoundState {
 		}
 
 		private Map<Player, Tray> initializeTrays(List<Player> players, Pile pile) {
-			int numberOfTilesToDraw = roundRules.getNumberOfTilesToDrawForInitialTray(players.size()) ;
+			int numberOfTilesToDraw = gameRules.getNumberOfTilesToDrawForInitialTray(players.size()) ;
 			return players.stream().collect(toMap(player -> player, player -> createTray(pile, numberOfTilesToDraw)));
 		}
 
@@ -53,7 +54,7 @@ public class RoundState {
 		}
 
 		private List<Player> determineMoveOrder(List<Player> players, Map<Player, Tray> trays) {
-			Player firstPlayer = roundRules.determineFirstPlayer(trays);
+			Player firstPlayer = gameRules.determineFirstPlayer(trays);
 			List<Player> playersInMoveOrder = new ArrayList<>(players);
 			Collections.rotate(playersInMoveOrder, -playersInMoveOrder.indexOf(firstPlayer));
 			return playersInMoveOrder;

@@ -2,7 +2,6 @@ package com.github.luddwichr.triominos.round;
 
 import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.board.Board.BoardFactory;
-import com.github.luddwichr.triominos.game.Participants;
 import com.github.luddwichr.triominos.pile.Pile;
 import com.github.luddwichr.triominos.pile.PileFactory;
 import com.github.luddwichr.triominos.player.Player;
@@ -60,7 +59,7 @@ class RoundStateTest {
 
 		@Test
 		void usesGivenScoreCard() {
-			RoundState roundState = roundStateFactory.createRoundState(createParticipants(List.of()), scoreCard);
+			RoundState roundState = roundStateFactory.createRoundState(List.of(), scoreCard);
 			assertThat(roundState.getScoreCard()).isSameAs(scoreCard);
 		}
 
@@ -73,12 +72,11 @@ class RoundStateTest {
 			Tile tileC = mock(Tile.class);
 			Tile tileD = mock(Tile.class);
 			when(pile.drawRandomTile()).thenReturn(tileA).thenReturn(tileB).thenReturn(tileC).thenReturn(tileD);
-
 			Player playerA = mock(Player.class);
 			Player playerB = mock(Player.class);
-			Participants participants = createParticipants(List.of(playerA, playerB));
+			List<Player> players = List.of(playerA, playerB);
 
-			RoundState roundState = roundStateFactory.createRoundState(participants, scoreCard);
+			RoundState roundState = roundStateFactory.createRoundState(players, scoreCard);
 
 			assertThat(roundState.getTrays()).containsOnlyKeys(playerA, playerB);
 			assertThat(roundState.getTrays().get(playerA).getTiles()).containsExactly(tileA, tileB);
@@ -91,10 +89,10 @@ class RoundStateTest {
 			Player playerA = mock(Player.class);
 			Player playerB = mock(Player.class);
 			Player playerC = mock(Player.class);
-			Participants participants = createParticipants(List.of(playerA, playerB, playerC));
-
+			List<Player> players = List.of(playerA, playerB, playerC);
 			when(roundRules.determineFirstPlayer(any())).thenReturn(playerC);
-			RoundState roundState = roundStateFactory.createRoundState(participants, scoreCard);
+
+			RoundState roundState = roundStateFactory.createRoundState(players, scoreCard);
 
 			assertThat(roundState.getPlayersInMoveOrder()).containsExactly(playerC, playerA, playerB);
 		}
@@ -123,14 +121,7 @@ class RoundStateTest {
 
 
 	private RoundState createSomeRoundState() {
-		return roundStateFactory.createRoundState(createParticipants(List.of(mock(Player.class))), mock(ScoreCard.class));
+		return roundStateFactory.createRoundState(List.of(mock(Player.class)), mock(ScoreCard.class));
 	}
-
-	private Participants createParticipants(List<Player> players) {
-		Participants participants = mock(Participants.class);
-		when(participants.getAllPlayers()).thenReturn(players);
-		return participants;
-	}
-
 
 }

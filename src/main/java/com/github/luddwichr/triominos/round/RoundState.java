@@ -2,14 +2,16 @@ package com.github.luddwichr.triominos.round;
 
 import com.github.luddwichr.triominos.board.Board;
 import com.github.luddwichr.triominos.board.Board.BoardFactory;
-import com.github.luddwichr.triominos.game.Participants;
 import com.github.luddwichr.triominos.pile.Pile;
 import com.github.luddwichr.triominos.pile.PileFactory;
 import com.github.luddwichr.triominos.player.Player;
 import com.github.luddwichr.triominos.score.ScoreCard;
 import com.github.luddwichr.triominos.tray.Tray;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
@@ -29,17 +31,17 @@ public class RoundState {
 			this.pileFactory = pileFactory;
 		}
 
-		public RoundState createRoundState(Participants participants, ScoreCard scoreCard) {
+		public RoundState createRoundState(List<Player> players, ScoreCard scoreCard) {
 			Board board = boardFactory.emptyBoard();
 			Pile pile = pileFactory.classicGamePile();
-			Map<Player, Tray> trays = unmodifiableMap(initializeTrays(participants, pile));
-			List<Player> moveOrder = unmodifiableList(determineMoveOrder(participants, trays));
+			Map<Player, Tray> trays = unmodifiableMap(initializeTrays(players, pile));
+			List<Player> moveOrder = unmodifiableList(determineMoveOrder(players, trays));
 			return new RoundState(board, pile, moveOrder, scoreCard, trays);
 		}
 
-		private Map<Player, Tray> initializeTrays(Participants participants, Pile pile) {
-			int numberOfTilesToDraw = roundRules.getNumberOfTilesToDrawForInitialTray(participants.getAllPlayers().size()) ;
-			return participants.getAllPlayers().stream().collect(toMap(player -> player, player -> createTray(pile, numberOfTilesToDraw)));
+		private Map<Player, Tray> initializeTrays(List<Player> players, Pile pile) {
+			int numberOfTilesToDraw = roundRules.getNumberOfTilesToDrawForInitialTray(players.size()) ;
+			return players.stream().collect(toMap(player -> player, player -> createTray(pile, numberOfTilesToDraw)));
 		}
 
 		private Tray createTray(Pile pile, int numberOfTilesToDraw) {
@@ -50,9 +52,9 @@ public class RoundState {
 			return tray;
 		}
 
-		private List<Player> determineMoveOrder(Participants participants, Map<Player, Tray> trays) {
+		private List<Player> determineMoveOrder(List<Player> players, Map<Player, Tray> trays) {
 			Player firstPlayer = roundRules.determineFirstPlayer(trays);
-			List<Player> playersInMoveOrder = new ArrayList<>(participants.getAllPlayers());
+			List<Player> playersInMoveOrder = new ArrayList<>(players);
 			Collections.rotate(playersInMoveOrder, -playersInMoveOrder.indexOf(firstPlayer));
 			return playersInMoveOrder;
 		}

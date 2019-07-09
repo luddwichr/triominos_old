@@ -1,6 +1,5 @@
 package com.github.luddwichr.triominos.score;
 
-import com.github.luddwichr.triominos.game.Participants;
 import com.github.luddwichr.triominos.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class ScoreCardTest {
 
@@ -17,14 +15,7 @@ class ScoreCardTest {
 	private final Player playerA = mock(Player.class);
 	private final Player playerB = mock(Player.class);
 	private final List<Player> players = List.of(playerA, playerB);
-	private final Participants participants = createParticipantsMock(players);
-	private final ScoreCard scoreCard = new ScoreCard.ScoreCardFactory().createScoreCard(participants);
-
-	private static Participants createParticipantsMock(List<Player> players) {
-		Participants participants = mock(Participants.class);
-		when(participants.getAllPlayers()).thenReturn(players);
-		return participants;
-	}
+	private final ScoreCard scoreCard = new ScoreCard.ScoreCardFactory().createScoreCard(players);
 
 	@Test
 	void getScoreShouldBeInitiallyZeroForAllPlayers() {

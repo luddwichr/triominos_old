@@ -64,4 +64,4 @@ public class TileFriendsAnalyzer {
 		return EDGE_PAIRS.stream().anyMatch(edgePair -> edgePair.isMatching(tile, otherTile));
 	}
 
-	}
+}

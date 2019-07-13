@@ -28,4 +28,9 @@ public class Tile {
 		return cornerNumbers.get(Corner.LEFT) + cornerNumbers.get(Corner.MIDDLE) + cornerNumbers.get(Corner.RIGHT);
 	}
 
+	@Override
+	public String toString() {
+		return getNumber(Corner.LEFT) + "-" + getNumber(Corner.MIDDLE) + "-" + getNumber(Corner.RIGHT);
+	}
+
 }

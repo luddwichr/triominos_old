@@ -18,4 +18,9 @@ class TileTest {
 	void pointsYieldsSumOfCornerNumbers() {
 		assertThat(new Tile(3, 2, 1).points()).isEqualTo(6);
 	}
+
+	@Test
+	void toStringYieldsPointsOrderedByLeftCenterRightCornerSeparatedByDashes() {
+		assertThat(new Tile(1, 2, 3).toString()).isEqualTo("1-2-3");
+	}
 }

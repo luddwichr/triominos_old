@@ -67,6 +67,10 @@ public class PlacementValidator {
 		if (!isAdjacentToExistingPlacement(placement)) {
 			return false;
 		}
+		return areAllCornersFitting(placement);
+	}
+
+	private boolean areAllCornersFitting(Placement placement) {
 		return isLeftCornerFitting(placement) && isRightCornerFitting(placement) && isMiddleCornerFitting(placement);
 	}
 
@@ -90,18 +94,18 @@ public class PlacementValidator {
 	}
 
 	private boolean isRightCornerFitting(Placement placement) {
-		return isAllCornersMatching(placement, Corner.RIGHT);
+		return areAllCornersMatching(placement, Corner.RIGHT);
 	}
 
 	private boolean isLeftCornerFitting(Placement placement) {
-		return isAllCornersMatching(placement, Corner.LEFT);
+		return areAllCornersMatching(placement, Corner.LEFT);
 	}
 
 	private boolean isMiddleCornerFitting(Placement placement) {
-		return isAllCornersMatching(placement, Corner.MIDDLE);
+		return areAllCornersMatching(placement, Corner.MIDDLE);
 	}
 
-	private boolean isAllCornersMatching(Placement placement, Corner corner) {
+	private boolean areAllCornersMatching(Placement placement, Corner corner) {
 		int cornerNumber = placement.getRotatedNumber(corner);
 		Location location = placement.getLocation();
 		return CORNER_MATCH_RULES.get(corner).stream()

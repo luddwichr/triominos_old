@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toSet;
+
 public class TilePointsAnalyzer {
 
-	public Map<Integer, List<Tile>> tilesGroupByPoints(Set<Tile> tileSet) {
-		return tileSet.stream().collect(Collectors.groupingBy(Tile::points));
+	public Map<Integer, Set<Tile>> tilesGroupByPoints(Set<Tile> tileSet) {
+		return tileSet.stream().collect(Collectors.groupingBy(Tile::points, toSet()));
 	}
 }

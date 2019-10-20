@@ -59,14 +59,21 @@ public class ScoreCalculator {
 
 	public int getScore(Board board, Placement placement) {
 		threadSafeBoard.set(board);
-		int score = placement.getTile().points();
-		int completedHexagons = completedHexagons(placement.getLocation());
-		if (completedHexagons > 0) {
-			score += HEXAGON_SCORES.get(completedHexagons);
-		} else if (isCompletingBridge(placement.getLocation())) {
-			score += BRIDGE_SCORE;
+		try {
+
+			int score = placement.getTile().points();
+			int completedHexagons = completedHexagons(placement.getLocation());
+			if (completedHexagons > 0) {
+				score += HEXAGON_SCORES.get(completedHexagons);
+			} else if (isCompletingBridge(placement.getLocation())) {
+				score += BRIDGE_SCORE;
+			}
+
+			return score;
 		}
-		return score;
+		finally {
+			threadSafeBoard.remove();
+		}
 	}
 
 	private int completedHexagons(Location location) {

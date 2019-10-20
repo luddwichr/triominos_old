@@ -54,20 +54,24 @@ public class PlacementValidator {
 	private final ThreadLocal<Board> threadSafeBoard = new ThreadLocal<>();
 
 	public boolean isValidPlacement(Board board, Placement placement) {
-		this.threadSafeBoard.set(board);
-		if (board.isEmpty()) {
-			return isFirstTileLocationCentered(placement);
+		threadSafeBoard.set(board);
+		try {
+			if (board.isEmpty()) {
+				return isFirstTileLocationCentered(placement);
+			}
+			if (isTileAlreadyPlaced(placement)) {
+				return false;
+			}
+			if (isAlreadyTaken(placement)) {
+				return false;
+			}
+			if (!isAdjacentToExistingPlacement(placement)) {
+				return false;
+			}
+			return areAllCornersFitting(placement);
+		} finally {
+			threadSafeBoard.remove();
 		}
-		if (isTileAlreadyPlaced(placement)) {
-			return false;
-		}
-		if (isAlreadyTaken(placement)) {
-			return false;
-		}
-		if (!isAdjacentToExistingPlacement(placement)) {
-			return false;
-		}
-		return areAllCornersFitting(placement);
 	}
 
 	private boolean areAllCornersFitting(Placement placement) {

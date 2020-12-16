@@ -53,7 +53,6 @@ class GameTest {
 		RoundState secondRound = mock(RoundState.class);
 		RoundResult firstRoundResult = mock(RoundResult.class);
 		RoundResult secondRoundResult = mock(RoundResult.class);
-		when(gameRules.getMaxRounds()).thenReturn(5);
 		when(gameRules.isNumberOfPlayersAllowed(players.size())).thenReturn(true);
 		when(scoreCardFactory.createScoreCard(players)).thenReturn(scoreCard);
 		when(roundStateFactory.createRoundState(players, scoreCard)).thenReturn(firstRound).thenReturn(secondRound);

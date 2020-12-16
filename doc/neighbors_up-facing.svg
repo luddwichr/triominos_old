@@ -16,17 +16,17 @@
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="32" y="90" fill="blue">left-to-opposite</text>
+            <text x="32" y="90" fill="darkorange">left-to-opposite</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="45" y="55" fill="blue">opposite</text>
+            <text x="45" y="55" fill="darkorange">opposite</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="30" y="90" fill="blue">right-to-opposite</text>
+            <text x="30" y="90" fill="darkorange">right-to-opposite</text>
         </g>
 
         <g transform="translate(365, 0)">
@@ -48,27 +48,27 @@
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="50" y="80" fill="blue">far-left</text>
+            <text x="50" y="80" fill="darkorange">far-left</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">left</text>
+            <text x="60" y="55" fill="darkorange">left</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="gray" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue" font-weight="bold" font-size="14">X / Y</text>
+            <text x="60" y="80" fill="darkorange" font-weight="bold" font-size="14">X / Y</text>
         </g>
 
         <g transform="translate(365, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">right</text>
+            <text x="60" y="55" fill="darkorange">right</text>
         </g>
 
         <g transform="translate(438, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="50" y="80" fill="blue">far-right</text>
+            <text x="50" y="80" fill="darkorange">far-right</text>
         </g>
 
         <g transform="translate(511, 0)">
@@ -86,27 +86,27 @@
 
         <g transform="translate(73, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="27" y="35" fill="blue">far-left-to-middle</text>
+            <text x="27" y="35" fill="darkorange">far-left-to-middle</text>
         </g>
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="38" y="90" fill="blue">left-to-middle</text>
+            <text x="38" y="90" fill="darkorange">left-to-middle</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">middle</text>
+            <text x="60" y="55" fill="darkorange">middle</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="34" y="90" fill="blue">right-to-middle</text>
+            <text x="34" y="90" fill="darkorange">right-to-middle</text>
         </g>
 
         <g transform="translate(365, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="25" y="35" fill="blue">far-right-to-middle</text>
+            <text x="25" y="35" fill="darkorange">far-right-to-middle</text>
         </g>
 
         <g transform="translate(438, 0)">

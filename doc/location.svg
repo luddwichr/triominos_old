@@ -8,32 +8,32 @@
 
         <g transform="translate(0, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">-3 / -1</text>
+            <text x="60" y="80" fill="darkorange">-3 / -1</text>
         </g>
 
         <g transform="translate(73, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">-2 / -1</text>
+            <text x="60" y="55" fill="darkorange">-2 / -1</text>
         </g>
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">-1 / -1</text>
+            <text x="60" y="80" fill="darkorange">-1 / -1</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">0 / -1</text>
+            <text x="60" y="55" fill="darkorange">0 / -1</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">1 / -1</text>
+            <text x="60" y="80" fill="darkorange">1 / -1</text>
         </g>
 
         <g transform="translate(365, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">2 / -1</text>
+            <text x="60" y="55" fill="darkorange">2 / -1</text>
         </g>
 
         <g transform="translate(438, 0)">
@@ -47,32 +47,32 @@
 
         <g transform="translate(73, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">-3 / 0</text>
+            <text x="60" y="55" fill="darkorange">-3 / 0</text>
         </g>
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">-2 / 0</text>
+            <text x="60" y="80" fill="darkorange">-2 / 0</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">-1 / 0</text>
+            <text x="60" y="55" fill="darkorange">-1 / 0</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue" font-weight="bold" font-size="14">0 / 0</text>
+            <text x="60" y="80" fill="darkorange" font-weight="bold" font-size="14">0 / 0</text>
         </g>
 
         <g transform="translate(365, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">1 / 0</text>
+            <text x="60" y="55" fill="darkorange">1 / 0</text>
         </g>
 
         <g transform="translate(438, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">2 / 0</text>
+            <text x="60" y="80" fill="darkorange">2 / 0</text>
         </g>
 
         <g transform="translate(511, 0)">
@@ -86,32 +86,32 @@
 
         <g transform="translate(0, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">-3 / 1</text>
+            <text x="60" y="80" fill="darkorange">-3 / 1</text>
         </g>
 
         <g transform="translate(73, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">-2 / 1</text>
+            <text x="60" y="55" fill="darkorange">-2 / 1</text>
         </g>
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">-1 / 1</text>
+            <text x="60" y="80" fill="darkorange">-1 / 1</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">0 / 1</text>
+            <text x="60" y="55" fill="darkorange">0 / 1</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">1 / 1</text>
+            <text x="60" y="80" fill="darkorange">1 / 1</text>
         </g>
 
         <g transform="translate(365, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">2 / 1</text>
+            <text x="60" y="55" fill="darkorange">2 / 1</text>
         </g>
 
         <g transform="translate(438, 0)">
@@ -125,32 +125,32 @@
 
         <g transform="translate(73, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">-3 / 2</text>
+            <text x="60" y="55" fill="darkorange">-3 / 2</text>
         </g>
 
         <g transform="translate(146, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">-2 / 2</text>
+            <text x="60" y="80" fill="darkorange">-2 / 2</text>
         </g>
 
         <g transform="translate(219, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">-1 / 2</text>
+            <text x="60" y="55" fill="darkorange">-1 / 2</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">0 / 2</text>
+            <text x="60" y="80" fill="darkorange">0 / 2</text>
         </g>
 
         <g transform="translate(365, 0)">
             <polygon points="0,0 71,123 142,0" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="55" fill="blue">1 / 2</text>
+            <text x="60" y="55" fill="darkorange">1 / 2</text>
         </g>
 
         <g transform="translate(438, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="blue">2 / 2</text>
+            <text x="60" y="80" fill="darkorange">2 / 2</text>
         </g>
 
         <g transform="translate(511, 0)">

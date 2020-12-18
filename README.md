@@ -4,68 +4,80 @@
 
 # Purpose of this project
 
-*Note: Triominos is a game marketed and sold by Pressman Toy Corporation. In no way does this project intend to take
-away any rights that Pressman has regarding the trademark Triominos.*
-
 The purpose of this project is to experiment with:
 
 * how to implement game play for Triominos with Java (applying TDD and Clean Code practices as much as possible)
 * how different drawing and placement strategies can optimize for likelihood of victory by using AI for automated
   gameplay
 
-# Rules
+# Gameplay
 
-There exist several variants of the game. One rule-set can be
-found [here](https://www.pressmantoy.com/wp-content/uploads/2018/01/Tri-Ominos.pdf).
+TODO
+
+There exist several variants of the game regarding the game termination conditions and scoring rules. One rule-set can
+be found [here](https://www.pressmantoy.com/wp-content/uploads/2018/01/Tri-Ominos.pdf).
 
 # Terminology
 
 ## Tile, Number, Up-Facing, Down-Facing, Corner
 
-A **tile** is a triangular piece, and it is the core element of the game. It (obviously) has three **corner**s, where
-each corner has an assigned **number** in the range **0-5**. Depending on the tile orientation (see next section), it is
-either **up-facing** or **down-facing**. Corners are referred to as **left**, **middle**, and **right** as depicted in
-the graphic below. When referring to a corner, this nomenclature is more useful than using the classic naming of corners
-with *A, B, C*, because it is independent of the orientation of a tile. In the remainder of this document, a tile is
-denoted as *"x-y-z"*, where x,y and z are the values of the left, middle and right corner, respectively. E.g., *"1-2-3"*
-matches the top right tile depicted in the following graphic.
+A **tile** is a triangular piece, and it is the core element of the game.
 
-[![Terminology](doc/terminology.svg)](doc/terminology.svg)
+It (obviously) has three **corner**s, where each corner has an assigned **number** in the range **0-5**.
+
+Depending on the tile's orientation (see next section for a definition), it is either **up-facing** or **down-facing**.
+
+Corners are referred to as **left**, **middle**, and **right** (when referring to a corner, this nomenclature is more
+useful than using the conventional naming of corners with *A, B, C*, because it is independent of the orientation of a
+tile).
+
+A tile is denoted as ***"x-y-z"***, where x,y and z are the numbers of the left, middle and right corners, respectively
+for base orientation *ABC*.
+
+The following graphic visualizes the concepts introduced in this section:
+
+![Visualization of basic terminology](doc/basic_terminology.svg)
 
 ## Rotation, Orientation
 
-The **orientation** of a tile can be changed by **rotating** it. There are six orientations: **ABC, ACB, CAB, CBA, BCA,
-BAC**.
+The **orientation** of a tile can be changed by **rotating** it. There are six orientations: ***ABC, ACB, CAB, CBA, BCA,
+BAC***.
 
-The naming with letters *A, B, C* originates from the classical naming of triangle corners. Here, the letters *A, B, C*
-were chosen instead of *left, middle, right*, because it aids understanding how the numbers change with each rotation.
+Note: here the naming follows the conventional naming of triangle corners (instead of *left, middle, right*), because it
+aids in understanding how the corner numbers change with each rotation.
 
 For instance, the base orientation of the tile *"1-2-3"* is *ABC*. I.e., the left corner is "1", the middle corner is "
 2", and the right corner is "3". After rotating the tile clockwise, it is in orientation *ACB*. Now, the left corner
 is "1", the middle corner is "3", and the right corner is "2".
 
-To exemplify this, all orientation for the tile *"1-2-3"* are depicted below:
+To exemplify the concept, all orientations for the tile *"1-2-3"* are depicted below:
 
-[![Orientation](doc/orientation.svg)](doc/orientation.svg)
+![Possible tile orientations](doc/orientation.svg)
 
-## Coordinate System, Location
+## Game Board, Coordinate System, Location
 
-A 2D **coordinate system** is employed to specify where a tile is placed on the game board. Its center is defined at
-the **location** *(0, 0)*. Per definition, only an up-facing tile can be placed at the center location. Whether a tile
-must be placed up- or down-facing at a location logically results from this requirement. See the following graphic to
-understand how the game board could look like with this coordinate system.
+A **game board** is a set of slots, where tiles can be placed.
 
-[![Location](doc/location.svg)](doc/location.svg)
+A 2D **coordinate system** is employed to specify where a tile is placed on the game board.
+
+A tile is located by a tuple ***(x,y)***, where x (*horizontal*) and y (*vertical*) are the coordinates of the
+**location**.
+
+The center of the coordinate system is defined at *(0, 0)*.
+
+Per definition, **only an up-facing tile can be placed at the center location**. Whether a tile must be placed up- or
+down-facing at a location logically results from this requirement.
+
+The following graphic visualizes the coordinate system.
+
+![Coordinate system visualization](doc/location.svg)
 
 ## Placement
 
-A **placement** describes in which *orientation* and at which *location* a given *tile* should be placed.
+A **placement** defines in which *orientation* and at which *location* a given *tile* should be placed on a game board.
 
 For instance, a placement {*"1-2-3"*, *ACB*, *(-2,1)*}, places a tile *"1-2-3"* in orientation *ACB* at location
 *(-2/1)*.
-
-The first tile must be placed at *(0,0)* for an up-facing tile and at *(1,0)* for a down-facing tile. This
-"normalization" is enforced so that the size of the game board can be restricted.
 
 ## Neighbors
 
@@ -76,31 +88,56 @@ far-left-to-middle, right-to-middle, far-right-to-middle**.
 
 The following graphics depict which name is referring to which neighbor (for both, up-facing and down-facing tiles).
 
-[![Neighbors for up-facing tile](doc/neighbors_up-facing.svg)](doc/neighbors_up-facing.svg)
-[![Neighbors for down-facing tile](doc/neighbors_down-facing.svg)](doc/neighbors_down-facing.svg)
+![Neighbors for up-facing tile](doc/neighbors_up-facing.svg)
 
-## Adjacent Placement
+![Neighbors for down-facing tile](doc/neighbors_down-facing.svg)
 
-A placement has an **adjacent placement** if a tile is already placed at its *left*, *middle*, or *right* neighbor
-location.
+## (Semi-)Adjacent Placement
+
+A placement has an **adjacent placement** if two corners of the placements are tangent. This is the case if a tile was
+placed at its *left*, *middle*, or *right* neighbor location.
+
+A placement has a **semi-adjacent placement** if a tile is placed at a neighboring location that only shares a single
+corner with the placement. This is the case if a tile was placed at its *far-left, far-left-to-middle, left-to-middle,
+right-to-middle, far-right-to-middle, far-right, right-to-opposite, opposite*, or *left-to-opposite* neighbor location.
 
 ## Valid placement
 
-A placement is valid if:
+The first placement is valid, if it is placed at *(0,0)* for an up-facing tile and at *(1,0)* for a down-facing tile.
 
-- the tile orientation and location are facing in the same direction
+**Note**: The positional "normalization" to the center is enforced so that the size of the game board can be restricted
+depending on the number of tiles in the game. The orientation enforcement allows to easily verify that the orientation
+of two adjacent placements is opposing so that two corners are tangent.
+
+Any subsequent placement is valid if:
+
+- the tile's orientation and the orientation defined for the location are facing in the same direction
 - no other tile has been placed at the location yet
-- the same tile has not been played yet
-- it has at least one existing **adjacent placement**, i.e. a tile is already placed at its left, middle, or right
-  neighbor location
-- for each existing adjacent placement, the edges match accordingly
+- it has at least one existing adjacent placement
+- for each existing adjacent placement, the values of the tangent corners match accordingly
+- and captain obvious: the tile must be on the players tray
 
-If it is the first placement, its location must also be either *(0/0)* or *(1/0)* (depending on the orientation).
+### Examples
+
+Consider the following board constellation.
+
+![board constellation to demonstrate (in)validity of placements](doc/placement_validity.svg)
+
+The following placements are invalid:
+
+- {*3-4-5*, *ABC*, *(-1,-1)*}: location is already taken
+- {*3-4-5*, *ACB*, *(0,0)*}: orientation of tile and location do not match
+- {*2-4-5*, *ABC*, *(0,0)*}: tangent corners do not match with tile at *(-1, 0)*
+- {*3-4-5*, *CAB*, *(0,0)*}: tangent corners do not match, neither for *(-1, 0)* nor for *(1, 0)*
+- {*3-4-5*, *ACB*, *(0,0)*}: orientation of tile and location do not match
+- {*3-4-5*, *BAC*, *(3,0)*}: no adjacent placement (*(1, 0)* is only semi-adjacent)
+
+The only valid placement is: {*3-4-5*, *ABC*, *(0,0)*}
 
 ## Special figures
 
-A placement may complete a **special figure**. The different types of special figures are described in the following
-sections.
+A placement may complete a **special figure**, resulting in a higher score. The different types of special figures are
+described in the following sections.
 
 ### Hexagon
 
@@ -120,20 +157,20 @@ To detect a placement that completes multiple hexagons, simply check if hexagons
 
 #### Example for Single Hexagon
 
-[![Hexagon](doc/hexagon.svg)](doc/hexagon.svg)
+![Example for a single hexagon](doc/hexagon.svg)
 
 #### Example for Double Hexagon
 
-[![Double Hexagon](doc/double_hexagon.svg)](doc/double_hexagon.svg)
+![Example for a double hexagon](doc/double_hexagon.svg)
 
 #### Example for Triple Hexagon
 
-[![Triple Hexagon](doc/triple_hexagon.svg)](doc/triple_hexagon.svg)
+![Example for a triple hexagon](doc/triple_hexagon.svg)
 
 ### Bridge
 
-A placement completes a **bridge** if the corner opposite to an adjacent placement has one or more **non-adjacent
-placement(s)**. That is:
+A placement completes a **bridge** if the corner opposite to an adjacent placement has one or more semi-adjacent
+placement(s). That is:
 
 - for an adjacent left neighbor, placements for any of the neighbors *far-left, far-left-to-middle, left-to-middle* must
   exist.
@@ -146,11 +183,11 @@ This reasoning can be better understood by looking at the graphic in the [Neighb
 
 #### Bridge Completed
 
-[![Bridge Completed](doc/bridge_completed.svg)](doc/bridge_completed.svg)
+![Example for complete bridge](doc/bridge_completed.svg)
 
 #### Bridge Extended
 
-[![Bridge Extended](doc/bridge_extended.svg)](doc/bridge_extended.svg)
+![Example for extended bridge](doc/bridge_extended.svg)
 
 ## Score
 
@@ -163,6 +200,22 @@ When a player plays a valid placement, a **score** is calculated for it. The fol
     - two hexagons:, 60 points
     - three hexagons:, 70 points
     - a completed or extended bridge: 40 points
+
+## Tray
+
+TODO
+
+## Pool
+
+TODO
+
+## Turn
+
+TODO
+
+## Round
+
+TODO
 
 # Related work:
 

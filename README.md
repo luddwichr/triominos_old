@@ -2,7 +2,9 @@
 [![codecov](https://codecov.io/gh/luddwichr/triominos/branch/master/graph/badge.svg)](https://codecov.io/gh/luddwichr/triominos)
 [![Maintainability](https://api.codeclimate.com/v1/badges/23a9728a83310e36f54f/maintainability)](https://codeclimate.com/github/luddwichr/triominos/maintainability)
 
-# Purpose of this project
+# Game Server and AI for Triominos
+
+## Purpose of this project
 
 The purpose of this project is to experiment with:
 
@@ -10,16 +12,16 @@ The purpose of this project is to experiment with:
 * how different drawing and placement strategies can optimize for likelihood of victory by using AI for automated
   gameplay
 
-# Gameplay
+## Gameplay
 
 TODO
 
 There exist several variants of the game regarding the game termination conditions and scoring rules. One rule-set can
 be found [here](https://www.pressmantoy.com/wp-content/uploads/2018/01/Tri-Ominos.pdf).
 
-# Terminology
+## Terminology
 
-## Tile, Number, Up-Facing, Down-Facing, Corner
+### Tile, Number, Up-Facing, Down-Facing, Corner
 
 A **tile** is a triangular piece, and it is the core element of the game.
 
@@ -38,7 +40,7 @@ The following graphic visualizes the concepts introduced in this section:
 
 ![Visualization of basic terminology](doc/basic_terminology.svg)
 
-## Rotation, Orientation
+### Rotation, Orientation
 
 The **orientation** of a tile can be changed by **rotating** it. There are six orientations: ***ABC, ACB, CAB, CBA, BCA,
 BAC***.
@@ -54,7 +56,7 @@ To exemplify the concept, all orientations for the tile *"1-2-3"* are depicted b
 
 ![Possible tile orientations](doc/orientation.svg)
 
-## Game Board, Coordinate System, Location
+### Game Board, Coordinate System, Location
 
 A **game board** is a set of slots, where tiles can be placed.
 
@@ -72,14 +74,14 @@ The following graphic visualizes the coordinate system.
 
 ![Coordinate system visualization](doc/location.svg)
 
-## Placement
+### Placement
 
 A **placement** defines in which *orientation* and at which *location* a given *tile* should be placed on a game board.
 
 For instance, a placement {*"1-2-3"*, *ACB*, *(-2,1)*}, places a tile *"1-2-3"* in orientation *ACB* at location
 *(-2/1)*.
 
-## Neighbors
+### Neighbors
 
 Checking the validity of a placement or calculating its resulting score is a non-trivial task. Therefore, the following
 neighbor names are defined to simplify referencing a neighboring location:
@@ -92,7 +94,7 @@ The following graphics depict which name is referring to which neighbor (for bot
 
 ![Neighbors for down-facing tile](doc/neighbors_down-facing.svg)
 
-## (Semi-)Adjacent Placement
+### (Semi-)Adjacent Placement
 
 A placement has an **adjacent placement** if two corners of the placements are tangent. This is the case if a tile was
 placed at its *left*, *middle*, or *right* neighbor location.
@@ -101,7 +103,7 @@ A placement has a **semi-adjacent placement** if a tile is placed at a neighbori
 corner with the placement. This is the case if a tile was placed at its *far-left, far-left-to-middle, left-to-middle,
 right-to-middle, far-right-to-middle, far-right, right-to-opposite, opposite*, or *left-to-opposite* neighbor location.
 
-## Valid placement
+### Valid placement
 
 The first placement is valid, if it is placed at *(0,0)* for an up-facing tile and at *(1,0)* for a down-facing tile.
 
@@ -117,7 +119,7 @@ Any subsequent placement is valid if:
 - for each existing adjacent placement, the values of the tangent corners match accordingly
 - and captain obvious: the tile must be on the players tray
 
-### Examples
+#### Examples
 
 Consider the following board constellation.
 
@@ -134,12 +136,12 @@ The following placements are invalid:
 
 The only valid placement is: {*3-4-5*, *ABC*, *(0,0)*}
 
-## Special figures
+### Special figures
 
 A placement may complete a **special figure**, resulting in a higher score. The different types of special figures are
 described in the following sections.
 
-### Hexagon
+#### Hexagon
 
 A placement completes a **hexagon** if placements for all five neighbor locations around any of its corners exist
 already. That is:
@@ -155,19 +157,19 @@ This reasoning can be better understood by looking at the graphic in the [Neighb
 
 To detect a placement that completes multiple hexagons, simply check if hexagons are completed at multiple corners.
 
-#### Example for Single Hexagon
+##### Example for Single Hexagon
 
 ![Example for a single hexagon](doc/hexagon.svg)
 
-#### Example for Double Hexagon
+##### Example for Double Hexagon
 
 ![Example for a double hexagon](doc/double_hexagon.svg)
 
-#### Example for Triple Hexagon
+##### Example for Triple Hexagon
 
 ![Example for a triple hexagon](doc/triple_hexagon.svg)
 
-### Bridge
+#### Bridge (Completed / Extended)
 
 A placement completes a **bridge** if the corner opposite to an adjacent placement has one or more semi-adjacent
 placement(s). That is:
@@ -181,15 +183,15 @@ placement(s). That is:
 
 This reasoning can be better understood by looking at the graphic in the [Neighbors](#neighbors) section.
 
-#### Bridge Completed
+##### Example for completed bridge
 
 ![Example for complete bridge](doc/bridge_completed.svg)
 
-#### Bridge Extended
+#### Example for extended bridge
 
 ![Example for extended bridge](doc/bridge_extended.svg)
 
-## Score
+### Score
 
 When a player plays a valid placement, a **score** is calculated for it. The following scoring rules apply:
 
@@ -201,22 +203,22 @@ When a player plays a valid placement, a **score** is calculated for it. The fol
     - three hexagons:, 70 points
     - a completed or extended bridge: 40 points
 
-## Tray
+### Tray
 
 TODO
 
-## Pool
+### Pool
 
 TODO
 
-## Turn
+### Turn
 
 TODO
 
-## Round
+### Round
 
 TODO
 
-# Related work:
+## Related work:
 
 https://github.com/AgileBitFlipper/triominos

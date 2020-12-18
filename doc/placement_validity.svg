@@ -42,7 +42,7 @@
         </g>
 
         <g transform="translate(146, 0)">
-            <polygon points="0,123 71,0 142,123" fill="url(#diagonalHatch)" stroke="none" stroke-width="1"/>
+            <polygon points="0,123 71,0 142,123" fill="url(#diagonalHatch)" stroke="#ccc" stroke-width="1"/>
             <text x="60" y="80" fill="darkorange" font-weight="bold" font-size="14">0 / 0</text>
         </g>
 
@@ -55,12 +55,12 @@
         </g>
 
         <g transform="translate(292, 0)">
-            <polygon points="0,123 71,0 142,123" fill="url(#diagonalHatch)" stroke="none" stroke-width="1"/>
+            <polygon points="0,123 71,0 142,123" fill="url(#diagonalHatch)" stroke="#ccc" stroke-width="1"/>
         </g>
         s
 
         <g transform="translate(365, 0)">
-            <polygon points="0,0 71,123 142,0" fill="url(#diagonalHatch)" stroke="none" stroke-width="1"/>
+            <polygon points="0,0 71,123 142,0" fill="url(#diagonalHatch)" stroke="#ccc" stroke-width="1"/>
             <text x="60" y="55" fill="darkorange" font-weight="bold" font-size="14">3 / 0</text>
         </g>
 

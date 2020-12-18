@@ -55,13 +55,13 @@
         </g>
 
         <g transform="translate(219, 0)">
-            <polygon points="0,0 71,123 142,0" fill="gray" stroke="black" stroke-width="1"/>
+            <polygon points="0,0 71,123 142,0" fill="slateblue" stroke="black" stroke-width="1"/>
             <text x="60" y="55" fill="darkorange" font-weight="bold" font-size="14">X / Y</text>
         </g>
 
         <g transform="translate(292, 0)">
             <polygon points="0,123 71,0 142,123" fill="none" stroke="black" stroke-width="1"/>
-            <text x="60" y="80" fill="darkorange" >right</text>
+            <text x="60" y="80" fill="darkorange">right</text>
         </g>
 
         <g transform="translate(365, 0)">

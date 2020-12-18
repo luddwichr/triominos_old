@@ -12,12 +12,124 @@ The purpose of this project is to experiment with:
 * how different drawing and placement strategies can optimize for likelihood of victory by using AI for automated
   gameplay
 
-## Gameplay
+## Playing Triominos
 
-TODO
+There exist several variants of the game regarding the tile set, game termination conditions and scoring rules.
 
-There exist several variants of the game regarding the game termination conditions and scoring rules. One rule-set can
-be found [here](https://www.pressmantoy.com/wp-content/uploads/2018/01/Tri-Ominos.pdf).
+Some rule sets can be found here:
+
+- https://www.coololdgames.com/tile-games/triominos/
+- http://gambiter.com/domino/Triominoes.html
+
+### Game Setup
+
+The game triominos is played by **at least two and up to six players**.
+
+Depending on the game variant, the game is played with **either 56 or
+84 [tiles](#tile-number-up-facing-down-facing-corner)**. In the former case, the corner numbers of the tiles are
+monotonically non-decreasing from 0 to 5, resulting in 56 tiles (*"0-0-0", "0-0-1", "0-0-2"*, ..., *"
+4-5-5", "5-5-5"*). In the later case, the corner numbers of the tiles are monotonically non-decreasing from 0 to 6,
+resulting in 84 tiles.
+
+Each player has a **tray** where she keeps tiles drawn from the pile. Only the player herself can see the tiles. Other
+players can only see how many tiles are on the tray, but not which tiles.
+
+Depending on the game variant, the game is played in one or more rounds.
+
+### Round Start
+
+At round start, the tiles are **shuffled randomly** and stacked in a **pile**. The tiles are "face down" so that the
+players cannot see the numbers on the tiles.
+
+Each player draws a number of tiles from the pile and places it on her tray. For two players each player draws 9 tiles,
+for 3-4 players 7 tiles and for 5-6 players 6 tiles.
+
+#### Who Starts?
+
+There are three variants to determine the first player of a round.
+
+##### Random Selection
+
+In this variant, the first player is selected randomly. This can be done by letting each player role a dice. The player
+with the highest number starts (repeat on a draw).
+
+##### Tile With The Highest Score
+
+In this variant, the round is started by the player with the highest scored tile on her tray. The score of a tile is
+computed by taking the sum of its corner numbers. However, "triple" tiles (e.g. *"4-4-4" or "2-2-2"*) score higher than
+the highest non-triple tile (*"4-5-5"* or *"5-5-6"*, depending on the game variant). When two or more players hold
+equally scored tiles, the next highest tile counts and so on until the draw is resolved.
+
+**Note**: this rule is actually not unambiguous. It may be the case that all players have equally scored tiles (e.g.
+player A: *"0-0-1", "0-0-2", "0-0-3", "0-0-4", "0-0-5", "2,2,3"* and player B: *"0-1-0", "0-1-1", "0-1-2", "0-2-2", "
+0-2-3", "0,3,4"*). Therefore, we define to fall back to the "Random Selection" rule in such configurations.
+
+##### Winner of Last Round
+
+In this variant, the player who won the last round starts the next round.
+
+#### Playing The First Tile
+
+The first player places the first tile on the game board depending on the variant used to determine the first player.
+
+If "Random Selection" or "Winner of Last Round" was used, the first player can pick any tile from her tray to start
+with. The player's score is increased by the sum of tile's corner numbers.
+
+**Note**: in this variant, the player can choose to draw up to three tiles from the pile before placing a tile or opting
+to not play a tile at all after having drawn three tiles. See [Gameplay](#gameplay) for the score penalties per drawed
+tile and not placing a tile.
+
+If "Tile With The Highest Score" was used, the player starts with the highest scored tile on her tray (according to the
+scoring rules of the selection variant). The player's score is increased by the sum of the tile's corner numbers. If the
+tile is a "triple" tile, the player scores an additional 10 points. If the player has the tile *"0-0-0"* on her tray,
+she can opt to play this tile instead and get a score of 40 points.
+
+### Gameplay
+
+After the first player played her tile, the players play in clockwise turn.
+
+Each player can place a single tile per turn. For a [valid placement](#valid-placement), the score is increased
+according to the following rules:
+
+- the sum of the corner numbers of the placed tile. E.g., placing a tile *"1-2-3"*
+  results in a score of 6. Placing a tile *"5-5-5"* result in a score of 15.
+- for a placement that completes a [special figure](#special-figures), additional points are credited as follows:
+  - a single hexagon:, 50 points
+  - two hexagons:, 100 points
+  - three hexagons:, 150 points
+  - a completed or extended bridge: 40 points
+
+If the player cannot perform a valid placement or if she does not want to play a tile, she must draw a tile from the
+pile at the penalty of 5 points. If the pile is empty, the turn ends, and the player is penalized additional 10 points.
+
+If the player has drawn 3 tiles from the pile (or the pile is empty) and she cannot (or does not want to) place a valid
+placement, her turn ends at the cost of additional 10 points.
+
+### End of Round
+
+A game round ends, if:
+
+- A player played the last tile on her tray
+- Or, all players subsequently ended their turn without placing a tile (the pile needs not to be empty)
+
+If a player played her last tile, she gets a bonus of 25 points plus the total remaining tile scores the opponents have
+yet to play.
+
+If no player could place a tile, the player with the lowest total score of remaining tiles on her tray wins the round.
+She gets credited the total tile score of each other player minus her own remaining tile score. Example: Player A: 30
+total tile score, Player B: 24, Player C: 50. Here, Player B gets (50-24)+(30-24)=32 points.
+
+**Note**: the rule is ambiguous in case multiple players have the same total tile score. We define that each of those
+players get the same score credited, i.e. all of them are winners.
+
+### End of Game
+
+Depending on the game variant, the game ends either if:
+
+- the first (and only) round ended
+- or, a player reached 400 points during a round (the round was not necessarily ended by that event, though)
+
+In any case, the player with the highest overall score wins.'
 
 ## Terminology
 
@@ -103,7 +215,7 @@ A placement has a **semi-adjacent placement** if a tile is placed at a neighbori
 corner with the placement. This is the case if a tile was placed at its *far-left, far-left-to-middle, left-to-middle,
 right-to-middle, far-right-to-middle, far-right, right-to-opposite, opposite*, or *left-to-opposite* neighbor location.
 
-### Valid placement
+### Valid Placement
 
 The first placement is valid, if it is placed at *(0,0)* for an up-facing tile and at *(1,0)* for a down-facing tile.
 
@@ -190,34 +302,6 @@ This reasoning can be better understood by looking at the graphic in the [Neighb
 #### Example for extended bridge
 
 ![Example for extended bridge](doc/bridge_extended.svg)
-
-### Score
-
-When a player plays a valid placement, a **score** is calculated for it. The following scoring rules apply:
-
-- the base score is the sum of the corner numbers of the placed tile. E.g., placing a tile *"1-2-3"*
-  results in a score of *6*. Placing a tile *"5-5-5"* result in a score of *15*.
-- for a placement that completes a special figure, additional points are credited as follows:
-    - a single hexagon:, 50 points
-    - two hexagons:, 60 points
-    - three hexagons:, 70 points
-    - a completed or extended bridge: 40 points
-
-### Tray
-
-TODO
-
-### Pool
-
-TODO
-
-### Turn
-
-TODO
-
-### Round
-
-TODO
 
 ## Related work:
 

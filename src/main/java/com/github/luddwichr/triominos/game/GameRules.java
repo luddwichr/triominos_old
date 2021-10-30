@@ -18,13 +18,13 @@ public class GameRules {
 
 	public boolean winsGame(Player player, RoundResult roundResult) {
 		boolean playerHasWinningScore = hasWinningScore(player, roundResult);
-		boolean roundWinnerHasWinningScore = hasWinningScore(roundResult.getRoundWinner(), roundResult);
-		boolean otherPlayerIsRoundWinner = roundResult.getRoundWinner() != player;
+        boolean roundWinnerHasWinningScore = hasWinningScore(roundResult.roundWinner(), roundResult);
+        boolean otherPlayerIsRoundWinner = roundResult.roundWinner() != player;
 		return playerHasWinningScore && !(roundWinnerHasWinningScore && otherPlayerIsRoundWinner);
 	}
 
 	private boolean hasWinningScore(Player player, RoundResult roundResult) {
-		return roundResult.getScoreCard().getScore(player) >= WINNING_SCORE;
+		return roundResult.scoreCard().getScore(player) >= WINNING_SCORE;
 	}
 
 	public boolean isNumberOfPlayersAllowed(int numberOfPlayers) {

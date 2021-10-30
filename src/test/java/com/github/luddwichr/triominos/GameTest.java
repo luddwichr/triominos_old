@@ -37,7 +37,7 @@ class GameTest {
 	@Test
 	void throwsIfNumberOfPlayersNotAllowed() {
 		List<Player> players = List.of();
-		when(gameRules.isNumberOfPlayersAllowed(players.size())).thenReturn(false);
+		when(gameRules.isNumberOfPlayersAllowed(0)).thenReturn(false);
 		assertThatThrownBy(() -> game.play(players))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Number of players not allowed");
@@ -51,11 +51,11 @@ class GameTest {
 		ScoreCard scoreCard = mock(ScoreCard.class);
 		RoundState firstRound = mock(RoundState.class);
 		RoundState secondRound = mock(RoundState.class);
-		RoundResult firstRoundResult = mock(RoundResult.class);
-		RoundResult secondRoundResult = mock(RoundResult.class);
+		RoundResult firstRoundResult = new RoundResult(null, null);
+		RoundResult secondRoundResult = new RoundResult(playerA, null);
 		when(gameRules.isNumberOfPlayersAllowed(players.size())).thenReturn(true);
 		when(scoreCardFactory.createScoreCard(players)).thenReturn(scoreCard);
-		when(roundStateFactory.createRoundState(players, scoreCard)).thenReturn(firstRound).thenReturn(secondRound);
+		when(roundStateFactory.createRoundState(players, scoreCard)).thenReturn(firstRound, secondRound);
 		when(roundProcessor.playRound(firstRound)).thenReturn(firstRoundResult);
 		when(roundProcessor.playRound(secondRound)).thenReturn(secondRoundResult);
 		when(gameRules.winsGame(any(Player.class), eq(firstRoundResult))).thenReturn(false);

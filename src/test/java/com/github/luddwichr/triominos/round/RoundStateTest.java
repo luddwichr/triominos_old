@@ -72,7 +72,7 @@ class RoundStateTest {
 			Tile tileB = mock(Tile.class);
 			Tile tileC = mock(Tile.class);
 			Tile tileD = mock(Tile.class);
-			when(pile.drawRandomTile()).thenReturn(tileA).thenReturn(tileB).thenReturn(tileC).thenReturn(tileD);
+			when(pile.drawRandomTile()).thenReturn(tileA, tileB, tileC, tileD);
 			Player playerA = mock(Player.class);
 			Player playerB = mock(Player.class);
 			List<Player> players = List.of(playerA, playerB);

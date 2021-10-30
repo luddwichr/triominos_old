@@ -54,7 +54,7 @@ class PlacementValidatorTest {
 	void isValidPlacement_tileAlreadyPlaced() {
 		Placement placement = new Placement(new Tile(1, 2, 3), Orientation.ABC, Location.at(0, 0));
 		setExistingPlacements(placement);
-		Placement duplicateTilePlacement = new Placement(placement.getTile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.getLocation()));
+		Placement duplicateTilePlacement = new Placement(placement.tile(), Orientation.ACB, Neighbor.RIGHT.relativeTo(placement.location()));
 
 		assertThat(isValidPlacement(duplicateTilePlacement)).isFalse();
 	}

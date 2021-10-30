@@ -28,7 +28,7 @@ public class Board {
 	}
 
 	public void placeTile(Placement placement) {
-		placements.put(placement.getLocation(), placement);
+        placements.put(placement.location(), placement);
 	}
 
 	public Collection<Placement> getPlacements() {

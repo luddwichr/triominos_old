@@ -58,11 +58,11 @@ public class ScoreCalculator {
 		threadSafeBoard.set(board);
 		try {
 
-			int score = placement.getTile().points();
-			int completedHexagons = completedHexagons(placement.getLocation());
+			int score = placement.tile().points();
+			int completedHexagons = completedHexagons(placement.location());
 			if (completedHexagons > 0) {
 				score += HEXAGON_SCORES.get(completedHexagons);
-			} else if (isCompletingBridge(placement.getLocation())) {
+			} else if (isCompletingBridge(placement.location())) {
 				score += BRIDGE_SCORE;
 			}
 

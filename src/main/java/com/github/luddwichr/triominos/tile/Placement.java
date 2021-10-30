@@ -1,16 +1,9 @@
 package com.github.luddwichr.triominos.tile;
 
-public class Placement {
+public record Placement(Tile tile, Orientation orientation, Location location) {
 
-	private final Tile tile;
-	private final Orientation orientation;
-	private final Location location;
-
-	public Placement(Tile tile, Orientation orientation, Location location) {
+	public Placement {
 		verifyFacingInSameDirection(orientation, location);
-		this.tile = tile;
-		this.orientation = orientation;
-		this.location = location;
 	}
 
 	private void verifyFacingInSameDirection(Orientation orientation, Location location) {
@@ -19,15 +12,8 @@ public class Placement {
 		}
 	}
 
-	public Location getLocation() {
-		return location;
-	}
-
-	public int getRotatedNumber(Corner corner) {
+	public int rotatedNumber(Corner corner) {
 		return tile.getNumber(orientation.getRotatedCorner(corner));
 	}
 
-	public Tile getTile() {
-		return tile;
-	}
 }

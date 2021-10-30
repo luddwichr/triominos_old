@@ -1,9 +1,6 @@
 package com.github.luddwichr.triominos.board;
 
-import com.github.luddwichr.triominos.tile.Corner;
-import com.github.luddwichr.triominos.tile.Location;
-import com.github.luddwichr.triominos.tile.Neighbor;
-import com.github.luddwichr.triominos.tile.Placement;
+import com.github.luddwichr.triominos.tile.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -79,19 +76,19 @@ public class PlacementValidator {
 	}
 
 	private boolean isTileAlreadyPlaced(Placement placement) {
-		return getBoard().getPlacements().stream().anyMatch(existingPlacement -> existingPlacement.getTile().equals(placement.getTile()));
+		return getBoard().getPlacements().stream().anyMatch(existingPlacement -> existingPlacement.tile().equals(placement.tile()));
 	}
 
 	private boolean isFirstTileLocationCentered(Placement placement) {
-		return placement.getLocation().equals(UP_CENTER_TILE_LOCATION) || placement.getLocation().equals(DOWN_CENTER_TILE_LOCATION);
+		return placement.location().equals(UP_CENTER_TILE_LOCATION) || placement.location().equals(DOWN_CENTER_TILE_LOCATION);
 	}
 
 	private boolean isAlreadyTaken(Placement placement) {
-		return isPlacementExisting(placement.getLocation());
+		return isPlacementExisting(placement.location());
 	}
 
 	private boolean isAdjacentToExistingPlacement(Placement placement) {
-		Location location = placement.getLocation();
+		Location location = placement.location();
 		return isPlacementExisting(Neighbor.LEFT.relativeTo(location))
 				|| isPlacementExisting(Neighbor.RIGHT.relativeTo(location))
 				|| isPlacementExisting(Neighbor.MIDDLE.relativeTo(location));
@@ -110,15 +107,15 @@ public class PlacementValidator {
 	}
 
 	private boolean areAllCornersMatching(Placement placement, Corner corner) {
-		int cornerNumber = placement.getRotatedNumber(corner);
-		Location location = placement.getLocation();
+		int cornerNumber = placement.rotatedNumber(corner);
+		Location location = placement.location();
 		return CORNER_MATCH_RULES.get(corner).stream()
 				.allMatch(cornerMatchRule -> isMatchingCorner(location, cornerMatchRule, cornerNumber));
 	}
 
 	private boolean isMatchingCorner(Location location, CornerMatchRule cornerMatchRule, int cornerNumber) {
 		return getBoard().getPlacement(cornerMatchRule.neighbor.relativeTo(location))
-				.map(neighborPlacement -> neighborPlacement.getRotatedNumber(cornerMatchRule.corner) == cornerNumber)
+				.map(neighborPlacement -> neighborPlacement.rotatedNumber(cornerMatchRule.corner) == cornerNumber)
 				.orElse(true);
 	}
 

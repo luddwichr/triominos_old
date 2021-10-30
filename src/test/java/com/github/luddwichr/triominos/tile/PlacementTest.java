@@ -17,10 +17,10 @@ class PlacementTest {
 	private static final Tile tile = new Tile(1, 2, 3);
 
 	@Test
-	void getLocationYieldsPassedLocation() {
+	void locationYieldsPassedLocation() {
 		Location location = Location.at(0, 0);
 		Placement placement = new Placement(tile, Orientation.ABC, location);
-		assertThat(placement.getLocation()).isSameAs(location);
+		assertThat(placement.location()).isSameAs(location);
 	}
 
 	@Test
@@ -35,8 +35,8 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForRotatedNumberRightCorner")
-	void getRotatedNumberShouldYieldCorrectNumberForRightCorner(Placement placement, int expectedRightCorner) {
-		assertThat(placement.getRotatedNumber(Corner.RIGHT)).isEqualTo(expectedRightCorner);
+	void rotatedNumberShouldYieldCorrectNumberForRightCorner(Placement placement, int expectedRightCorner) {
+		assertThat(placement.rotatedNumber(Corner.RIGHT)).isEqualTo(expectedRightCorner);
 	}
 
 	private static Stream<Arguments> providePlacementsForRotatedNumberRightCorner() {
@@ -52,8 +52,8 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForRotatedNumberLeftCorner")
-	void getRotatedNumberShouldYieldCorrectNumberForLeftCorner(Placement placement, int expectedLeftCorner) {
-		assertThat(placement.getRotatedNumber(Corner.LEFT)).isEqualTo(expectedLeftCorner);
+	void rotatedNumberShouldYieldCorrectNumberForLeftCorner(Placement placement, int expectedLeftCorner) {
+		assertThat(placement.rotatedNumber(Corner.LEFT)).isEqualTo(expectedLeftCorner);
 	}
 
 	private static Stream<Arguments> providePlacementsForRotatedNumberLeftCorner() {
@@ -69,8 +69,8 @@ class PlacementTest {
 
 	@ParameterizedTest
 	@MethodSource("providePlacementsForRotatedNumberMiddleCorner")
-	void getRotatedNumberShouldYieldCorrectNumberForMiddleCorner(Placement placement, int expectedMiddleCorner) {
-		assertThat(placement.getRotatedNumber(Corner.MIDDLE)).isEqualTo(expectedMiddleCorner);
+	void rotatedNumberShouldYieldCorrectNumberForMiddleCorner(Placement placement, int expectedMiddleCorner) {
+		assertThat(placement.rotatedNumber(Corner.MIDDLE)).isEqualTo(expectedMiddleCorner);
 	}
 
 	private static Stream<Arguments> providePlacementsForRotatedNumberMiddleCorner() {

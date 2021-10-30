@@ -32,14 +32,11 @@ public class ScoreCalculator {
 	private final ThreadLocal<Board> threadSafeBoard = new ThreadLocal<>();
 
 	public int getScoreForRoundWin(RoundWinReason roundWinReason, Player winner, Map<Player, Tray> trays) {
-		switch (roundWinReason) {
-			case ALL_TILES_PLACED:
-				return 	getScoreForWinningRoundByPlayingAllTiles(winner, trays);
-			case LEAST_POINTS_IN_TRAY:
-				return getScoreForWinningRoundByHavingFewestPointsInTray(winner, trays);
-			default:
-				throw new IllegalStateException("Unexpected value: " + roundWinReason);
-		}
+		return switch (roundWinReason) {
+			case ALL_TILES_PLACED -> getScoreForWinningRoundByPlayingAllTiles(winner, trays);
+			case LEAST_POINTS_IN_TRAY -> getScoreForWinningRoundByHavingFewestPointsInTray(winner, trays);
+			default -> throw new IllegalStateException("Unexpected value: " + roundWinReason);
+		};
 	}
 
 	private int getScoreForWinningRoundByHavingFewestPointsInTray(Player winner, Map<Player, Tray> trays) {

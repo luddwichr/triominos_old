@@ -72,7 +72,7 @@ class TileSetTest {
                 new Tile(5,5,5)
         );
         assertThat(TileSet.getClassicSet())
-                .usingFieldByFieldElementComparator()
+                .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrderElementsOf(expectedSet);
     }
 

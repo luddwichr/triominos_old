@@ -22,11 +22,11 @@ public class TurnProcessor {
 	public TurnResult playTurn(RoundState roundState, TurnState turnState) {
 		for (Player player : roundState.getPlayersInMoveOrder()) {
 			MoveResult moveResult = moveProcessor.playMove(player, roundState, turnState);
-			roundState.getScoreCard().addPoints(player, - moveResult.getTilesDrawn() * 5);
-			if (moveResult.isBlocked()) {
+			roundState.getScoreCard().addPoints(player, -moveResult.tilesDrawn() * 5);
+			if (moveResult.blocked()) {
 				roundState.getScoreCard().addPoints(player, -10);
 			}
-			moveResult.getPlacement()
+			moveResult.maybePlacement()
 					.ifPresent(placement -> roundState.getScoreCard().addPoints(player, scoreCalculator.getScore(roundState.getBoard(), placement)));
 		}
 

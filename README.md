@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/luddwichr/triominos.svg?branch=master)](https://travis-ci.com/luddwichr/triominos)
+![Build Status](https://github.com/luddwichr/triominos/actions/workflows/ci/badge.svg)
 [![codecov](https://codecov.io/gh/luddwichr/triominos/branch/master/graph/badge.svg)](https://codecov.io/gh/luddwichr/triominos)
 [![Maintainability](https://api.codeclimate.com/v1/badges/23a9728a83310e36f54f/maintainability)](https://codeclimate.com/github/luddwichr/triominos/maintainability)
 

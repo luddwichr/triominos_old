@@ -27,6 +27,6 @@ public enum Neighbor {
 
 	public Location relativeTo(Location location) {
 		int actualRowOffset = flipRowOffsetIfDownFacing && !location.isFacingUp() ? -rowOffset : rowOffset;
-		return Location.at(location.getColumn() + columnOffset, location.getRow() + actualRowOffset);
+		return Location.at(location.column() + columnOffset, location.row() + actualRowOffset);
 	}
 }

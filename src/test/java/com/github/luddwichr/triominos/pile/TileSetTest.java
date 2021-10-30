@@ -1,7 +1,6 @@
 package com.github.luddwichr.triominos.pile;
 
 import com.github.luddwichr.triominos.tile.Tile;
-import com.github.luddwichr.triominos.pile.TileSet;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

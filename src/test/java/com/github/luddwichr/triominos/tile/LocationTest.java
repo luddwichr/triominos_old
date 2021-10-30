@@ -1,6 +1,5 @@
 package com.github.luddwichr.triominos.tile;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,8 +14,8 @@ class LocationTest {
 	@Test
 	void constructorAndAccessors() {
 		Location location = Location.at(2, 1);
-		assertThat(location.getRow()).isEqualTo(1);
-		assertThat(location.getColumn()).isEqualTo(2);
+		assertThat(location.row()).isEqualTo(1);
+		assertThat(location.column()).isEqualTo(2);
 	}
 
 	@ParameterizedTest(name = "{0} facing up should be {1}")
@@ -37,11 +36,6 @@ class LocationTest {
 				Arguments.of(Location.at(0, -1), false),
 				Arguments.of(Location.at(-1, -1), true)
 		);
-	}
-
-	@Test
-	void ensureEqualsHashCodeContract() {
-		EqualsVerifier.forClass(Location.class).verify();
 	}
 
 }

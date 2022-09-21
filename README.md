@@ -25,6 +25,8 @@ Some rule sets can be found here:
 
 The game triominos is played by **at least two and up to six players**.
 
+TODO: explain tile without cross reference
+
 Depending on the game variant, the game is played with **either 56 or
 84 [tiles](#tile-number-up-facing-down-facing-corner)**. In the former case, the corner numbers of the tiles are
 monotonically non-decreasing from 0 to 5, resulting in 56 tiles (*"0-0-0", "0-0-1", "0-0-2"*, ..., *"
@@ -88,16 +90,18 @@ she can opt to play this tile instead and get a score of 40 points.
 
 After the first player played her tile, the players play in clockwise turn.
 
+TODO: explain valid placement not only with cross-reference
+
 Each player can place a single tile per turn. For a [valid placement](#valid-placement), the score is increased
 according to the following rules:
 
 - the sum of the corner numbers of the placed tile. E.g., placing a tile *"1-2-3"*
   results in a score of 6. Placing a tile *"5-5-5"* result in a score of 15.
 - for a placement that completes a [special figure](#special-figures), additional points are credited as follows:
-  - a single hexagon:, 50 points
-  - two hexagons:, 100 points
-  - three hexagons:, 150 points
-  - a completed or extended bridge: 40 points
+    - a single hexagon:, 50 points
+    - two hexagons:, 100 points
+    - three hexagons:, 150 points
+    - a completed or extended bridge: 40 points
 
 If the player cannot perform a valid placement or if she does not want to play a tile, she must draw a tile from the
 pile at the penalty of 5 points. If the pile is empty, the turn ends, and the player is penalized additional 10 points.
@@ -129,7 +133,7 @@ Depending on the game variant, the game ends either if:
 - the first (and only) round ended
 - or, a player reached 400 points during a round (the round was not necessarily ended by that event, though)
 
-In any case, the player with the highest overall score wins.'
+In any case, the player with the highest overall score wins.
 
 ## Terminology
 
